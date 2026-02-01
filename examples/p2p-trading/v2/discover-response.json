@@ -43,7 +43,7 @@
               }
             },
             "beckn:itemAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyResource/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyResource/v0.2/context.jsonld",
               "@type": "EnergyResource",
               "sourceType": "SOLAR",
               "deliveryMode": "GRID_INJECTION",
@@ -82,7 +82,7 @@
               "energy-resource-solar-001"
             ],
             "beckn:offerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOffer/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOffer/v0.2/context.jsonld",
               "@type": "EnergyTradeOffer",
               "pricingModel": "PER_KWH",
               "settlementType": "DAILY",
@@ -129,7 +129,7 @@
               "energy-resource-solar-001"
             ],
             "beckn:offerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOffer/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOffer/v0.2/context.jsonld",
               "@type": "EnergyTradeOffer",
               "pricingModel": "PER_KWH",
               "settlementType": "DAILY",

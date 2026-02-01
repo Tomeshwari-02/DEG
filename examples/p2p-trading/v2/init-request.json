@@ -24,7 +24,7 @@
                 "@type": "beckn:Buyer"
       },
       "beckn:orderAttributes": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOrder/v0.2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOrder/v0.2/context.jsonld",
         "@type": "EnergyTradeOrder",
         "bap_id": "bap.energy-consumer.com",
         "bpp_id": "bpp.energy-provider.com",
@@ -34,10 +34,10 @@
         {
           "beckn:orderedItem": "energy-resource-solar-001",
           "beckn:orderItemAttributes": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyOrderItem/v0.1/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyOrderItem/v0.1/context.jsonld",
             "@type": "EnergyOrderItem",
             "providerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyCustomer/v0.1/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyCustomer/v0.1/context.jsonld",
               "@type": "EnergyCustomer",
               "meterId": "der://meter/98765456",
               "utilityCustomerId": "UTIL-CUST-123456"
@@ -60,7 +60,7 @@
               "energy-resource-solar-001"
             ],
             "beckn:offerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOffer/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOffer/v0.2/context.jsonld",
               "@type": "EnergyTradeOffer",
               "pricingModel": "PER_KWH",
               "settlementType": "DAILY",
@@ -93,10 +93,10 @@
         {
           "beckn:orderedItem": "energy-resource-solar-001",
           "beckn:orderItemAttributes": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyOrderItem/v0.1/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyOrderItem/v0.1/context.jsonld",
             "@type": "EnergyOrderItem",
             "providerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyCustomer/v0.1/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyCustomer/v0.1/context.jsonld",
               "@type": "EnergyCustomer",
               "meterId": "der://meter/98765456",
               "utilityCustomerId": "UTIL-CUST-123456"
@@ -119,7 +119,7 @@
               "energy-resource-solar-001"
             ],
             "beckn:offerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOffer/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOffer/v0.2/context.jsonld",
               "@type": "EnergyTradeOffer",
               "pricingModel": "PER_KWH",
               "settlementType": "DAILY",

@@ -624,14 +624,13 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
       }
     },
     "schema_context": [
-      "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyResource/v0.2/context.jsonld"
+      "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyResource/v0.2/context.jsonld"
     ]
   },
   "message": {
     "filters": {
       "type": "jsonpath",
-      "expression": "$[?('p2p-trading-pilot-network' in @.beckn:networkId && @.beckn:itemAttributes.sourceType == 'SOLAR' && @.beckn:itemAttributes.deliveryMode == 'GRID_INJECTION' && @.beckn:itemAttributes.availableQuantity >= 10.0 )]",
-      "expressionType": "jsonpath"
+      "expression": "$[?('p2p-trading-pilot-network' == @.beckn:networkId && @.beckn:itemAttributes.sourceType == 'SOLAR' && @.beckn:itemAttributes.deliveryMode == 'GRID_INJECTION' && @.beckn:itemAttributes.availableQuantity >= 10.0 )]"
     }
   }
 }
@@ -699,7 +698,7 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
               }
             },
             "beckn:itemAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyResource/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyResource/v0.2/context.jsonld",
               "@type": "EnergyResource",
               "sourceType": "SOLAR",
               "deliveryMode": "GRID_INJECTION",
@@ -738,7 +737,7 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
               "energy-resource-solar-001"
             ],
             "beckn:offerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOffer/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOffer/v0.2/context.jsonld",
               "@type": "EnergyTradeOffer",
               "pricingModel": "PER_KWH",
               "settlementType": "DAILY",
@@ -785,7 +784,7 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
               "energy-resource-solar-001"
             ],
             "beckn:offerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOffer/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOffer/v0.2/context.jsonld",
               "@type": "EnergyTradeOffer",
               "pricingModel": "PER_KWH",
               "settlementType": "DAILY",
@@ -873,7 +872,7 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
         "@type": "beckn:Buyer"
       },
       "beckn:orderAttributes": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOrder/v0.2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOrder/v0.2/context.jsonld",
         "@type": "EnergyTradeOrder",
         "bap_id": "bap.energy-consumer.com",
         "bpp_id": "bpp.energy-provider.com",
@@ -883,10 +882,10 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
         {
           "beckn:orderedItem": "energy-resource-solar-001",
           "beckn:orderItemAttributes": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyOrderItem/v0.1/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyOrderItem/v0.1/context.jsonld",
             "@type": "EnergyOrderItem",
             "providerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyCustomer/v0.1/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyCustomer/v0.1/context.jsonld",
               "@type": "EnergyCustomer",
               "meterId": "der://meter/98765456",
               "utilityCustomerId": "UTIL-CUST-123456"
@@ -909,7 +908,7 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
               "energy-resource-solar-001"
             ],
             "beckn:offerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOffer/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOffer/v0.2/context.jsonld",
               "@type": "EnergyTradeOffer",
               "pricingModel": "PER_KWH",
               "settlementType": "DAILY",
@@ -942,10 +941,10 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
         {
           "beckn:orderedItem": "energy-resource-solar-001",
           "beckn:orderItemAttributes": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyOrderItem/v0.1/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyOrderItem/v0.1/context.jsonld",
             "@type": "EnergyOrderItem",
             "providerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyCustomer/v0.1/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyCustomer/v0.1/context.jsonld",
               "@type": "EnergyCustomer",
               "meterId": "der://meter/98765456",
               "utilityCustomerId": "UTIL-CUST-123456"
@@ -968,7 +967,7 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
               "energy-resource-solar-001"
             ],
             "beckn:offerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOffer/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOffer/v0.2/context.jsonld",
               "@type": "EnergyTradeOffer",
               "pricingModel": "PER_KWH",
               "settlementType": "DAILY",
@@ -1046,7 +1045,7 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
         "@type": "beckn:Buyer"
       },
       "beckn:orderAttributes": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOrder/v0.2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOrder/v0.2/context.jsonld",
         "@type": "EnergyTradeOrder",
         "bap_id": "bap.energy-consumer.com",
         "bpp_id": "bpp.energy-provider.com",
@@ -1056,10 +1055,10 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
         {
           "beckn:orderedItem": "energy-resource-solar-001",
           "beckn:orderItemAttributes": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyOrderItem/v0.1/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyOrderItem/v0.1/context.jsonld",
             "@type": "EnergyOrderItem",
             "providerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyCustomer/v0.1/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyCustomer/v0.1/context.jsonld",
               "@type": "EnergyCustomer",
               "meterId": "der://meter/98765456",
               "utilityCustomerId": "UTIL-CUST-123456"
@@ -1082,7 +1081,7 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
               "energy-resource-solar-001"
             ],
             "beckn:offerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOffer/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOffer/v0.2/context.jsonld",
               "@type": "EnergyTradeOffer",
               "pricingModel": "PER_KWH",
               "settlementType": "DAILY",
@@ -1115,10 +1114,10 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
         {
           "beckn:orderedItem": "energy-resource-solar-001",
           "beckn:orderItemAttributes": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyOrderItem/v0.1/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyOrderItem/v0.1/context.jsonld",
             "@type": "EnergyOrderItem",
             "providerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyCustomer/v0.1/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyCustomer/v0.1/context.jsonld",
               "@type": "EnergyCustomer",
               "meterId": "der://meter/98765456",
               "utilityCustomerId": "UTIL-CUST-123456"
@@ -1141,7 +1140,7 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
               "energy-resource-solar-001"
             ],
             "beckn:offerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOffer/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOffer/v0.2/context.jsonld",
               "@type": "EnergyTradeOffer",
               "pricingModel": "PER_KWH",
               "settlementType": "DAILY",
@@ -1225,7 +1224,7 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
                 "@type": "beckn:Buyer"
       },
       "beckn:orderAttributes": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOrder/v0.2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOrder/v0.2/context.jsonld",
         "@type": "EnergyTradeOrder",
         "bap_id": "bap.energy-consumer.com",
         "bpp_id": "bpp.energy-provider.com",
@@ -1235,10 +1234,10 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
         {
           "beckn:orderedItem": "energy-resource-solar-001",
           "beckn:orderItemAttributes": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyOrderItem/v0.1/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyOrderItem/v0.1/context.jsonld",
             "@type": "EnergyOrderItem",
             "providerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyCustomer/v0.1/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyCustomer/v0.1/context.jsonld",
               "@type": "EnergyCustomer",
               "meterId": "der://meter/98765456",
               "utilityCustomerId": "UTIL-CUST-123456"
@@ -1261,7 +1260,7 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
               "energy-resource-solar-001"
             ],
             "beckn:offerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOffer/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOffer/v0.2/context.jsonld",
               "@type": "EnergyTradeOffer",
               "pricingModel": "PER_KWH",
               "settlementType": "DAILY",
@@ -1294,10 +1293,10 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
         {
           "beckn:orderedItem": "energy-resource-solar-001",
           "beckn:orderItemAttributes": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyOrderItem/v0.1/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyOrderItem/v0.1/context.jsonld",
             "@type": "EnergyOrderItem",
             "providerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyCustomer/v0.1/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyCustomer/v0.1/context.jsonld",
               "@type": "EnergyCustomer",
               "meterId": "der://meter/98765456",
               "utilityCustomerId": "UTIL-CUST-123456"
@@ -1320,7 +1319,7 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
               "energy-resource-solar-001"
             ],
             "beckn:offerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOffer/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOffer/v0.2/context.jsonld",
               "@type": "EnergyTradeOffer",
               "pricingModel": "PER_KWH",
               "settlementType": "DAILY",
@@ -1404,7 +1403,7 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
                 "@type": "beckn:Buyer"
       },
       "beckn:orderAttributes": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOrder/v0.2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOrder/v0.2/context.jsonld",
         "@type": "EnergyTradeOrder",
         "bap_id": "bap.energy-consumer.com",
         "bpp_id": "bpp.energy-provider.com",
@@ -1418,10 +1417,10 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
             "unitText": "kWh"
           },
           "beckn:orderItemAttributes": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyOrderItem/v0.1/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyOrderItem/v0.1/context.jsonld",
             "@type": "EnergyOrderItem",
             "providerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyCustomer/v0.1/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyCustomer/v0.1/context.jsonld",
               "@type": "EnergyCustomer",
               "meterId": "der://meter/98765456",
               "utilityCustomerId": "UTIL-CUST-123456"
@@ -1440,7 +1439,7 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
               "energy-resource-solar-001"
             ],
             "beckn:offerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOffer/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOffer/v0.2/context.jsonld",
               "@type": "EnergyTradeOffer",
               "pricingModel": "PER_KWH",
               "settlementType": "DAILY",
@@ -1477,10 +1476,10 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
             "unitText": "kWh"
           },
           "beckn:orderItemAttributes": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyOrderItem/v0.1/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyOrderItem/v0.1/context.jsonld",
             "@type": "EnergyOrderItem",
             "providerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyCustomer/v0.1/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyCustomer/v0.1/context.jsonld",
               "@type": "EnergyCustomer",
               "meterId": "der://meter/98765456",
               "utilityCustomerId": "UTIL-CUST-123456"
@@ -1499,7 +1498,7 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
               "energy-resource-solar-001"
             ],
             "beckn:offerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOffer/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOffer/v0.2/context.jsonld",
               "@type": "EnergyTradeOffer",
               "pricingModel": "PER_KWH",
               "settlementType": "DAILY",
@@ -1598,7 +1597,7 @@ This flow demonstrates the cascaded `/init` call from the P2P Trading BPP to the
                 "@type": "beckn:Buyer"
       },
       "beckn:orderAttributes": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOrder/v0.2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOrder/v0.2/context.jsonld",
         "@type": "EnergyTradeOrder",
         "bap_id": "p2pTrading-bpp.com",
         "bpp_id": "example-transmission-bpp.com",
@@ -1612,10 +1611,10 @@ This flow demonstrates the cascaded `/init` call from the P2P Trading BPP to the
             "unitText": "kWh"
           },
           "beckn:orderItemAttributes": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyOrderItem/v0.1/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyOrderItem/v0.1/context.jsonld",
             "@type": "EnergyOrderItem",
             "providerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyCustomer/v0.1/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyCustomer/v0.1/context.jsonld",
               "@type": "EnergyCustomer",
               "meterId": "der://meter/98765456",
               "utilityCustomerId": "UTIL-CUST-123456"
@@ -1634,7 +1633,7 @@ This flow demonstrates the cascaded `/init` call from the P2P Trading BPP to the
               "energy-resource-solar-001"
             ],
             "beckn:offerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOffer/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOffer/v0.2/context.jsonld",
               "@type": "EnergyTradeOffer",
               "pricingModel": "PER_KWH",
               "settlementType": "DAILY",
@@ -1718,7 +1717,7 @@ This flow demonstrates the cascaded `/init` call from the P2P Trading BPP to the
                 "@type": "beckn:Buyer"
       },
       "beckn:orderAttributes": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOrder/v0.2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOrder/v0.2/context.jsonld",
         "@type": "EnergyTradeOrder",
         "bap_id": "p2pTrading-bpp.com",
         "bpp_id": "example-transmission-bpp.com",
@@ -1732,10 +1731,10 @@ This flow demonstrates the cascaded `/init` call from the P2P Trading BPP to the
             "unitText": "kWh"
           },
           "beckn:orderItemAttributes": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyOrderItem/v0.1/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyOrderItem/v0.1/context.jsonld",
             "@type": "EnergyOrderItem",
             "providerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyCustomer/v0.1/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyCustomer/v0.1/context.jsonld",
               "@type": "EnergyCustomer",
               "meterId": "der://meter/98765456",
               "utilityCustomerId": "UTIL-CUST-123456"
@@ -1754,7 +1753,7 @@ This flow demonstrates the cascaded `/init` call from the P2P Trading BPP to the
               "energy-resource-solar-001"
             ],
             "beckn:offerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOffer/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOffer/v0.2/context.jsonld",
               "@type": "EnergyTradeOffer",
               "pricingModel": "PER_KWH",
               "settlementType": "DAILY",
@@ -1834,7 +1833,7 @@ This flow demonstrates the cascaded `/init` call from the P2P Trading BPP to the
                 "@type": "beckn:Buyer"
       },
       "beckn:orderAttributes": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOrder/v0.2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOrder/v0.2/context.jsonld",
         "@type": "EnergyTradeOrder",
         "bap_id": "bap.energy-consumer.com",
         "bpp_id": "bpp.energy-provider.com",
@@ -1844,10 +1843,10 @@ This flow demonstrates the cascaded `/init` call from the P2P Trading BPP to the
         {
           "beckn:orderedItem": "energy-resource-solar-001",
           "beckn:orderItemAttributes": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyOrderItem/v0.1/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyOrderItem/v0.1/context.jsonld",
             "@type": "EnergyOrderItem",
             "providerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyCustomer/v0.1/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyCustomer/v0.1/context.jsonld",
               "@type": "EnergyCustomer",
               "meterId": "der://meter/98765456",
               "utilityCustomerId": "UTIL-CUST-123456"
@@ -1870,7 +1869,7 @@ This flow demonstrates the cascaded `/init` call from the P2P Trading BPP to the
               "energy-resource-solar-001"
             ],
             "beckn:offerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOffer/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOffer/v0.2/context.jsonld",
               "@type": "EnergyTradeOffer",
               "pricingModel": "PER_KWH",
               "settlementType": "DAILY",
@@ -1903,10 +1902,10 @@ This flow demonstrates the cascaded `/init` call from the P2P Trading BPP to the
         {
           "beckn:orderedItem": "energy-resource-solar-001",
           "beckn:orderItemAttributes": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyOrderItem/v0.1/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyOrderItem/v0.1/context.jsonld",
             "@type": "EnergyOrderItem",
             "providerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyCustomer/v0.1/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyCustomer/v0.1/context.jsonld",
               "@type": "EnergyCustomer",
               "meterId": "der://meter/98765456",
               "utilityCustomerId": "UTIL-CUST-123456"
@@ -1929,7 +1928,7 @@ This flow demonstrates the cascaded `/init` call from the P2P Trading BPP to the
               "energy-resource-solar-001"
             ],
             "beckn:offerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOffer/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOffer/v0.2/context.jsonld",
               "@type": "EnergyTradeOffer",
               "pricingModel": "PER_KWH",
               "settlementType": "DAILY",
@@ -2014,7 +2013,7 @@ This flow demonstrates the cascaded `/init` call from the P2P Trading BPP to the
                 "@type": "beckn:Buyer"
       },
       "beckn:orderAttributes": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOrder/v0.2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOrder/v0.2/context.jsonld",
         "@type": "EnergyTradeOrder",
         "bap_id": "bap.energy-consumer.com",
         "bpp_id": "bpp.energy-provider.com",
@@ -2028,10 +2027,10 @@ This flow demonstrates the cascaded `/init` call from the P2P Trading BPP to the
             "unitText": "kWh"
           },
           "beckn:orderItemAttributes": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyOrderItem/v0.1/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyOrderItem/v0.1/context.jsonld",
             "@type": "EnergyOrderItem",
             "providerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyCustomer/v0.1/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyCustomer/v0.1/context.jsonld",
               "@type": "EnergyCustomer",
               "meterId": "der://meter/98765456",
               "utilityCustomerId": "UTIL-CUST-123456"
@@ -2050,7 +2049,7 @@ This flow demonstrates the cascaded `/init` call from the P2P Trading BPP to the
               "energy-resource-solar-001"
             ],
             "beckn:offerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOffer/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOffer/v0.2/context.jsonld",
               "@type": "EnergyTradeOffer",
               "pricingModel": "PER_KWH",
               "settlementType": "DAILY",
@@ -2087,10 +2086,10 @@ This flow demonstrates the cascaded `/init` call from the P2P Trading BPP to the
             "unitText": "kWh"
           },
           "beckn:orderItemAttributes": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyOrderItem/v0.1/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyOrderItem/v0.1/context.jsonld",
             "@type": "EnergyOrderItem",
             "providerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyCustomer/v0.1/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyCustomer/v0.1/context.jsonld",
               "@type": "EnergyCustomer",
               "meterId": "der://meter/98765456",
               "utilityCustomerId": "UTIL-CUST-123456"
@@ -2109,7 +2108,7 @@ This flow demonstrates the cascaded `/init` call from the P2P Trading BPP to the
               "energy-resource-solar-001"
             ],
             "beckn:offerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOffer/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOffer/v0.2/context.jsonld",
               "@type": "EnergyTradeOffer",
               "pricingModel": "PER_KWH",
               "settlementType": "DAILY",
@@ -2202,7 +2201,7 @@ This flow demonstrates the cascaded `/confirm` call from the P2P Trading BPP to 
                 "@type": "beckn:Buyer"
       },
       "beckn:orderAttributes": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOrder/v0.2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOrder/v0.2/context.jsonld",
         "@type": "EnergyTradeOrder",
         "bap_id": "p2pTrading-bpp.com",
         "bpp_id": "example-transmission-bpp.com",
@@ -2216,10 +2215,10 @@ This flow demonstrates the cascaded `/confirm` call from the P2P Trading BPP to 
             "unitText": "kWh"
           },
           "beckn:orderItemAttributes": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyOrderItem/v0.1/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyOrderItem/v0.1/context.jsonld",
             "@type": "EnergyOrderItem",
             "providerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyCustomer/v0.1/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyCustomer/v0.1/context.jsonld",
               "@type": "EnergyCustomer",
               "meterId": "der://meter/98765456",
               "utilityCustomerId": "UTIL-CUST-123456"
@@ -2238,7 +2237,7 @@ This flow demonstrates the cascaded `/confirm` call from the P2P Trading BPP to 
               "energy-resource-solar-001"
             ],
             "beckn:offerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOffer/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOffer/v0.2/context.jsonld",
               "@type": "EnergyTradeOffer",
               "pricingModel": "PER_KWH",
               "settlementType": "DAILY",
@@ -2313,7 +2312,7 @@ This flow demonstrates the cascaded `/confirm` call from the P2P Trading BPP to 
                 "@type": "beckn:Buyer"
       },
       "beckn:orderAttributes": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOrder/v0.2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOrder/v0.2/context.jsonld",
         "@type": "EnergyTradeOrder",
         "bap_id": "p2pTrading-bpp.com",
         "bpp_id": "example-transmission-bpp.com",
@@ -2327,10 +2326,10 @@ This flow demonstrates the cascaded `/confirm` call from the P2P Trading BPP to 
             "unitText": "kWh"
           },
           "beckn:orderItemAttributes": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyOrderItem/v0.1/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyOrderItem/v0.1/context.jsonld",
             "@type": "EnergyOrderItem",
             "providerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyCustomer/v0.1/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyCustomer/v0.1/context.jsonld",
               "@type": "EnergyCustomer",
               "meterId": "der://meter/98765456",
               "utilityCustomerId": "UTIL-CUST-123456"
@@ -2349,7 +2348,7 @@ This flow demonstrates the cascaded `/confirm` call from the P2P Trading BPP to 
               "energy-resource-solar-001"
             ],
             "beckn:offerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOffer/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOffer/v0.2/context.jsonld",
               "@type": "EnergyTradeOffer",
               "pricingModel": "PER_KWH",
               "settlementType": "DAILY",
@@ -2474,16 +2473,16 @@ This flow demonstrates the cascaded `/confirm` call from the P2P Trading BPP to 
             "unitText": "kWh"
           },
           "beckn:orderItemAttributes": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyOrderItem/v0.1/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyOrderItem/v0.1/context.jsonld",
             "@type": "EnergyOrderItem",
             "providerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyCustomer/v0.1/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyCustomer/v0.1/context.jsonld",
               "@type": "EnergyCustomer",
               "meterId": "der://meter/98765456",
               "utilityCustomerId": "UTIL-CUST-123456"
             },
             "fulfillmentAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeDelivery/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeDelivery/v0.2/context.jsonld",
               "@type": "EnergyTradeDelivery",
               "deliveryStatus": "IN_PROGRESS",
               "deliveryMode": "GRID_INJECTION",
@@ -2517,7 +2516,7 @@ This flow demonstrates the cascaded `/confirm` call from the P2P Trading BPP to 
               "energy-resource-solar-001"
             ],
             "beckn:offerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOffer/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOffer/v0.2/context.jsonld",
               "@type": "EnergyTradeOffer",
               "pricingModel": "PER_KWH",
               "settlementType": "DAILY",
@@ -2554,16 +2553,16 @@ This flow demonstrates the cascaded `/confirm` call from the P2P Trading BPP to 
             "unitText": "kWh"
           },
           "beckn:orderItemAttributes": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyOrderItem/v0.1/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyOrderItem/v0.1/context.jsonld",
             "@type": "EnergyOrderItem",
             "providerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyCustomer/v0.1/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyCustomer/v0.1/context.jsonld",
               "@type": "EnergyCustomer",
               "meterId": "der://meter/98765456",
               "utilityCustomerId": "UTIL-CUST-123456"
             },
             "fulfillmentAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeDelivery/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeDelivery/v0.2/context.jsonld",
               "@type": "EnergyTradeDelivery",
               "deliveryStatus": "PENDING",
               "deliveryMode": "GRID_INJECTION",
@@ -2585,7 +2584,7 @@ This flow demonstrates the cascaded `/confirm` call from the P2P Trading BPP to 
               "energy-resource-solar-001"
             ],
             "beckn:offerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOffer/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOffer/v0.2/context.jsonld",
               "@type": "EnergyTradeOffer",
               "pricingModel": "PER_KWH",
               "settlementType": "DAILY",
@@ -2671,16 +2670,16 @@ When a trade has been curtailed (e.g., due to grid outage), the status response 
             "unitText": "kWh"
           },
           "beckn:orderItemAttributes": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyOrderItem/v0.1/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyOrderItem/v0.1/context.jsonld",
             "@type": "EnergyOrderItem",
             "providerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyCustomer/v0.1/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyCustomer/v0.1/context.jsonld",
               "@type": "EnergyCustomer",
               "meterId": "der://meter/98765456",
               "utilityCustomerId": "UTIL-CUST-123456"
             },
             "fulfillmentAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeDelivery/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeDelivery/v0.2/context.jsonld",
               "@type": "EnergyTradeDelivery",
               "deliveryStatus": "COMPLETED",
               "deliveryMode": "GRID_INJECTION",
@@ -2716,7 +2715,7 @@ When a trade has been curtailed (e.g., due to grid outage), the status response 
               "energy-resource-solar-001"
             ],
             "beckn:offerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOffer/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOffer/v0.2/context.jsonld",
               "@type": "EnergyTradeOffer",
               "pricingModel": "PER_KWH",
               "settlementType": "DAILY",
@@ -2753,16 +2752,16 @@ When a trade has been curtailed (e.g., due to grid outage), the status response 
             "unitText": "kWh"
           },
           "beckn:orderItemAttributes": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyOrderItem/v0.1/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyOrderItem/v0.1/context.jsonld",
             "@type": "EnergyOrderItem",
             "providerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyCustomer/v0.1/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyCustomer/v0.1/context.jsonld",
               "@type": "EnergyCustomer",
               "meterId": "der://meter/98765456",
               "utilityCustomerId": "UTIL-CUST-123456"
             },
             "fulfillmentAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeDelivery/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeDelivery/v0.2/context.jsonld",
               "@type": "EnergyTradeDelivery",
               "deliveryStatus": "FAILED",
               "deliveryMode": "GRID_INJECTION",
@@ -2786,7 +2785,7 @@ When a trade has been curtailed (e.g., due to grid outage), the status response 
               "energy-resource-solar-001"
             ],
             "beckn:offerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOffer/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOffer/v0.2/context.jsonld",
               "@type": "EnergyTradeOffer",
               "pricingModel": "PER_KWH",
               "settlementType": "DAILY",
@@ -2906,16 +2905,16 @@ sequenceDiagram
             "unitText": "kWh"
           },
           "beckn:orderItemAttributes": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyOrderItem/v0.1/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyOrderItem/v0.1/context.jsonld",
             "@type": "EnergyOrderItem",
             "providerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyCustomer/v0.1/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyCustomer/v0.1/context.jsonld",
               "@type": "EnergyCustomer",
               "meterId": "der://meter/98765456",
               "utilityCustomerId": "UTIL-CUST-123456"
             },
             "fulfillmentAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeDelivery/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeDelivery/v0.2/context.jsonld",
               "@type": "EnergyTradeDelivery",
               "deliveryStatus": "IN_PROGRESS",
               "deliveryMode": "GRID_INJECTION",
@@ -2951,7 +2950,7 @@ sequenceDiagram
               "energy-resource-solar-001"
             ],
             "beckn:offerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/p2p-trading/schema/EnergyTradeOffer/v0.2/context.jsonld",
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tpddl-p2p-trading-pilot-v20260201/schema/EnergyTradeOffer/v0.2/context.jsonld",
               "@type": "EnergyTradeOffer",
               "pricingModel": "PER_KWH",
               "settlementType": "DAILY",
