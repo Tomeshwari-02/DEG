@@ -3,6 +3,7 @@ package degledgerrecorder
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"strings"
 )
 
@@ -168,19 +169,33 @@ func MapToLedgerRecords(payload *OnConfirmPayload, role string) []LedgerPutReque
 	records := make([]LedgerPutRequest, 0, len(payload.Message.Order.OrderItems))
 
 	for _, item := range payload.Message.Order.OrderItems {
+		// Extract delivery window times
+		deliveryStartTime := extractTimeWindowField(item.AcceptedOffer.OfferAttributes, "schema:startTime")
+		deliveryEndTime := extractTimeWindowField(item.AcceptedOffer.OfferAttributes, "schema:endTime")
+
+		// Log warnings if delivery times are missing
+		if deliveryStartTime == "" {
+			log.Printf("WARNING: deliveryStartTime not found in payload for offer %s (txn: %s)",
+				item.AcceptedOffer.ID, payload.Context.TransactionID)
+		}
+		if deliveryEndTime == "" {
+			log.Printf("WARNING: deliveryEndTime not found in payload for offer %s (txn: %s)",
+				item.AcceptedOffer.ID, payload.Context.TransactionID)
+		}
+
 		record := LedgerPutRequest{
-			Role:             role,
-			TransactionID:    payload.Context.TransactionID,
-			OrderItemID:      item.AcceptedOffer.ID,
-			PlatformIDBuyer:  payload.Context.BapID,
-			PlatformIDSeller: payload.Context.BppID,
-			DiscomIDBuyer:    extractStringField(payload.Message.Order.OrderAttributes, "utilityIdBuyer"),
-			DiscomIDSeller:   extractStringField(payload.Message.Order.OrderAttributes, "utilityIdSeller"),
-			BuyerID:          extractBuyerID(payload.Message.Order.Buyer),
-			SellerID:         payload.Message.Order.Seller,
-			TradeTime:        payload.Context.Timestamp,
-			DeliveryStartTime: extractTimeWindowField(item.AcceptedOffer.OfferAttributes, "schema:startTime"),
-			DeliveryEndTime:   extractTimeWindowField(item.AcceptedOffer.OfferAttributes, "schema:endTime"),
+			Role:              role,
+			TransactionID:     payload.Context.TransactionID,
+			OrderItemID:       item.AcceptedOffer.ID,
+			PlatformIDBuyer:   payload.Context.BapID,
+			PlatformIDSeller:  payload.Context.BppID,
+			DiscomIDBuyer:     extractBuyerUtilityID(payload.Message.Order.Buyer),
+			DiscomIDSeller:    extractSellerUtilityID(item.OrderItemAttributes),
+			BuyerID:           extractBuyerID(payload.Message.Order.Buyer),
+			SellerID:          extractSellerID(item.OrderItemAttributes),
+			TradeTime:         payload.Context.Timestamp,
+			DeliveryStartTime: deliveryStartTime,
+			DeliveryEndTime:   deliveryEndTime,
 			TradeDetails:      mapTradeDetails(item),
 			ClientReference:   generateClientReference(payload.Context.TransactionID, item.AcceptedOffer.ID),
 		}
@@ -203,37 +218,117 @@ func extractStringField(m map[string]interface{}, key string) string {
 	return ""
 }
 
-// extractBuyerID extracts the buyer ID from the buyer object.
+// extractBuyerID extracts the buyer's meterId from buyerAttributes.
+// Path: buyer -> beckn:buyerAttributes -> meterId
 func extractBuyerID(buyer map[string]interface{}) string {
 	if buyer == nil {
 		return ""
 	}
-	if id, ok := buyer["beckn:id"]; ok {
-		if s, ok := id.(string); ok {
+	// Navigate to buyerAttributes
+	buyerAttrs, ok := buyer["beckn:buyerAttributes"]
+	if !ok {
+		return ""
+	}
+	buyerAttrsMap, ok := buyerAttrs.(map[string]interface{})
+	if !ok {
+		return ""
+	}
+	// Extract meterId
+	if meterId, ok := buyerAttrsMap["meterId"]; ok {
+		if s, ok := meterId.(string); ok {
 			return s
 		}
 	}
 	return ""
 }
 
-// extractTimeWindowField extracts a time field from the offer attributes' timeWindow.
+// extractSellerID extracts the seller's meterId from orderItemAttributes.providerAttributes.
+// Path: orderItemAttributes -> providerAttributes -> meterId
+func extractSellerID(orderItemAttrs map[string]interface{}) string {
+	if orderItemAttrs == nil {
+		return ""
+	}
+	// Navigate to providerAttributes
+	providerAttrs, ok := orderItemAttrs["providerAttributes"]
+	if !ok {
+		return ""
+	}
+	providerAttrsMap, ok := providerAttrs.(map[string]interface{})
+	if !ok {
+		return ""
+	}
+	// Extract meterId
+	if meterId, ok := providerAttrsMap["meterId"]; ok {
+		if s, ok := meterId.(string); ok {
+			return s
+		}
+	}
+	return ""
+}
+
+// extractBuyerUtilityID extracts the buyer's utilityId (discom ID) from buyerAttributes.
+// Path: buyer -> beckn:buyerAttributes -> utilityId
+func extractBuyerUtilityID(buyer map[string]interface{}) string {
+	if buyer == nil {
+		return ""
+	}
+	buyerAttrs, ok := buyer["beckn:buyerAttributes"]
+	if !ok {
+		return ""
+	}
+	buyerAttrsMap, ok := buyerAttrs.(map[string]interface{})
+	if !ok {
+		return ""
+	}
+	if utilityId, ok := buyerAttrsMap["utilityId"]; ok {
+		if s, ok := utilityId.(string); ok {
+			return s
+		}
+	}
+	return ""
+}
+
+// extractSellerUtilityID extracts the seller's utilityId (discom ID) from orderItemAttributes.providerAttributes.
+// Path: orderItemAttributes -> providerAttributes -> utilityId
+func extractSellerUtilityID(orderItemAttrs map[string]interface{}) string {
+	if orderItemAttrs == nil {
+		return ""
+	}
+	providerAttrs, ok := orderItemAttrs["providerAttributes"]
+	if !ok {
+		return ""
+	}
+	providerAttrsMap, ok := providerAttrs.(map[string]interface{})
+	if !ok {
+		return ""
+	}
+	if utilityId, ok := providerAttrsMap["utilityId"]; ok {
+		if s, ok := utilityId.(string); ok {
+			return s
+		}
+	}
+	return ""
+}
+
+// extractTimeWindowField extracts a time field from the offer attributes' deliveryWindow.
+// Path: offerAttributes -> deliveryWindow -> schema:startTime / schema:endTime
 func extractTimeWindowField(offerAttrs map[string]interface{}, field string) string {
 	if offerAttrs == nil {
 		return ""
 	}
 
-	// Navigate to beckn:timeWindow
-	timeWindow, ok := offerAttrs["beckn:timeWindow"]
+	// Navigate to deliveryWindow
+	deliveryWindow, ok := offerAttrs["deliveryWindow"]
 	if !ok {
 		return ""
 	}
 
-	twMap, ok := timeWindow.(map[string]interface{})
+	dwMap, ok := deliveryWindow.(map[string]interface{})
 	if !ok {
 		return ""
 	}
 
-	if v, ok := twMap[field]; ok {
+	if v, ok := dwMap[field]; ok {
 		if s, ok := v.(string); ok {
 			return s
 		}
