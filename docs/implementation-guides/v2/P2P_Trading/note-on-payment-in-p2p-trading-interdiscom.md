@@ -50,6 +50,7 @@ At the selection stage (`on_select`), buyers must see the complete cost breakdow
 - **Energy value**: The actual cost of energy (quantity × price per unit)
 - **Buyer platform fee**: Fee charged by the buyer's platform
 - **Seller platform fee**: Fee charged by the seller's platform
+- Optionally platforms can also indicate the wheeling charges & deviation penaly that utility will bill seperately, outside this p2p transaction. That will give customers a full picture of all opportunity costs involved in engaging in a trade.
 
 This ensures informed consent before the trade is confirmed.
 
