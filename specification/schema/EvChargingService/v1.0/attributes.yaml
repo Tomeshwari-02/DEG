@@ -2,7 +2,7 @@ openapi: 3.1.1
 info:
   title: EV Charging — Charging Service Attributes (v1)
   version: 1.0.0
-  x-profile-id: profiles/ev-charging/ev_charging/v1/charging-service
+  x-profile-id: profiles/ev-charging/ev_charging/v1.0/charging-service
   description: >
     Attribute schemas for EV charging services (Item.attributes).
     These attributes are attached to Item.attributes to provide technical and contextual 

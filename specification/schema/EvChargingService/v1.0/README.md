@@ -56,9 +56,9 @@ This supports both local development and public hosting.
 | --- | --- |
 
 **Note:** This directory contains the ChargingService-specific attributes (v1). Other related attribute bundles are available as standalone folders:
-- `../../EvChargingOffer/v1/` - ChargingOffer attributes (Offer.attributes)
-- `../../EvChargingSession/v1/` - ChargingSession attributes (Order/Fulfillment.attributes)  
-- `../../EvChargingPointOperator/v1/` - ChargingPointOperator attributes (Provider.attributes)
+- `../../EvChargingOffer/v1.0/` - ChargingOffer attributes (Offer.attributes)
+- `../../EvChargingSession/v1.0/` - ChargingSession attributes (Order/Fulfillment.attributes)  
+- `../../EvChargingPointOperator/v1.0/` - ChargingPointOperator attributes (Provider.attributes)
 
 
 ## 🏷️ Tags

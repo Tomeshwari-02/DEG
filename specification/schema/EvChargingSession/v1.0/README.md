@@ -31,7 +31,7 @@ Vocabulary files live in ./vocab.jsonld and use this same local mapping.
 
 When publishing, replace ./vocab.jsonld# with an absolute URL, e.g.:
 
-<https://schemas.example.org/ev-charging-session/v1/vocab.jsonld#>
+<https://schemas.example.org/ev-charging-session/v1.0/vocab.jsonld#>
 
 This supports both local development and public hosting.
 

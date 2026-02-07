@@ -13,7 +13,7 @@ HOW IT WORKS:
    These fields indicate which schema should be used for validation.
 
 2. On-Demand Loading: Schemas are loaded on-demand from GitHub URLs when first encountered.
-   The @context URL (e.g., .../EvChargingOffer/v1/context.jsonld) is converted to the
+   The @context URL (e.g., .../EvChargingOffer/v1.0/context.jsonld) is converted to the
    corresponding attributes.yaml URL for schema loading.
 
 3. Schema Caching: Loaded schemas are cached in a Registry and attribute_schemas_map to avoid

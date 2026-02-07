@@ -2,7 +2,7 @@ openapi: 3.1.1
 info:
   title: EV Charging — Charging Session Attributes (v1)
   version: 1.0.0
-  x-profile-id: profiles/ev-charging/ev_charging/v1/charging-session
+  x-profile-id: profiles/ev-charging/ev_charging/v1.0/charging-session
   description: >
     Attribute schemas for charging sessions (Order/Fulfillment attributes).
     These attributes are attached to Order.fulfillments[].attributes to track
