@@ -12,12 +12,12 @@ Version 0.1 (Non-Normative)
 - [4. Payment Status Lifecycle](#4-payment-status-lifecycle)
 - [5. Bill Components](#5-bill-components)
 - [6. Message Flow Examples](#6-message-flow-examples)
-  - [6.1. on\_select: Bill Breakdown + Accepted Payment Methods](#61-on_select-bill-breakdown--accepted-payment-methods)
+  - [6.1. on\_select: Settlement Quote + Accepted Payment Methods](#61-on_select-settlement-quote--accepted-payment-methods)
   - [6.2. on\_init: Payment Terms Confirmation](#62-on_init-payment-terms-confirmation)
-  - [6.3. confirm: Payment Authorization](#63-confirm-payment-authorization)
-  - [6.4. on\_update: Final Invoice (After Allocation)](#64-on_update-final-invoice-after-allocation)
-  - [6.5. on\_update: Partial Delivery (Curtailment)](#65-on_update-partial-delivery-curtailment)
-  - [6.6. on\_update: Settlement Complete](#66-on_update-settlement-complete)
+  - [6.3. on\_confirm: Order Confirmation](#63-on_confirm-order-confirmation)
+  - [6.4. on\_update: Partial Delivery (Curtailment)](#64-on_update-partial-delivery-curtailment)
+  - [6.5. on\_status: Final Invoice (After Allocation)](#65-on_status-final-invoice-after-allocation)
+  - [6.6. on\_status: Settlement Complete](#66-on_status-settlement-complete)
   - [6.7. on\_status: Trade Completed](#67-on_status-trade-completed)
 - [7. Key Design Decisions](#7-key-design-decisions)
   - [7.1. Why Platform-to-Platform Settlement?](#71-why-platform-to-platform-settlement)
@@ -40,27 +40,30 @@ Even though payments flow through platforms (BAP → BPP), the underlying transa
 - **Buyer (Consumer)**: Purchases energy from the seller
 
 Platforms act with **delegated agency** on behalf of their customers. This means:
-- Customers must have **full visibility** into all transaction components
-- All fees (both buyer and seller platform fees) must be disclosed upfront
+- Each platform must provide **full visibility** to their own customer about applicable fees
 - In future implementations, it is conceivable that customers may **pay sellers directly**
 
-### 2.2. Bill Component Transparency
+### 2.2. Inter-Platform Privacy & Fee Transparency
 
-At the selection stage (`on_select`), buyers must see the complete cost breakdown:
-- **Energy value**: The actual cost of energy (quantity × price per unit)
-- **Buyer platform fee**: Fee charged by the buyer's platform
-- **Seller platform fee**: Fee charged by the seller's platform
-- Optionally platforms can also indicate the wheeling charges & deviation penaly that utility will bill seperately, outside this p2p transaction. That will give customers a full picture of all opportunity costs involved in engaging in a trade.
+Platform fees are private to each platform and are **not disclosed in inter-platform protocol messages**. The `orderValue` in protocol messages only contains the **net settlement amount** between platforms (based on catalog prices).
 
-This ensures informed consent before the trade is confirmed.
+**Catalog prices** are inclusive of seller platform charges. During discovery, the buyer platform (BAP) adds its own fee on top for the buyer-facing display.
+
+**Recommendation for platforms:**
+- **Buyer platforms (BAP)**: Disclose the buyer platform fee to the buyer upfront. Show the buyer: catalog price + buyer platform fee = total cost per unit.
+- **Seller platforms (BPP)**: Disclose the seller platform fee to the seller upfront. The catalog price already includes the seller platform fee; the seller should understand their net earnings after the platform deduction.
+
+Optionally, platforms can also indicate the wheeling charges & deviation penalty that the utility will bill separately, outside this p2p transaction. That will give customers a full picture of all opportunity costs involved in engaging in a trade.
+
+This ensures informed consent while maintaining fee privacy between competing platforms.
 
 ### 2.3. Settlement Flow
 
 The payment settlement follows a clear progression:
-1. **Authorization**: Buyer platform verifies wallet balance or credit line covers total amount
+1. **Authorization**: Buyer platform verifies wallet balance or credit line covers total amount (catalog price + buyer platform fee)
 2. **Allocation**: After energy delivery is confirmed via meter readings
-3. **Final Invoice**: Seller platform raises invoice with receiving account details
-4. **Settlement**: Money moves from buyer platform to seller platform, then to seller
+3. **Final Invoice (via on_status)**: Buyer platform queries status; seller platform responds with invoice including BPP settlement account
+4. **Settlement**: Money moves from buyer platform to seller platform (at catalog price), then seller platform deducts its fee and pays the seller
 
 ## 3. Sequence Diagram
 
@@ -74,33 +77,34 @@ sequenceDiagram
     Note over Buyer, Seller: Discovery & Selection Phase
     Buyer->>BuyerPlatform: Select energy offer
     BuyerPlatform->>SellerPlatform: select
-    SellerPlatform-->>BuyerPlatform: on_select (bill breakdown + accepted payment methods)
-    BuyerPlatform-->>Buyer: Show total: energy + buyer fee + seller fee
+    SellerPlatform-->>BuyerPlatform: on_select (settlement quote + accepted payment methods)
+    BuyerPlatform-->>Buyer: Show total: catalog price + buyer platform fee
 
     Note over Buyer, Seller: Initialization Phase
     Buyer->>BuyerPlatform: Confirm intent to buy
     BuyerPlatform->>BuyerPlatform: Check wallet/credit >= total amount
-    BuyerPlatform->>SellerPlatform: init (with BAP settlement account)
-    SellerPlatform-->>BuyerPlatform: on_init (both settlement accounts + accepted methods)
+    BuyerPlatform->>SellerPlatform: init
+    SellerPlatform-->>BuyerPlatform: on_init (payment terms + accepted methods)
 
     Note over Buyer, Seller: Confirmation Phase
     BuyerPlatform->>BuyerPlatform: Reserve funds from wallet
     BuyerPlatform->>SellerPlatform: confirm
-    SellerPlatform-->>BuyerPlatform: on_confirm (payment AUTHORIZED)
+    SellerPlatform-->>BuyerPlatform: on_confirm (full order + payment AUTHORIZED)
 
     Note over Buyer, Seller: Energy Delivery Phase
     Seller->>SellerPlatform: Energy injected to grid
     SellerPlatform->>SellerPlatform: Record meter readings
-    SellerPlatform-->>BuyerPlatform: on_update (delivery progress)
 
     Note over Buyer, Seller: Settlement Phase
     SellerPlatform->>SellerPlatform: Allocation complete
-    SellerPlatform-->>BuyerPlatform: on_update (final invoice + seller account + tracking URL)
+    BuyerPlatform->>SellerPlatform: status
+    SellerPlatform-->>BuyerPlatform: on_status (final invoice + BPP settlement account + tracking URL)
     BuyerPlatform->>BuyerPlatform: Deduct buyer platform fee
-    BuyerPlatform->>SellerPlatform: Transfer (energy value + seller fee)
+    BuyerPlatform->>SellerPlatform: Transfer settlement amount
     SellerPlatform->>SellerPlatform: Deduct seller platform fee
-    SellerPlatform->>Seller: Transfer energy value
-    SellerPlatform-->>BuyerPlatform: on_update (payment SETTLED)
+    SellerPlatform->>Seller: Transfer seller earnings
+    BuyerPlatform->>SellerPlatform: status
+    SellerPlatform-->>BuyerPlatform: on_status (payment SETTLED)
     BuyerPlatform-->>Buyer: Trade complete notification
 ```
 
@@ -112,41 +116,30 @@ sequenceDiagram
 | `INITIATED` | init | Payment process started |
 | `AUTHORIZED` | on_init → on_confirm | Funds reserved, trade approved |
 | `ADJUSTED` | on_update (curtailment) | Amount changed due to partial delivery |
-| `SETTLED` | on_update (complete) | Money transferred to all parties |
+| `SETTLED` | on_status (settlement complete) | Money transferred to all parties |
 
-## 5. Bill Components
+## 5. Inter-Platform Settlement Value
 
-The `beckn:orderValue` object provides full transparency:
+The `beckn:orderValue` in protocol messages between BAP and BPP contains only the **net settlement amount** — the total value to be transferred from buyer platform to seller platform. Platform fees are not itemized in the protocol exchange.
 
 ```json
 {
   "currency": "USD",
-  "value": 4.25,
-  "components": [
-    {
-      "type": "UNIT",
-      "value": 4.05,
-      "description": "Energy value (15 kWh × $0.15 + 10 kWh × $0.18)"
-    },
-    {
-      "type": "FEE",
-      "value": 0.08,
-      "description": "Buyer platform fee (2%)"
-    },
-    {
-      "type": "FEE",
-      "value": 0.12,
-      "description": "Seller platform fee (3%)"
-    }
-  ]
+  "value": 4.05,
+  "description": "Inter-platform settlement at catalog prices (15 kWh × $0.15 + 10 kWh × $0.18). Catalog prices are inclusive of seller platform charges."
 }
 ```
 
+**How platform fees work (not part of protocol messages):**
+- **Catalog price** ($0.15/kWh, $0.18/kWh) is set by the seller platform and includes the seller platform fee
+- **Buyer platform** adds its own fee on top when presenting the price to the buyer
+- **Settlement**: BAP pays BPP the catalog-price-based amount ($4.05). BPP deducts seller platform fee and pays the seller. BAP deducts buyer platform fee from what it collected from the buyer.
+
 ## 6. Message Flow Examples
 
-### 6.1. on_select: Bill Breakdown + Accepted Payment Methods
+### 6.1. on_select: Settlement Quote + Accepted Payment Methods
 
-At selection, the seller platform returns the complete bill breakdown and accepted payment methods, enabling the buyer to make an informed decision.
+At selection, the seller platform returns the inter-platform settlement quote and accepted payment methods. The settlement value is based on catalog prices (which are inclusive of seller platform charges). The buyer platform (BAP) adds its own fee when presenting the total to the buyer.
 
 <details>
 <summary><a href="../../../../examples/p2p-trading-interdiscom/v2/select-response.json">on_select Response</a></summary>
@@ -196,27 +189,8 @@ At selection, the seller platform returns the complete bill breakdown and accept
       },
       "beckn:orderValue": {
         "currency": "USD",
-        "value": 4.25,
-        "components": [
-          {
-            "type": "UNIT",
-            "value": 4.05,
-            "currency": "USD",
-            "description": "Energy value (15 kWh × $0.15 + 10 kWh × $0.18)"
-          },
-          {
-            "type": "FEE",
-            "value": 0.08,
-            "currency": "USD",
-            "description": "Buyer platform fee (2%)"
-          },
-          {
-            "type": "FEE",
-            "value": 0.12,
-            "currency": "USD",
-            "description": "Seller platform fee (3%)"
-          }
-        ]
+        "value": 4.05,
+        "description": "Inter-platform settlement at catalog prices (15 kWh × $0.15 + 10 kWh × $0.18). Catalog prices are inclusive of seller platform charges."
       },
       "beckn:payment": {
         "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
@@ -347,7 +321,7 @@ At selection, the seller platform returns the complete bill breakdown and accept
 
 ### 6.2. on_init: Payment Terms Confirmation
 
-The initialization response confirms both settlement accounts and accepted payment methods.
+The initialization response confirms accepted payment methods and the settlement amount. Settlement account details are **not exchanged at this stage** — the BPP settlement account is provided later at the final invoice stage.
 
 <details>
 <summary><a href="../../../../examples/p2p-trading-interdiscom/v2/init-response.json">on_init Response</a></summary>
@@ -511,27 +485,8 @@ The initialization response confirms both settlement accounts and accepted payme
       ],
       "beckn:orderValue": {
         "currency": "USD",
-        "value": 4.25,
-        "components": [
-          {
-            "type": "UNIT",
-            "value": 4.05,
-            "currency": "USD",
-            "description": "Energy value (15 kWh × $0.15 + 10 kWh × $0.18)"
-          },
-          {
-            "type": "FEE",
-            "value": 0.08,
-            "currency": "USD",
-            "description": "Buyer platform fee (2%)"
-          },
-          {
-            "type": "FEE",
-            "value": 0.12,
-            "currency": "USD",
-            "description": "Seller platform fee (3%)"
-          }
-        ]
+        "value": 4.05,
+        "description": "Inter-platform settlement at catalog prices (15 kWh × $0.15 + 10 kWh × $0.18). Catalog prices are inclusive of seller platform charges."
       },
       "beckn:fulfillment": {
         "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
@@ -545,33 +500,11 @@ The initialization response confirms both settlement accounts and accepted payme
         "beckn:id": "payment-p2p-energy-001",
         "beckn:amount": {
           "currency": "USD",
-          "value": 4.25
+          "value": 4.05
         },
         "beckn:acceptedPaymentMethod": ["UPI", "BANK_TRANSFER", "WALLET"],
         "beckn:beneficiary": "BPP",
-        "beckn:paymentStatus": "AUTHORIZED",
-        "beckn:paymentAttributes": {
-          "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/PaymentSettlement/v1/context.jsonld",
-          "@type": "PaymentSettlement",
-          "settlementAccounts": [
-            {
-              "beneficiaryId": "bap.energy-consumer.com",
-              "accountHolderName": "Energy Consumer BAP Pvt Ltd",
-              "accountNumber": "1234567890",
-              "ifscCode": "HDFC0001234",
-              "bankName": "HDFC Bank",
-              "vpa": "energy-consumer@upi"
-            },
-            {
-              "beneficiaryId": "bpp.energy-provider.com",
-              "accountHolderName": "Solar Farm Energy Provider Pvt Ltd",
-              "accountNumber": "9876543210",
-              "ifscCode": "ICICI0005678",
-              "bankName": "ICICI Bank",
-              "vpa": "solar-provider@upi"
-            }
-          ]
-        }
+        "beckn:paymentStatus": "AUTHORIZED"
       }
     }
   }
@@ -580,20 +513,20 @@ The initialization response confirms both settlement accounts and accepted payme
 ```
 </details>
 
-### 6.3. confirm: Payment Authorization
+### 6.3. on_confirm: Order Confirmation
 
-The confirmation request contains minimal payment info - just the authorized amount. Full settlement details were already exchanged.
+The confirmation response returns the full order details with payment status AUTHORIZED, mirroring the information from on_init. This serves as the definitive record of the agreed trade terms.
 
 <details>
-<summary><a href="../../../../examples/p2p-trading-interdiscom/v2/confirm-request.json">confirm Request</a></summary>
+<summary><a href="../../../../examples/p2p-trading-interdiscom/v2/confirm-response.json">on_confirm Response</a></summary>
 
 ```json
 {
   "context": {
     "version": "2.0.0",
-    "action": "confirm",
-    "timestamp": "2024-10-04T10:25:00Z",
-    "message_id": "msg-confirm-001",
+    "action": "on_confirm",
+    "timestamp": "2024-10-04T10:25:05Z",
+    "message_id": "msg-on-confirm-001",
     "transaction_id": "txn-energy-001",
     "bap_id": "bap.energy-consumer.com",
     "bap_uri": "https://bap.energy-consumer.com",
@@ -606,6 +539,7 @@ The confirmation request contains minimal payment info - just the authorized amo
     "order": {
       "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
       "@type": "beckn:Order",
+      "beckn:id": "order-energy-001",
       "beckn:orderStatus": "CREATED",
       "beckn:seller": "provider-solar-farm-001",
       "beckn:buyer": {
@@ -633,6 +567,10 @@ The confirmation request contains minimal payment info - just the authorized amo
       "beckn:orderItems": [
         {
           "beckn:orderedItem": "energy-resource-solar-001",
+          "beckn:quantity": {
+            "unitQuantity": 15.0,
+            "unitText": "kWh"
+          },
           "beckn:orderItemAttributes": {
             "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/refs/heads/p2p-trading/schema/EnergyTrade/v0.3/context.jsonld",
             "@type": "EnergyOrderItem",
@@ -643,10 +581,6 @@ The confirmation request contains minimal payment info - just the authorized amo
               "utilityCustomerId": "BESCOM-CUST-001",
               "utilityId": "BESCOM-KA"
             }
-          },
-          "beckn:quantity": {
-            "unitQuantity": 15.0,
-            "unitText": "kWh"
           },
           "beckn:acceptedOffer": {
             "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
@@ -689,6 +623,10 @@ The confirmation request contains minimal payment info - just the authorized amo
         },
         {
           "beckn:orderedItem": "energy-resource-solar-001",
+          "beckn:quantity": {
+            "unitQuantity": 10.0,
+            "unitText": "kWh"
+          },
           "beckn:orderItemAttributes": {
             "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/refs/heads/p2p-trading/schema/EnergyTrade/v0.3/context.jsonld",
             "@type": "EnergyOrderItem",
@@ -699,10 +637,6 @@ The confirmation request contains minimal payment info - just the authorized amo
               "utilityCustomerId": "BESCOM-CUST-001",
               "utilityId": "BESCOM-KA"
             }
-          },
-          "beckn:quantity": {
-            "unitQuantity": 10.0,
-            "unitText": "kWh"
           },
           "beckn:acceptedOffer": {
             "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
@@ -744,6 +678,11 @@ The confirmation request contains minimal payment info - just the authorized amo
           }
         }
       ],
+      "beckn:orderValue": {
+        "currency": "USD",
+        "value": 4.05,
+        "description": "Inter-platform settlement at catalog prices (15 kWh × $0.15 + 10 kWh × $0.18). Catalog prices are inclusive of seller platform charges."
+      },
       "beckn:fulfillment": {
         "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
         "@type": "beckn:Fulfillment",
@@ -756,7 +695,7 @@ The confirmation request contains minimal payment info - just the authorized amo
         "beckn:id": "payment-p2p-energy-001",
         "beckn:amount": {
           "currency": "USD",
-          "value": 4.25
+          "value": 4.05
         },
         "beckn:beneficiary": "BPP",
         "beckn:paymentStatus": "AUTHORIZED"
@@ -768,23 +707,168 @@ The confirmation request contains minimal payment info - just the authorized amo
 ```
 </details>
 
-### 6.4. on_update: Final Invoice (After Allocation)
+### 6.4. on_update: Partial Delivery (Curtailment)
 
-After energy allocation is complete, the seller platform raises the final invoice with:
-- Final amounts based on actual delivered quantities
-- Seller's settlement account for payment
-- Payment tracking URL for transparency
+If delivery is curtailed (e.g., grid outage), the seller platform pushes an update with the adjusted settlement amount reflecting actual delivered energy.
 
 <details>
-<summary><a href="../../../../examples/p2p-trading-interdiscom/v2/on-update-response-final-invoice.json">on_update Final Invoice</a></summary>
+<summary><a href="../../../../examples/p2p-trading-interdiscom/v2/on-update-response-curtailment.json">on_update Curtailment</a></summary>
 
 ```json
 {
   "context": {
     "version": "2.0.0",
     "action": "on_update",
+    "timestamp": "2024-10-04T14:30:00Z",
+    "message_id": "msg-on-update-curtailment-001",
+    "transaction_id": "txn-energy-001",
+    "bap_id": "bap.energy-consumer.com",
+    "bap_uri": "https://bap.energy-consumer.com",
+    "bpp_id": "bpp.energy-provider.com",
+    "bpp_uri": "https://bpp.energy-provider.com",
+    "ttl": "PT30S",
+    "domain": "beckn.one:deg:p2p-trading-interdiscom:2.0.0"
+  },
+  "message": {
+    "order": {
+      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+      "@type": "beckn:Order",
+      "beckn:id": "order-energy-001",
+      "beckn:orderStatus": "INPROGRESS",
+      "beckn:seller": "provider-solar-farm-001",
+      "beckn:buyer": {
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@type": "beckn:Buyer",
+        "beckn:id": "buyer-001",
+        "beckn:buyerAttributes": {
+          "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/refs/heads/p2p-trading/schema/EnergyTrade/v0.3/context.jsonld",
+          "@type": "EnergyCustomer",
+          "meterId": "der://meter/98765456",
+          "utilityCustomerId": "BESCOM-CUST-001",
+          "utilityId": "BESCOM-KA"
+        }
+      },
+      "beckn:orderItems": [
+        {
+          "beckn:orderedItem": "energy-resource-solar-001",
+          "beckn:quantity": {
+            "unitQuantity": 15.0,
+            "unitText": "kWh"
+          },
+          "beckn:orderItemAttributes": {
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/refs/heads/p2p-trading/schema/EnergyTrade/v0.3/context.jsonld",
+            "@type": "EnergyOrderItem",
+            "providerAttributes": {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/refs/heads/p2p-trading/schema/EnergyTrade/v0.3/context.jsonld",
+              "@type": "EnergyCustomer",
+              "meterId": "der://meter/98765456",
+              "utilityCustomerId": "BESCOM-CUST-001",
+              "utilityId": "BESCOM-KA"
+            },
+            "fulfillmentAttributes": {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/refs/heads/p2p-trading/schema/EnergyTrade/v0.3/context.jsonld",
+              "@type": "EnergyTradeDelivery",
+              "deliveryStatus": "IN_PROGRESS",
+              "deliveryMode": "GRID_INJECTION",
+              "deliveredQuantity": 8.5,
+              "curtailedQuantity": 6.5,
+              "curtailmentReason": "GRID_OUTAGE",
+              "meterReadings": [
+                {
+                  "beckn:timeWindow": {
+                    "@type": "beckn:TimePeriod",
+                    "schema:startTime": "2024-10-04T06:00:00Z",
+                    "schema:endTime": "2024-10-04T12:00:00Z"
+                  },
+                  "consumedEnergy": 0.0,
+                  "producedEnergy": 8.5,
+                  "allocatedEnergy": 8.5,
+                  "unit": "kWh"
+                }
+              ],
+              "lastUpdated": "2024-10-04T14:30:00Z"
+            }
+          },
+          "beckn:acceptedOffer": {
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@type": "beckn:Offer",
+            "beckn:id": "offer-morning-001",
+            "beckn:descriptor": {
+              "@type": "beckn:Descriptor",
+              "schema:name": "Morning Solar Energy Offer"
+            },
+            "beckn:provider": "provider-solar-farm-001",
+            "beckn:items": [
+              "energy-resource-solar-001"
+            ],
+            "beckn:price": {
+              "@type": "schema:PriceSpecification",
+              "schema:price": 0.15,
+              "schema:priceCurrency": "USD",
+              "unitText": "kWh",
+              "applicableQuantity": {
+                "unitQuantity": 20.0,
+                "unitText": "kWh"
+              }
+            },
+            "beckn:offerAttributes": {
+              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/refs/heads/p2p-trading/schema/EnergyTrade/v0.3/context.jsonld",
+              "@type": "EnergyTradeOffer",
+              "pricingModel": "PER_KWH",
+              "deliveryWindow": {
+                "@type": "beckn:TimePeriod",
+                "schema:startTime": "2026-01-09T06:00:00Z",
+                "schema:endTime": "2026-01-09T12:00:00Z"
+              },
+              "validityWindow": {
+                "@type": "beckn:TimePeriod",
+                "schema:startTime": "2026-01-09T00:00:00Z",
+                "schema:endTime": "2026-01-09T05:00:00Z"
+              }
+            }
+          }
+        }
+      ],
+      "beckn:orderValue": {
+        "currency": "USD",
+        "value": 1.28,
+        "description": "Adjusted inter-platform settlement for delivered quantity (8.5 kWh × $0.15). Catalog prices are inclusive of seller platform charges."
+      },
+      "beckn:payment": {
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@type": "beckn:Payment",
+        "beckn:id": "payment-p2p-energy-001",
+        "beckn:amount": {
+          "currency": "USD",
+          "value": 1.28
+        },
+        "beckn:beneficiary": "BPP",
+        "beckn:paymentStatus": "ADJUSTED"
+      }
+    }
+  }
+}
+
+```
+</details>
+
+### 6.5. on_status: Final Invoice (After Allocation)
+
+After energy allocation is complete, the buyer platform queries status. The seller platform responds with the final invoice including:
+- Final settlement amount based on actual delivered quantities
+- BPP settlement account for payment transfer
+- Payment tracking URL for transparency
+
+<details>
+<summary><a href="../../../../examples/p2p-trading-interdiscom/v2/status-response-final-invoice.json">on_status Final Invoice</a></summary>
+
+```json
+{
+  "context": {
+    "version": "2.0.0",
+    "action": "on_status",
     "timestamp": "2024-10-04T18:15:00Z",
-    "message_id": "msg-on-update-final-invoice-001",
+    "message_id": "msg-on-status-final-invoice-001",
     "transaction_id": "txn-energy-001",
     "bap_id": "bap.energy-consumer.com",
     "bap_uri": "https://bap.energy-consumer.com",
@@ -970,27 +1054,8 @@ After energy allocation is complete, the seller platform raises the final invoic
       ],
       "beckn:orderValue": {
         "currency": "USD",
-        "value": 4.25,
-        "components": [
-          {
-            "type": "UNIT",
-            "value": 4.05,
-            "currency": "USD",
-            "description": "Energy value (15 kWh × $0.15 + 10 kWh × $0.18)"
-          },
-          {
-            "type": "FEE",
-            "value": 0.08,
-            "currency": "USD",
-            "description": "Buyer platform fee (2%)"
-          },
-          {
-            "type": "FEE",
-            "value": 0.12,
-            "currency": "USD",
-            "description": "Seller platform fee (3%)"
-          }
-        ]
+        "value": 4.05,
+        "description": "Inter-platform settlement at catalog prices (15 kWh × $0.15 + 10 kWh × $0.18). Catalog prices are inclusive of seller platform charges."
       },
       "beckn:payment": {
         "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
@@ -998,7 +1063,7 @@ After energy allocation is complete, the seller platform raises the final invoic
         "beckn:id": "payment-p2p-energy-001",
         "beckn:amount": {
           "currency": "USD",
-          "value": 4.25
+          "value": 4.05
         },
         "beckn:beneficiary": "BPP",
         "beckn:paymentStatus": "AUTHORIZED",
@@ -1026,184 +1091,20 @@ After energy allocation is complete, the seller platform raises the final invoic
 ```
 </details>
 
-### 6.5. on_update: Partial Delivery (Curtailment)
+### 6.6. on_status: Settlement Complete
 
-If delivery is curtailed (e.g., grid outage), the payment amount is adjusted to reflect actual delivered energy.
+Once money has moved from buyer platform to seller platform (tracked via URL), the buyer platform queries status again and the seller platform confirms the trade as settled.
 
 <details>
-<summary><a href="../../../../examples/p2p-trading-interdiscom/v2/on-update-response-curtailment.json">on_update Curtailment</a></summary>
+<summary><a href="../../../../examples/p2p-trading-interdiscom/v2/status-response-settlement-complete.json">on_status Settlement Complete</a></summary>
 
 ```json
 {
   "context": {
     "version": "2.0.0",
-    "action": "on_update",
-    "timestamp": "2024-10-04T14:30:00Z",
-    "message_id": "msg-on-update-curtailment-001",
-    "transaction_id": "txn-energy-001",
-    "bap_id": "bap.energy-consumer.com",
-    "bap_uri": "https://bap.energy-consumer.com",
-    "bpp_id": "bpp.energy-provider.com",
-    "bpp_uri": "https://bpp.energy-provider.com",
-    "ttl": "PT30S",
-    "domain": "beckn.one:deg:p2p-trading-interdiscom:2.0.0"
-  },
-  "message": {
-    "order": {
-      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
-      "@type": "beckn:Order",
-      "beckn:id": "order-energy-001",
-      "beckn:orderStatus": "INPROGRESS",
-      "beckn:seller": "provider-solar-farm-001",
-      "beckn:buyer": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
-        "@type": "beckn:Buyer",
-        "beckn:id": "buyer-001",
-        "beckn:buyerAttributes": {
-          "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/refs/heads/p2p-trading/schema/EnergyTrade/v0.3/context.jsonld",
-          "@type": "EnergyCustomer",
-          "meterId": "der://meter/98765456",
-          "utilityCustomerId": "BESCOM-CUST-001",
-          "utilityId": "BESCOM-KA"
-        }
-      },
-      "beckn:orderItems": [
-        {
-          "beckn:orderedItem": "energy-resource-solar-001",
-          "beckn:quantity": {
-            "unitQuantity": 15.0,
-            "unitText": "kWh"
-          },
-          "beckn:orderItemAttributes": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/refs/heads/p2p-trading/schema/EnergyTrade/v0.3/context.jsonld",
-            "@type": "EnergyOrderItem",
-            "providerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/refs/heads/p2p-trading/schema/EnergyTrade/v0.3/context.jsonld",
-              "@type": "EnergyCustomer",
-              "meterId": "der://meter/98765456",
-              "utilityCustomerId": "BESCOM-CUST-001",
-              "utilityId": "BESCOM-KA"
-            },
-            "fulfillmentAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/refs/heads/p2p-trading/schema/EnergyTrade/v0.3/context.jsonld",
-              "@type": "EnergyTradeDelivery",
-              "deliveryStatus": "IN_PROGRESS",
-              "deliveryMode": "GRID_INJECTION",
-              "deliveredQuantity": 8.5,
-              "curtailedQuantity": 6.5,
-              "curtailmentReason": "GRID_OUTAGE",
-              "meterReadings": [
-                {
-                  "beckn:timeWindow": {
-                    "@type": "beckn:TimePeriod",
-                    "schema:startTime": "2024-10-04T06:00:00Z",
-                    "schema:endTime": "2024-10-04T12:00:00Z"
-                  },
-                  "consumedEnergy": 0.0,
-                  "producedEnergy": 8.5,
-                  "allocatedEnergy": 8.5,
-                  "unit": "kWh"
-                }
-              ],
-              "lastUpdated": "2024-10-04T14:30:00Z"
-            }
-          },
-          "beckn:acceptedOffer": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
-            "@type": "beckn:Offer",
-            "beckn:id": "offer-morning-001",
-            "beckn:descriptor": {
-              "@type": "beckn:Descriptor",
-              "schema:name": "Morning Solar Energy Offer"
-            },
-            "beckn:provider": "provider-solar-farm-001",
-            "beckn:items": [
-              "energy-resource-solar-001"
-            ],
-            "beckn:price": {
-              "@type": "schema:PriceSpecification",
-              "schema:price": 0.15,
-              "schema:priceCurrency": "USD",
-              "unitText": "kWh",
-              "applicableQuantity": {
-                "unitQuantity": 20.0,
-                "unitText": "kWh"
-              }
-            },
-            "beckn:offerAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/refs/heads/p2p-trading/schema/EnergyTrade/v0.3/context.jsonld",
-              "@type": "EnergyTradeOffer",
-              "pricingModel": "PER_KWH",
-              "deliveryWindow": {
-                "@type": "beckn:TimePeriod",
-                "schema:startTime": "2026-01-09T06:00:00Z",
-                "schema:endTime": "2026-01-09T12:00:00Z"
-              },
-              "validityWindow": {
-                "@type": "beckn:TimePeriod",
-                "schema:startTime": "2026-01-09T00:00:00Z",
-                "schema:endTime": "2026-01-09T05:00:00Z"
-              }
-            }
-          }
-        }
-      ],
-      "beckn:orderValue": {
-        "currency": "USD",
-        "value": 1.36,
-        "components": [
-          {
-            "type": "UNIT",
-            "value": 1.28,
-            "currency": "USD",
-            "description": "Energy value for delivered quantity (8.5 kWh × $0.15)"
-          },
-          {
-            "type": "FEE",
-            "value": 0.03,
-            "currency": "USD",
-            "description": "Buyer platform fee (2%)"
-          },
-          {
-            "type": "FEE",
-            "value": 0.04,
-            "currency": "USD",
-            "description": "Seller platform fee (3%)"
-          }
-        ]
-      },
-      "beckn:payment": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
-        "@type": "beckn:Payment",
-        "beckn:id": "payment-p2p-energy-001",
-        "beckn:amount": {
-          "currency": "USD",
-          "value": 1.36
-        },
-        "beckn:beneficiary": "BPP",
-        "beckn:paymentStatus": "ADJUSTED"
-      }
-    }
-  }
-}
-
-```
-</details>
-
-### 6.6. on_update: Settlement Complete
-
-Once money has moved from buyer platform to seller platform (tracked via URL), the seller platform marks the trade complete.
-
-<details>
-<summary><a href="../../../../examples/p2p-trading-interdiscom/v2/on-update-response-settlement-complete.json">on_update Settlement Complete</a></summary>
-
-```json
-{
-  "context": {
-    "version": "2.0.0",
-    "action": "on_update",
+    "action": "on_status",
     "timestamp": "2024-10-04T18:45:00Z",
-    "message_id": "msg-on-update-settlement-complete-001",
+    "message_id": "msg-on-status-settlement-complete-001",
     "transaction_id": "txn-energy-001",
     "bap_id": "bap.energy-consumer.com",
     "bap_uri": "https://bap.energy-consumer.com",
@@ -1271,27 +1172,8 @@ Once money has moved from buyer platform to seller platform (tracked via URL), t
       ],
       "beckn:orderValue": {
         "currency": "USD",
-        "value": 4.25,
-        "components": [
-          {
-            "type": "UNIT",
-            "value": 4.05,
-            "currency": "USD",
-            "description": "Energy value (15 kWh × $0.15 + 10 kWh × $0.18)"
-          },
-          {
-            "type": "FEE",
-            "value": 0.08,
-            "currency": "USD",
-            "description": "Buyer platform fee (2%)"
-          },
-          {
-            "type": "FEE",
-            "value": 0.12,
-            "currency": "USD",
-            "description": "Seller platform fee (3%)"
-          }
-        ]
+        "value": 4.05,
+        "description": "Inter-platform settlement at catalog prices (15 kWh × $0.15 + 10 kWh × $0.18). Catalog prices are inclusive of seller platform charges."
       },
       "beckn:payment": {
         "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
@@ -1299,7 +1181,7 @@ Once money has moved from buyer platform to seller platform (tracked via URL), t
         "beckn:id": "payment-p2p-energy-001",
         "beckn:amount": {
           "currency": "USD",
-          "value": 4.25
+          "value": 4.05
         },
         "beckn:beneficiary": "BPP",
         "beckn:paymentStatus": "SETTLED",
@@ -1534,27 +1416,8 @@ Final status shows the order and payment as complete.
       ],
       "beckn:orderValue": {
         "currency": "USD",
-        "value": 4.25,
-        "components": [
-          {
-            "type": "UNIT",
-            "value": 4.05,
-            "currency": "USD",
-            "description": "Energy value (15 kWh × $0.15 + 10 kWh × $0.18)"
-          },
-          {
-            "type": "FEE",
-            "value": 0.08,
-            "currency": "USD",
-            "description": "Buyer platform fee (2%)"
-          },
-          {
-            "type": "FEE",
-            "value": 0.12,
-            "currency": "USD",
-            "description": "Seller platform fee (3%)"
-          }
-        ]
+        "value": 4.05,
+        "description": "Inter-platform settlement at catalog prices (15 kWh × $0.15 + 10 kWh × $0.18). Catalog prices are inclusive of seller platform charges."
       },
       "beckn:payment": {
         "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
@@ -1562,7 +1425,7 @@ Final status shows the order and payment as complete.
         "beckn:id": "payment-p2p-energy-001",
         "beckn:amount": {
           "currency": "USD",
-          "value": 4.25
+          "value": 4.05
         },
         "beckn:beneficiary": "BPP",
         "beckn:paymentStatus": "SETTLED",
@@ -1588,8 +1451,9 @@ While the trade is peer-to-peer, platform-to-platform settlement provides:
 ### 7.2. Customer Agency
 
 Despite platform intermediation:
-- **Full visibility**: All fees and amounts are disclosed in every message
-- **Settlement transparency**: Tracking URLs allow customers to verify fund movement
+- **Fee transparency to own customers**: Each platform is recommended to fully disclose its fees to its own customers — buyer platform fee to buyers, seller platform fee to sellers
+- **Inter-platform privacy**: Platform fees are not disclosed in protocol messages between BAP and BPP, preventing competitive information leakage
+- **Settlement transparency**: Tracking URLs allow platforms to verify fund movement
 - **Future optionality**: The protocol supports direct peer-to-peer payment in future versions
 - **Choice of platform**: Customers can choose platforms based on fees and services
 
@@ -1604,17 +1468,19 @@ Discoms (distribution companies) are privy to:
 
 ### 8.1. For Buyer Platforms (BAP)
 
-1. **Before confirm**: Verify `wallet_balance + goodwill_credit >= total_amount`
-2. **On final invoice**: Validate bill components match original on_select
-3. **Settlement**: Deduct buyer fee, transfer remainder to seller platform
-4. **Tracking**: Monitor payment URL until SETTLED status received
+1. **Before confirm**: Verify `wallet_balance + goodwill_credit >= catalog_price_total + buyer_platform_fee`
+2. **Disclose buyer fee**: Show the buyer the total cost upfront (catalog price + buyer platform fee per unit)
+3. **On final invoice (on_status)**: Validate settlement amount matches agreed catalog prices
+4. **Settlement**: Deduct buyer platform fee from buyer's payment, transfer settlement amount to BPP
+5. **Tracking**: Poll status and monitor payment URL until SETTLED status received
 
 ### 8.2. For Seller Platforms (BPP)
 
-1. **On select**: Return complete bill breakdown with all fees
-2. **On init**: Provide settlement account details
-3. **After allocation**: Raise final invoice with tracking URL
-4. **On payment receipt**: Deduct seller fee, pay seller, send SETTLED status
+1. **Catalog pricing**: Set catalog prices inclusive of seller platform fee. Disclose the fee breakdown to sellers so they understand their net earnings.
+2. **On select**: Return inter-platform settlement quote (catalog-price-based) and accepted payment methods
+3. **On init**: Confirm payment terms and accepted methods (no settlement accounts at this stage)
+4. **After allocation (on_status)**: Provide final invoice with BPP settlement account and tracking URL
+5. **On payment receipt**: Deduct seller platform fee, pay seller their net earnings, update status to SETTLED
 
 ---
 

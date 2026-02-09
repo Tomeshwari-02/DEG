@@ -166,24 +166,10 @@
         "beckn:id": "payment-p2p-energy-001",
         "beckn:amount": {
           "currency": "USD",
-          "value": 4.25
+          "value": 4.05
         },
         "beckn:beneficiary": "BPP",
-        "beckn:paymentStatus": "INITIATED",
-        "beckn:paymentAttributes": {
-          "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/PaymentSettlement/v1/context.jsonld",
-          "@type": "PaymentSettlement",
-          "settlementAccounts": [
-            {
-              "beneficiaryId": "bap.energy-consumer.com",
-              "accountHolderName": "Energy Consumer BAP Pvt Ltd",
-              "accountNumber": "1234567890",
-              "ifscCode": "HDFC0001234",
-              "bankName": "HDFC Bank",
-              "vpa": "energy-consumer@upi"
-            }
-          ]
-        }
+        "beckn:paymentStatus": "INITIATED"
       }
     }
   }

@@ -42,27 +42,8 @@
       },
       "beckn:orderValue": {
         "currency": "USD",
-        "value": 4.25,
-        "components": [
-          {
-            "type": "UNIT",
-            "value": 4.05,
-            "currency": "USD",
-            "description": "Energy value (15 kWh × $0.15 + 10 kWh × $0.18)"
-          },
-          {
-            "type": "FEE",
-            "value": 0.08,
-            "currency": "USD",
-            "description": "Buyer platform fee (2%)"
-          },
-          {
-            "type": "FEE",
-            "value": 0.12,
-            "currency": "USD",
-            "description": "Seller platform fee (3%)"
-          }
-        ]
+        "value": 4.05,
+        "description": "Inter-platform settlement at catalog prices (15 kWh × $0.15 + 10 kWh × $0.18). Catalog prices are inclusive of seller platform charges."
       },
       "beckn:payment": {
         "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",

@@ -166,7 +166,7 @@
         "beckn:id": "payment-p2p-energy-001",
         "beckn:amount": {
           "currency": "USD",
-          "value": 4.25
+          "value": 4.05
         },
         "beckn:beneficiary": "BPP",
         "beckn:paymentStatus": "AUTHORIZED"

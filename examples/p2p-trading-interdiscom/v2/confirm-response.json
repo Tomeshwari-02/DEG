@@ -155,6 +155,11 @@
           }
         }
       ],
+      "beckn:orderValue": {
+        "currency": "USD",
+        "value": 4.05,
+        "description": "Inter-platform settlement at catalog prices (15 kWh × $0.15 + 10 kWh × $0.18). Catalog prices are inclusive of seller platform charges."
+      },
       "beckn:fulfillment": {
         "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
         "@type": "beckn:Fulfillment",
@@ -167,7 +172,7 @@
         "beckn:id": "payment-p2p-energy-001",
         "beckn:amount": {
           "currency": "USD",
-          "value": 4.25
+          "value": 4.05
         },
         "beckn:beneficiary": "BPP",
         "beckn:paymentStatus": "AUTHORIZED"
