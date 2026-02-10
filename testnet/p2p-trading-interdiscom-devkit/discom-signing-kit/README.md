@@ -75,9 +75,28 @@ request.Headers.Add("Authorization", authHeader);
 
 **Run tests:** `cd aspdotnet && dotnet test`
 
+### [Node.js](./nodejs/)
+
+Zero dependencies — uses Node.js built-in `crypto` (requires Node.js 18+).
+
+```js
+const { PayloadSigner } = require('@beckn/deg-discom-signing-kit');
+
+const signer = new PayloadSigner({
+    subscriberId: 'p2p-trading-sandbox1.com',
+    uniqueKeyId: '76EU8aUqHouww7gawT6EibH4bseMCumyDv3sgyXSKENGk8NDcdVwmQ',
+    signingPrivateKey: 'Pc6dkYo5LeP0LkwvZXVRV9pcbeh8jDdtdHWymID5cjw=',
+});
+
+const authHeader = signer.signPayload(payloadJson);
+// Set on HTTP request: headers['Authorization'] = authHeader
+```
+
+**Run tests:** `cd nodejs && node --test`
+
 ## Verification (optional)
 
-Both SDKs also include a verifier to validate incoming signed requests:
+All SDKs also include a verifier to validate incoming signed requests:
 
 ```go
 // Go
@@ -87,4 +106,10 @@ err := signer.Verify(body, authHeader, senderPublicKey)
 ```csharp
 // C#
 PayloadVerifier.Verify(body, authHeader, senderPublicKey);
+```
+
+```js
+// Node.js
+const { verify } = require('@beckn/deg-discom-signing-kit');
+verify(body, authHeader, senderPublicKey); // throws on failure
 ```
