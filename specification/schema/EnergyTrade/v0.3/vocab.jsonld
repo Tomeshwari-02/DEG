@@ -52,6 +52,12 @@
       "rdfs:comment": "Order item attributes wrapper for P2P energy trading, attached to beckn:orderItemAttributes."
     },
     {
+      "@id": "beckn:EnergyGift",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Energy Gift",
+      "rdfs:comment": "Gift parameters for P2P energy gifting, enabling prosumers to gift energy to specific recipients via privacy-preserving discovery and secret-based claim verification."
+    },
+    {
       "@id": "beckn:pricingModel",
       "@type": "rdf:Property",
       "rdfs:label": "Pricing model",
@@ -74,6 +80,38 @@
       "rdfs:comment": "Specific time period when energy delivery occurs.",
       "rdfs:domain": "beckn:EnergyTradeOffer",
       "schema:rangeIncludes": "schema:TimePeriod"
+    },
+    {
+      "@id": "beckn:gift",
+      "@type": "rdf:Property",
+      "rdfs:label": "Gift",
+      "rdfs:comment": "Optional gift parameters for energy gifting on this offer.",
+      "rdfs:domain": "beckn:EnergyTradeOffer",
+      "schema:rangeIncludes": "beckn:EnergyGift"
+    },
+    {
+      "@id": "beckn:lookupHash",
+      "@type": "rdf:Property",
+      "rdfs:label": "Lookup hash",
+      "rdfs:comment": "SHA-256 hash of the recipient's phone number (E.164 format) for privacy-preserving gift discovery.",
+      "rdfs:domain": "beckn:EnergyGift",
+      "rdfs:range": "xsd:string"
+    },
+    {
+      "@id": "beckn:claimVerifier",
+      "@type": "rdf:Property",
+      "rdfs:label": "Claim verifier",
+      "rdfs:comment": "SHA-256 hash of a claim secret shared out-of-band from gifter to recipient for gift claim validation.",
+      "rdfs:domain": "beckn:EnergyGift",
+      "rdfs:range": "xsd:string"
+    },
+    {
+      "@id": "beckn:expiresAt",
+      "@type": "rdf:Property",
+      "rdfs:label": "Expires at",
+      "rdfs:comment": "Gift expiration timestamp in UTC (ISO 8601 with Z suffix).",
+      "rdfs:domain": "beckn:EnergyGift",
+      "rdfs:range": "xsd:dateTime"
     },
     {
       "@id": "beckn:bap_id",

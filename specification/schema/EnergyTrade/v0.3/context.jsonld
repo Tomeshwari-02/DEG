@@ -24,6 +24,7 @@
     "EnergyResource": "beckn:EnergyResource",
     "EnergyCustomer": "beckn:EnergyCustomer",
     "EnergyOrderItem": "beckn:EnergyOrderItem",
+    "EnergyGift": "beckn:EnergyGift",
 
     "pricingModel": {
       "@id": "beckn:pricingModel",
@@ -31,6 +32,10 @@
     },
     "validityWindow": "beckn:validityWindow",
     "deliveryWindow": "beckn:deliveryWindow",
+    "gift": "beckn:gift",
+    "lookupHash": "beckn:lookupHash",
+    "claimVerifier": "beckn:claimVerifier",
+    "expiresAt": "beckn:expiresAt",
 
     "bap_id": "beckn:bap_id",
     "bpp_id": "beckn:bpp_id",
