@@ -28,7 +28,13 @@
   "message": {
     "filters": {
       "type": "jsonpath",
-      "expression": "$[?('p2p-interdiscom-trading-pilot-network' == @.beckn:networkId && @.beckn:provider.beckn:providerAttributes.utilityId == 'TPDDL-DL')]"
+    "expression": "$.catalogs[*] ? (@.beckn:items[*].beckn:networkId[*] == 'p2p-interdiscom-trading-pilot-network' && @.beckn:offers[*].beckn:price.schema:price >= 7 && @.beckn:offers[*].beckn:price.schema:price <= 750 && @.beckn:offers[*].beckn:price.schema:priceCurrency == 'INR' && @.beckn:offers[*].beckn:price.applicableQuantity.unitQuantity >= 1 && @.beckn:offers[*].beckn:price.applicableQuantity.unitQuantity <= 300 && @.beckn:offers[*].beckn:price.applicableQuantity.unitText == 'kWh')",
+    "example_expressions_remove_in_discover_calls": [
+    "$.catalogs[*].beckn:offers[*] ? (@.beckn:price.schema:price >= 700 && @.beckn:price.schema:price <= 750 && @.beckn:price.schema:priceCurrency == 'INR')",
+    "$.catalogs[*].beckn:offers[*] ? (@.beckn:offerAttributes.deliveryWindow.schema:endTime <= '2026-02-05' && @.beckn:offerAttributes.deliveryWindow.schema:startTime >='2026-02-04')",
+    "$.catalogs[*].beckn:offers[*] ? (@.beckn:offerAttributes.deliveryWindow.schema:startTime >= '2024-02-03T12:00:00Z' && exists($.catalogs[*] ? (@.beckn:items[*].beckn:networkId[*] == 'p2p-interdiscom-trading-pilot-network' && @.beckn:items[*].beckn:provider.beckn:providerAttributes.utilityId == 'TPDDL-DL')))",
+    "$.catalogs[*] ? (@.beckn:items[*].beckn:networkId[*] == 'p2p-interdiscom-trading-pilot-network' && @.beckn:offers[*].beckn:price.schema:price >= 7 && @.beckn:offers[*].beckn:price.schema:price <= 750 && @.beckn:offers[*].beckn:price.schema:priceCurrency == 'INR' && @.beckn:offers[*].beckn:price.applicableQuantity.unitQuantity >= 1 && @.beckn:offers[*].beckn:price.applicableQuantity.unitQuantity <= 300 && @.beckn:offers[*].beckn:price.applicableQuantity.unitText == 'kWh')"
+    ]
     }
   }
 }
