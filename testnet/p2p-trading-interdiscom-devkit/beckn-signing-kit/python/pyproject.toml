@@ -18,5 +18,8 @@ test = [
     "pytest>=7.0",
 ]
 
+[tool.setuptools]
+py-modules = ["signer", "verifier"]
+
 [tool.pytest.ini_options]
 testpaths = ["."]
