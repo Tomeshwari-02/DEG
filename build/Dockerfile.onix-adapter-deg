@@ -39,8 +39,13 @@ RUN go mod tidy
 # Build DEG ledger recorder plugin
 RUN go build -buildmode=plugin -o /workspace/beckn-onix/plugins/degledgerrecorder.so ./degledgerrecorder/cmd/plugin.go
 
+# Build DEG policy enforcer plugin
+RUN go build -buildmode=plugin -o /workspace/beckn-onix/plugins/degpolicyenforcer.so ./degpolicyenforcer/cmd/plugin.go
+
 # Create minimal runtime image
-FROM cgr.dev/chainguard/wolfi-base
+# Using debian-slim (glibc) for Go plugin (.so) compatibility with the bullseye builder.
+# Wolfi-base (cgr.dev) can be used if its registry is reachable in your environment.
+FROM debian:bookworm-slim
 WORKDIR /app
 
 # Copy binary and all plugins (standard + DEG)
