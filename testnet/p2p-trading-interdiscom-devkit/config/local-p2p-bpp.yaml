@@ -74,6 +74,7 @@ modules:
               enabled: "true"
               debugLogging: "true"
               minDeliveryLeadHours: "4"
+              productionNetworkId: "p2p-interdiscom-trading-pilot-network"
       steps:
         - validateSign
         - addRoute

@@ -79,6 +79,7 @@ modules:
               enabled: "true"
               debugLogging: "true"
               minDeliveryLeadHours: "4"
+              productionNetworkId: "p2p-interdiscom-trading-pilot-network"
           - id: degledgerrecorder
             config:
               # ledgerHost: "https://34.93.166.38.sslip.io" OLD URL
