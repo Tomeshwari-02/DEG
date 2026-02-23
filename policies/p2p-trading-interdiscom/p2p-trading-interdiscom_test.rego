@@ -6,6 +6,7 @@ import data.deg.policy
 
 # Shared buyer stub — includes utilityCustomerId for Rule 9a
 _buyer := {"beckn:buyerAttributes": {
+	"@type": "EnergyCustomer",
 	"meterId": "der://meter/BUYER-001",
 	"utilityCustomerId": "UTIL-CUST-B001",
 	"utilityId": "UTIL-B001",
@@ -25,6 +26,7 @@ _compliant_item(dw_start, dw_end, buyer_mid, provider_mid) := {
 	},
 	"beckn:quantity": {"unitQuantity": 10.0, "unitText": "kWh"},
 	"beckn:orderItemAttributes": {"providerAttributes": {
+		"@type": "EnergyCustomer",
 		"meterId": provider_mid,
 		"utilityCustomerId": "UTIL-CUST-P001",
 		"utilityId": "UTIL-P001",
@@ -36,6 +38,7 @@ _order_with_meters(buyer_mid, provider_mid) := {
 	"context": {"timestamp": "2026-01-09T00:00:00Z"},
 	"message": {"order": {
 		"beckn:buyer": {"beckn:buyerAttributes": {
+			"@type": "EnergyCustomer",
 			"meterId": buyer_mid,
 			"utilityCustomerId": "UTIL-CUST-B001",
 			"utilityId": "UTIL-B001",
@@ -53,6 +56,7 @@ _order_with_meters(buyer_mid, provider_mid) := {
 			},
 			"beckn:quantity": {"unitQuantity": 10.0, "unitText": "kWh"},
 			"beckn:orderItemAttributes": {"providerAttributes": {
+				"@type": "EnergyCustomer",
 				"meterId": provider_mid,
 				"utilityCustomerId": "UTIL-CUST-P001",
 				"utilityId": "UTIL-P001",
@@ -372,6 +376,7 @@ test_buyer_meter_id_missing if {
 		"context": {"timestamp": "2026-01-09T00:00:00Z"},
 		"message": {"order": {
 			"beckn:buyer": {"beckn:buyerAttributes": {
+				"@type": "EnergyCustomer",
 				"utilityCustomerId": "UTIL-CUST-B001",
 				"utilityId": "UTIL-B001",
 			}},
@@ -381,6 +386,7 @@ test_buyer_meter_id_missing if {
 					"schema:endTime": "2026-01-09T09:00:00Z",
 				}}},
 				"beckn:orderItemAttributes": {"providerAttributes": {
+					"@type": "EnergyCustomer",
 					"meterId": "der://meter/SELLER-001",
 					"utilityCustomerId": "UTIL-CUST-P001",
 					"utilityId": "UTIL-P001",
@@ -403,6 +409,7 @@ test_mixed_meter_ids if {
 		"context": {"timestamp": "2026-01-09T00:00:00Z"},
 		"message": {"order": {
 			"beckn:buyer": {"beckn:buyerAttributes": {
+				"@type": "EnergyCustomer",
 				"meterId": "der://meter/BUYER-001",
 				"utilityCustomerId": "UTIL-CUST-B001",
 				"utilityId": "UTIL-B001",
@@ -414,6 +421,7 @@ test_mixed_meter_ids if {
 						"schema:endTime": "2026-01-09T09:00:00Z",
 					}}},
 					"beckn:orderItemAttributes": {"providerAttributes": {
+						"@type": "EnergyCustomer",
 						"meterId": "der://meter/SELLER-001",
 						"utilityCustomerId": "UTIL-CUST-P001",
 						"utilityId": "UTIL-P001",
@@ -425,6 +433,7 @@ test_mixed_meter_ids if {
 						"schema:endTime": "2026-01-09T11:00:00Z",
 					}}},
 					"beckn:orderItemAttributes": {"providerAttributes": {
+						"@type": "EnergyCustomer",
 						"meterId": "der://meter/BUYER-001",
 						"utilityCustomerId": "UTIL-CUST-P002",
 						"utilityId": "UTIL-P002",
@@ -450,8 +459,8 @@ test_no_buyer_attributes if {
 			}],
 		}},
 	}
-	# Rule 4a (missing meterId) + Rule 9a (missing utilityCustomerId) + Rule 9c (missing utilityId)
-	count(result) == 3
+	# Rule 4a (missing meterId) + Rule 9a (missing utilityCustomerId) + Rule 9c (missing utilityId) + Rule 10a (missing @type)
+	count(result) == 4
 }
 
 # ===== Rule 5: Production network test-ID guard =====
@@ -658,6 +667,7 @@ test_buyer_utility_cust_id_missing if {
 		"context": {"timestamp": "2026-01-09T00:00:00Z"},
 		"message": {"order": {
 			"beckn:buyer": {"beckn:buyerAttributes": {
+				"@type": "EnergyCustomer",
 				"meterId": "der://meter/BUYER-001",
 				"utilityId": "UTIL-B001",
 			}},
@@ -678,6 +688,7 @@ test_buyer_utility_cust_id_empty if {
 		"context": {"timestamp": "2026-01-09T00:00:00Z"},
 		"message": {"order": {
 			"beckn:buyer": {"beckn:buyerAttributes": {
+				"@type": "EnergyCustomer",
 				"meterId": "der://meter/BUYER-001",
 				"utilityCustomerId": "",
 				"utilityId": "UTIL-B001",
@@ -705,6 +716,7 @@ test_provider_utility_cust_id_missing if {
 					"schema:endTime": "2026-01-09T09:00:00Z",
 				}}},
 				"beckn:orderItemAttributes": {"providerAttributes": {
+					"@type": "EnergyCustomer",
 					"meterId": "der://meter/SELLER-001",
 					"utilityId": "UTIL-P001",
 				}},
@@ -726,6 +738,7 @@ test_provider_utility_cust_id_empty if {
 					"schema:endTime": "2026-01-09T09:00:00Z",
 				}}},
 				"beckn:orderItemAttributes": {"providerAttributes": {
+					"@type": "EnergyCustomer",
 					"meterId": "der://meter/SELLER-001",
 					"utilityCustomerId": "",
 					"utilityId": "UTIL-P001",
@@ -781,7 +794,9 @@ test_all_rules_violated if {
 	# Rule 8: MWh not kWh
 	# Rule 9c: buyer utilityId missing
 	# Rule 9d: provider utilityId missing
-	count(result) == 9
+	# Rule 10a: buyer @type missing
+	# Rule 10b: provider @type missing
+	count(result) == 11
 }
 
 # ===== Rule 9c/9d: utilityId validation =====
@@ -792,6 +807,7 @@ test_buyer_utility_id_missing if {
 		"context": {"timestamp": "2026-01-09T00:00:00Z"},
 		"message": {"order": {
 			"beckn:buyer": {"beckn:buyerAttributes": {
+				"@type": "EnergyCustomer",
 				"meterId": "der://meter/BUYER-001",
 				"utilityCustomerId": "UTIL-CUST-B001",
 			}},
@@ -812,6 +828,7 @@ test_buyer_utility_id_empty if {
 		"context": {"timestamp": "2026-01-09T00:00:00Z"},
 		"message": {"order": {
 			"beckn:buyer": {"beckn:buyerAttributes": {
+				"@type": "EnergyCustomer",
 				"meterId": "der://meter/BUYER-001",
 				"utilityCustomerId": "UTIL-CUST-B001",
 				"utilityId": "",
@@ -839,6 +856,7 @@ test_provider_utility_id_missing if {
 					"schema:endTime": "2026-01-09T09:00:00Z",
 				}}},
 				"beckn:orderItemAttributes": {"providerAttributes": {
+					"@type": "EnergyCustomer",
 					"meterId": "der://meter/SELLER-001",
 					"utilityCustomerId": "UTIL-CUST-P001",
 				}},
@@ -860,9 +878,100 @@ test_provider_utility_id_empty if {
 					"schema:endTime": "2026-01-09T09:00:00Z",
 				}}},
 				"beckn:orderItemAttributes": {"providerAttributes": {
+					"@type": "EnergyCustomer",
 					"meterId": "der://meter/SELLER-001",
 					"utilityCustomerId": "UTIL-CUST-P001",
 					"utilityId": "",
+				}},
+			}],
+		}},
+	}
+	count(result) == 1
+}
+
+# ===== Rule 10: EnergyCustomer @type validation =====
+
+# --- Non-compliant: buyer @type missing ---
+test_buyer_type_missing if {
+	result := policy.violations with input as {
+		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"message": {"order": {
+			"beckn:buyer": {"beckn:buyerAttributes": {
+				"meterId": "der://meter/BUYER-001",
+				"utilityCustomerId": "UTIL-CUST-B001",
+				"utilityId": "UTIL-B001",
+			}},
+			"beckn:orderItems": [{
+				"beckn:acceptedOffer": {"beckn:offerAttributes": {"deliveryWindow": {
+					"schema:startTime": "2026-01-09T08:00:00Z",
+					"schema:endTime": "2026-01-09T09:00:00Z",
+				}}},
+			}],
+		}},
+	}
+	count(result) == 1
+}
+
+# --- Non-compliant: buyer @type wrong value ---
+test_buyer_type_wrong if {
+	result := policy.violations with input as {
+		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"message": {"order": {
+			"beckn:buyer": {"beckn:buyerAttributes": {
+				"@type": "Person",
+				"meterId": "der://meter/BUYER-001",
+				"utilityCustomerId": "UTIL-CUST-B001",
+				"utilityId": "UTIL-B001",
+			}},
+			"beckn:orderItems": [{
+				"beckn:acceptedOffer": {"beckn:offerAttributes": {"deliveryWindow": {
+					"schema:startTime": "2026-01-09T08:00:00Z",
+					"schema:endTime": "2026-01-09T09:00:00Z",
+				}}},
+			}],
+		}},
+	}
+	count(result) == 1
+}
+
+# --- Non-compliant: provider @type missing ---
+test_provider_type_missing if {
+	result := policy.violations with input as {
+		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"message": {"order": {
+			"beckn:buyer": _buyer,
+			"beckn:orderItems": [{
+				"beckn:acceptedOffer": {"beckn:offerAttributes": {"deliveryWindow": {
+					"schema:startTime": "2026-01-09T08:00:00Z",
+					"schema:endTime": "2026-01-09T09:00:00Z",
+				}}},
+				"beckn:orderItemAttributes": {"providerAttributes": {
+					"meterId": "der://meter/SELLER-001",
+					"utilityCustomerId": "UTIL-CUST-P001",
+					"utilityId": "UTIL-P001",
+				}},
+			}],
+		}},
+	}
+	count(result) == 1
+}
+
+# --- Non-compliant: provider @type wrong value ---
+test_provider_type_wrong if {
+	result := policy.violations with input as {
+		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"message": {"order": {
+			"beckn:buyer": _buyer,
+			"beckn:orderItems": [{
+				"beckn:acceptedOffer": {"beckn:offerAttributes": {"deliveryWindow": {
+					"schema:startTime": "2026-01-09T08:00:00Z",
+					"schema:endTime": "2026-01-09T09:00:00Z",
+				}}},
+				"beckn:orderItemAttributes": {"providerAttributes": {
+					"@type": "Organization",
+					"meterId": "der://meter/SELLER-001",
+					"utilityCustomerId": "UTIL-CUST-P001",
+					"utilityId": "UTIL-P001",
 				}},
 			}],
 		}},

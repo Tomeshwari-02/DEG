@@ -34,6 +34,9 @@ import rego.v1
 # 9. EnergyCustomer required fields: utilityCustomerId and utilityId must be
 #    present and non-empty on both buyer and provider.
 #
+# 10. EnergyCustomer @type: beckn:buyerAttributes.@type and
+#     providerAttributes.@type must be "EnergyCustomer".
+#
 # Config:
 #   data.config.minDeliveryLeadHours  - minimum hours of lead time (default: 4)
 #   data.config.productionNetworkId   - if set, enables Rule 5
@@ -288,5 +291,46 @@ violations contains msg if {
 	msg := sprintf(
 		"order item [%d]: provider utilityId is empty",
 		[i],
+	)
+}
+
+# Rule 10a – Buyer attributes @type must be "EnergyCustomer"
+_buyer_type := input.message.order["beckn:buyer"]["beckn:buyerAttributes"]["@type"]
+
+violations contains "buyer beckn:buyerAttributes @type is missing; must be EnergyCustomer" if {
+	not _buyer_type
+}
+
+violations contains msg if {
+	_buyer_type
+	_buyer_type != "EnergyCustomer"
+
+	msg := sprintf(
+		"buyer beckn:buyerAttributes @type is %q; must be EnergyCustomer",
+		[_buyer_type],
+	)
+}
+
+# Rule 10b – Provider attributes @type must be "EnergyCustomer" per order item
+violations contains msg if {
+	item := input.message.order["beckn:orderItems"][i]
+	provider := item["beckn:orderItemAttributes"].providerAttributes
+	not provider["@type"]
+
+	msg := sprintf(
+		"order item [%d]: providerAttributes @type is missing; must be EnergyCustomer",
+		[i],
+	)
+}
+
+violations contains msg if {
+	item := input.message.order["beckn:orderItems"][i]
+	provider := item["beckn:orderItemAttributes"].providerAttributes
+	provider["@type"]
+	provider["@type"] != "EnergyCustomer"
+
+	msg := sprintf(
+		"order item [%d]: providerAttributes @type is %q; must be EnergyCustomer",
+		[i, provider["@type"]],
 	)
 }
