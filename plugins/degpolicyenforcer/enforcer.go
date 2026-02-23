@@ -28,8 +28,8 @@ func New(cfg map[string]string) (*DEGPolicyEnforcer, error) {
 		return nil, fmt.Errorf("degpolicyenforcer: failed to initialize OPA evaluator: %w", err)
 	}
 
-	fmt.Printf("[DEGPolicyEnforcer] Initialized (actions=%v, query=%s, debugLogging=%v)\n",
-		config.Actions, config.Query, config.DebugLogging)
+	fmt.Printf("[DEGPolicyEnforcer] Initialized (actions=%v, query=%s, policies=%v, debugLogging=%v)\n",
+		config.Actions, config.Query, evaluator.ModuleNames(), config.DebugLogging)
 
 	return &DEGPolicyEnforcer{
 		config:    config,
@@ -57,7 +57,7 @@ func (e *DEGPolicyEnforcer) Run(ctx *model.StepContext) error {
 	}
 
 	if e.config.DebugLogging {
-		log.Debugf(ctx, "DEGPolicyEnforcer: evaluating policies for action %q", action)
+		log.Debugf(ctx, "DEGPolicyEnforcer: evaluating policies for action %q (modules=%v)", action, e.evaluator.ModuleNames())
 	}
 
 	violations, err := e.evaluator.Evaluate(ctx, ctx.Body)

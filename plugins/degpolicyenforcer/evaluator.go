@@ -24,6 +24,12 @@ type Evaluator struct {
 	preparedQuery rego.PreparedEvalQuery
 	query         string
 	runtimeConfig map[string]string
+	moduleNames   []string // names of loaded .rego modules
+}
+
+// ModuleNames returns the names of the loaded .rego policy modules.
+func (e *Evaluator) ModuleNames() []string {
+	return e.moduleNames
 }
 
 // policyFetchTimeout is the HTTP timeout for fetching remote .rego files.
@@ -105,10 +111,16 @@ func NewEvaluator(policyDir, policyFile string, policyUrls []string, query strin
 		return nil, fmt.Errorf("failed to prepare rego query %q: %w", query, err)
 	}
 
+	names := make([]string, 0, len(modules))
+	for name := range modules {
+		names = append(names, name)
+	}
+
 	return &Evaluator{
 		preparedQuery: pq,
 		query:         query,
 		runtimeConfig: runtimeConfig,
+		moduleNames:   names,
 	}, nil
 }
 

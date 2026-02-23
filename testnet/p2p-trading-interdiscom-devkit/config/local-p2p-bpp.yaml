@@ -66,10 +66,19 @@ modules:
           id: router
           config:
             routingConfig: ./config/local-p2p-routing-SellerBPPReceiver-from-BuyerBAP.yaml
+        steps:
+          - id: degpolicyenforcer
+            config:
+              policyDir: /app/policies
+              actions: "confirm"
+              enabled: "true"
+              debugLogging: "true"
+              minDeliveryLeadHours: "4"
       steps:
         - validateSign
         - addRoute
         - validateSchema
+        - degpolicyenforcer
 
   - name: bppTxnCaller
     path: /bpp/caller/
