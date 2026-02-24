@@ -33,9 +33,12 @@ _compliant_item(dw_start, dw_end, buyer_mid, provider_mid) := {
 	}},
 }
 
+# Required domain for Rule 13
+_domain := "beckn.one:deg:p2p-trading-interdiscom:2.0.0"
+
 # Simpler helper for meter-focused tests
 _order_with_meters(buyer_mid, provider_mid) := {
-	"context": {"timestamp": "2026-01-09T00:00:00Z"},
+	"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 	"message": {"order": {
 		"beckn:buyer": {"beckn:buyerAttributes": {
 			"@type": "EnergyCustomer",
@@ -70,7 +73,7 @@ _order_with_meters(buyer_mid, provider_mid) := {
 # --- Compliant: delivery start is 8 hours after trade time, 1hr slot ---
 test_compliant_delivery_window if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": _buyer,
 			"beckn:orderItems": [{
@@ -87,7 +90,7 @@ test_compliant_delivery_window if {
 # --- Compliant: exactly 4 hours lead time (boundary), 1hr slot ---
 test_exactly_4_hours_is_compliant if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": _buyer,
 			"beckn:orderItems": [{
@@ -104,7 +107,7 @@ test_exactly_4_hours_is_compliant if {
 # --- Non-compliant: only 2 hours lead time ---
 test_insufficient_lead_time if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": _buyer,
 			"beckn:orderItems": [{
@@ -121,7 +124,7 @@ test_insufficient_lead_time if {
 # --- Non-compliant: multiple items, one violates lead time ---
 test_mixed_items if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": _buyer,
 			"beckn:orderItems": [
@@ -142,7 +145,7 @@ test_mixed_items if {
 # --- Non-compliant: all items violate lead time ---
 test_all_items_violate if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T10:00:00Z"},
+		"context": {"timestamp": "2026-01-09T10:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": _buyer,
 			"beckn:orderItems": [
@@ -163,7 +166,7 @@ test_all_items_violate if {
 # --- Custom lead hours via config ---
 test_custom_lead_hours if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": _buyer,
 			"beckn:orderItems": [{
@@ -181,7 +184,7 @@ test_custom_lead_hours if {
 # --- Handles beckn:timeWindow field name ---
 test_beckn_time_window_field if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": _buyer,
 			"beckn:orderItems": [{
@@ -198,7 +201,7 @@ test_beckn_time_window_field if {
 # --- No delivery window = no violation ---
 test_no_delivery_window if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": _buyer,
 			"beckn:orderItems": [{
@@ -214,7 +217,7 @@ test_no_delivery_window if {
 # --- Compliant: validity ends 5 hours before delivery start ---
 test_validity_window_compliant if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": _buyer,
 			"beckn:orderItems": [{
@@ -237,7 +240,7 @@ test_validity_window_compliant if {
 # --- Compliant: validity ends exactly 4 hours before delivery (boundary) ---
 test_validity_window_exact_boundary if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": _buyer,
 			"beckn:orderItems": [{
@@ -260,7 +263,7 @@ test_validity_window_exact_boundary if {
 # --- Non-compliant: validity ends only 2 hours before delivery start ---
 test_validity_window_too_close if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": _buyer,
 			"beckn:orderItems": [{
@@ -283,7 +286,7 @@ test_validity_window_too_close if {
 # --- No validity window = no violation for rule 2 ---
 test_no_validity_window if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": _buyer,
 			"beckn:orderItems": [{
@@ -300,7 +303,7 @@ test_no_validity_window if {
 # --- Handles beckn:validityWindow field name ---
 test_beckn_validity_window_field if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": _buyer,
 			"beckn:orderItems": [{
@@ -325,7 +328,7 @@ test_beckn_validity_window_field if {
 # --- Non-compliant: 6-hour delivery window ---
 test_delivery_window_too_long if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": _buyer,
 			"beckn:orderItems": [{
@@ -342,7 +345,7 @@ test_delivery_window_too_long if {
 # --- Non-compliant: 30-minute delivery window ---
 test_delivery_window_too_short if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": _buyer,
 			"beckn:orderItems": [{
@@ -373,7 +376,7 @@ test_buyer_meter_id_empty if {
 # --- Non-compliant: buyer meterId is missing entirely ---
 test_buyer_meter_id_missing if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": {"beckn:buyerAttributes": {
 				"@type": "EnergyCustomer",
@@ -406,7 +409,7 @@ test_same_meter_id if {
 # --- Non-compliant: multiple items, one has same meterId as buyer ---
 test_mixed_meter_ids if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": {"beckn:buyerAttributes": {
 				"@type": "EnergyCustomer",
@@ -449,7 +452,7 @@ test_mixed_meter_ids if {
 # --- No buyerAttributes at all = violation (missing meterId + utilityCustomerId) ---
 test_no_buyer_attributes if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:orderItems": [{
 				"beckn:acceptedOffer": {"beckn:offerAttributes": {"deliveryWindow": {
@@ -461,6 +464,38 @@ test_no_buyer_attributes if {
 	}
 	# Rule 4a (missing meterId) + Rule 9a (missing utilityCustomerId) + Rule 9c (missing utilityId) + Rule 10a (missing @type)
 	count(result) == 4
+}
+
+# Helper: full compliant order with controllable meters AND utility IDs
+_order_with_ids(buyer_mid, provider_mid, buyer_uid, provider_uid) := {
+	"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
+	"message": {"order": {
+		"beckn:buyer": {"beckn:buyerAttributes": {
+			"@type": "EnergyCustomer",
+			"meterId": buyer_mid,
+			"utilityCustomerId": "UTIL-CUST-B001",
+			"utilityId": buyer_uid,
+		}},
+		"beckn:orderItems": [{
+			"beckn:acceptedOffer": {
+				"beckn:offerAttributes": {"deliveryWindow": {
+					"schema:startTime": "2026-01-09T08:00:00Z",
+					"schema:endTime": "2026-01-09T09:00:00Z",
+				}},
+				"beckn:price": {
+					"schema:priceCurrency": "INR",
+					"applicableQuantity": {"unitQuantity": 20.0, "unitText": "kWh"},
+				},
+			},
+			"beckn:quantity": {"unitQuantity": 10.0, "unitText": "kWh"},
+			"beckn:orderItemAttributes": {"providerAttributes": {
+				"@type": "EnergyCustomer",
+				"meterId": provider_mid,
+				"utilityCustomerId": "UTIL-CUST-P001",
+				"utilityId": provider_uid,
+			}},
+		}],
+	}},
 }
 
 # ===== Rule 5: Production network test-ID guard =====
@@ -514,7 +549,7 @@ test_quantity_within_range if {
 # --- Non-compliant: negative quantity ---
 test_quantity_negative if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": _buyer,
 			"beckn:orderItems": [{
@@ -538,7 +573,7 @@ test_quantity_negative if {
 # --- Non-compliant: quantity equals applicableQuantity (must be strictly less) ---
 test_quantity_equals_cap if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": _buyer,
 			"beckn:orderItems": [{
@@ -562,7 +597,7 @@ test_quantity_equals_cap if {
 # --- Non-compliant: quantity exceeds applicableQuantity ---
 test_quantity_exceeds_cap if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": _buyer,
 			"beckn:orderItems": [{
@@ -588,7 +623,7 @@ test_quantity_exceeds_cap if {
 # --- Non-compliant: USD currency ---
 test_currency_not_inr if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": _buyer,
 			"beckn:orderItems": [{
@@ -612,7 +647,7 @@ test_currency_not_inr if {
 # --- Compliant: INR currency ---
 test_currency_inr if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": _buyer,
 			"beckn:orderItems": [{
@@ -638,7 +673,7 @@ test_currency_inr if {
 # --- Non-compliant: MWh unit ---
 test_quantity_unit_not_kwh if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": _buyer,
 			"beckn:orderItems": [{
@@ -664,7 +699,7 @@ test_quantity_unit_not_kwh if {
 # --- Non-compliant: buyer utilityCustomerId missing ---
 test_buyer_utility_cust_id_missing if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": {"beckn:buyerAttributes": {
 				"@type": "EnergyCustomer",
@@ -685,7 +720,7 @@ test_buyer_utility_cust_id_missing if {
 # --- Non-compliant: buyer utilityCustomerId empty ---
 test_buyer_utility_cust_id_empty if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": {"beckn:buyerAttributes": {
 				"@type": "EnergyCustomer",
@@ -707,7 +742,7 @@ test_buyer_utility_cust_id_empty if {
 # --- Non-compliant: provider utilityCustomerId missing ---
 test_provider_utility_cust_id_missing if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": _buyer,
 			"beckn:orderItems": [{
@@ -729,7 +764,7 @@ test_provider_utility_cust_id_missing if {
 # --- Non-compliant: provider utilityCustomerId empty ---
 test_provider_utility_cust_id_empty if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": _buyer,
 			"beckn:orderItems": [{
@@ -754,7 +789,7 @@ test_provider_utility_cust_id_empty if {
 # --- All rules violated on one item ---
 test_all_rules_violated if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T10:00:00Z"},
+		"context": {"timestamp": "2026-01-09T10:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": {"beckn:buyerAttributes": {
 				"meterId": "der://meter/SAME-001",
@@ -804,7 +839,7 @@ test_all_rules_violated if {
 # --- Non-compliant: buyer utilityId missing ---
 test_buyer_utility_id_missing if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": {"beckn:buyerAttributes": {
 				"@type": "EnergyCustomer",
@@ -825,7 +860,7 @@ test_buyer_utility_id_missing if {
 # --- Non-compliant: buyer utilityId empty ---
 test_buyer_utility_id_empty if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": {"beckn:buyerAttributes": {
 				"@type": "EnergyCustomer",
@@ -847,7 +882,7 @@ test_buyer_utility_id_empty if {
 # --- Non-compliant: provider utilityId missing ---
 test_provider_utility_id_missing if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": _buyer,
 			"beckn:orderItems": [{
@@ -869,7 +904,7 @@ test_provider_utility_id_missing if {
 # --- Non-compliant: provider utilityId empty ---
 test_provider_utility_id_empty if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": _buyer,
 			"beckn:orderItems": [{
@@ -894,7 +929,7 @@ test_provider_utility_id_empty if {
 # --- Non-compliant: buyer @type missing ---
 test_buyer_type_missing if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": {"beckn:buyerAttributes": {
 				"meterId": "der://meter/BUYER-001",
@@ -915,7 +950,7 @@ test_buyer_type_missing if {
 # --- Non-compliant: buyer @type wrong value ---
 test_buyer_type_wrong if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": {"beckn:buyerAttributes": {
 				"@type": "Person",
@@ -937,7 +972,7 @@ test_buyer_type_wrong if {
 # --- Non-compliant: provider @type missing ---
 test_provider_type_missing if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": _buyer,
 			"beckn:orderItems": [{
@@ -959,7 +994,7 @@ test_provider_type_missing if {
 # --- Non-compliant: provider @type wrong value ---
 test_provider_type_wrong if {
 	result := policy.violations with input as {
-		"context": {"timestamp": "2026-01-09T00:00:00Z"},
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "2.0.0"},
 		"message": {"order": {
 			"beckn:buyer": _buyer,
 			"beckn:orderItems": [{
@@ -973,6 +1008,247 @@ test_provider_type_wrong if {
 					"utilityCustomerId": "UTIL-CUST-P001",
 					"utilityId": "UTIL-P001",
 				}},
+			}],
+		}},
+	}
+	count(result) == 1
+}
+
+# ===== Rule 11: Sandbox network — require test identifiers =====
+
+_sandbox_config := {
+	"networkId": "p2p-interdiscom-trading-sandbox",
+	"productionNetworkId": "p2p-interdiscom-trading-pilot-network",
+}
+
+# --- Compliant: all test IDs on sandbox ---
+test_sandbox_compliant_test_ids if {
+	result := policy.violations with input as _order_with_ids(
+		"TEST_BUYER_METER", "TEST_SELLER_METER",
+		"TEST_BUYER_DISCOM", "TEST_SELLER_DISCOM",
+	)
+		with data.config as _sandbox_config
+	count(result) == 0
+}
+
+# --- Non-compliant: real buyer meterId on sandbox ---
+test_sandbox_rejects_real_buyer_meter if {
+	result := policy.violations with input as _order_with_ids(
+		"der://meter/BUYER-001", "TEST_SELLER_METER",
+		"TEST_BUYER_DISCOM", "TEST_SELLER_DISCOM",
+	)
+		with data.config as _sandbox_config
+	count(result) == 1
+}
+
+# --- Non-compliant: real seller meterId on sandbox ---
+test_sandbox_rejects_real_seller_meter if {
+	result := policy.violations with input as _order_with_ids(
+		"TEST_BUYER_METER", "der://meter/SELLER-001",
+		"TEST_BUYER_DISCOM", "TEST_SELLER_DISCOM",
+	)
+		with data.config as _sandbox_config
+	count(result) == 1
+}
+
+# --- Non-compliant: real buyer utilityId on sandbox ---
+test_sandbox_rejects_real_buyer_discom if {
+	result := policy.violations with input as _order_with_ids(
+		"TEST_BUYER_METER", "TEST_SELLER_METER",
+		"TPDDL", "TEST_SELLER_DISCOM",
+	)
+		with data.config as _sandbox_config
+	count(result) == 1
+}
+
+# --- Non-compliant: real seller utilityId on sandbox ---
+test_sandbox_rejects_real_seller_discom if {
+	result := policy.violations with input as _order_with_ids(
+		"TEST_BUYER_METER", "TEST_SELLER_METER",
+		"TEST_BUYER_DISCOM", "PVVNL",
+	)
+		with data.config as _sandbox_config
+	count(result) == 1
+}
+
+# --- Non-compliant: all real IDs on sandbox (4 violations) ---
+test_sandbox_rejects_all_real_ids if {
+	result := policy.violations with input as _order_with_ids(
+		"der://meter/BUYER-001", "der://meter/SELLER-001",
+		"TPDDL", "PVVNL",
+	)
+		with data.config as _sandbox_config
+	# 11a (buyer meter) + 11b (seller meter) + 11c (buyer discom) + 11d (seller discom)
+	count(result) == 4
+}
+
+# --- No networkId config → sandbox rules don't fire ---
+test_no_network_id_skips_sandbox_rules if {
+	result := policy.violations with input as _order_with_ids(
+		"der://meter/BUYER-001", "der://meter/SELLER-001",
+		"UTIL-B001", "UTIL-P001",
+	)
+	count(result) == 0
+}
+
+# --- Rule 5 does not fire on sandbox (test meters are allowed) ---
+test_sandbox_allows_test_meters_rule5 if {
+	result := policy.violations with input as _order_with_ids(
+		"TEST_BUYER_METER", "TEST_SELLER_METER",
+		"TEST_BUYER_DISCOM", "TEST_SELLER_DISCOM",
+	)
+		with data.config as _sandbox_config
+	# Rule 5 should NOT fire; all sandbox rules compliant → 0
+	count(result) == 0
+}
+
+# ===== Rule 12: Production network — DISCOM whitelist =====
+
+_production_full_config := {
+	"networkId": "p2p-interdiscom-trading-pilot-network",
+	"productionNetworkId": "p2p-interdiscom-trading-pilot-network",
+}
+
+# --- Compliant: approved DISCOMs on production ---
+test_production_approved_discoms_compliant if {
+	result := policy.violations with input as _order_with_ids(
+		"der://meter/BUYER-001", "der://meter/SELLER-001",
+		"TPDDL", "PVVNL",
+	)
+		with data.config as _production_full_config
+	count(result) == 0
+}
+
+# --- Non-compliant: unapproved buyer DISCOM on production ---
+test_production_rejects_unapproved_buyer_discom if {
+	result := policy.violations with input as _order_with_ids(
+		"der://meter/BUYER-001", "der://meter/SELLER-001",
+		"UNKNOWN_DISCOM", "TPDDL",
+	)
+		with data.config as _production_full_config
+	count(result) == 1
+}
+
+# --- Non-compliant: unapproved provider DISCOM on production ---
+test_production_rejects_unapproved_seller_discom if {
+	result := policy.violations with input as _order_with_ids(
+		"der://meter/BUYER-001", "der://meter/SELLER-001",
+		"BRPL", "UNKNOWN_DISCOM",
+	)
+		with data.config as _production_full_config
+	count(result) == 1
+}
+
+# --- All three approved DISCOMs are accepted ---
+test_production_all_three_discoms if {
+	r1 := policy.violations with input as _order_with_ids(
+		"der://meter/B", "der://meter/S", "TPDDL", "TPDDL",
+	)
+		with data.config as _production_full_config
+	count(r1) == 0
+
+	r2 := policy.violations with input as _order_with_ids(
+		"der://meter/B", "der://meter/S", "PVVNL", "PVVNL",
+	)
+		with data.config as _production_full_config
+	count(r2) == 0
+
+	r3 := policy.violations with input as _order_with_ids(
+		"der://meter/B", "der://meter/S", "BRPL", "BRPL",
+	)
+		with data.config as _production_full_config
+	count(r3) == 0
+}
+
+# --- No networkId config → production rules don't fire ---
+test_no_network_id_skips_production_rules if {
+	result := policy.violations with input as _order_with_ids(
+		"der://meter/BUYER-001", "der://meter/SELLER-001",
+		"UNKNOWN_DISCOM", "UNKNOWN_DISCOM",
+	)
+		with data.config as _prod_config
+	# _prod_config has no networkId, so _is_production is false → Rule 12 inactive
+	count(result) == 0
+}
+
+# ===== Rule 13: Domain validation =====
+
+# --- Compliant: correct domain ---
+test_domain_correct if {
+	result := policy.violations with input as _order_with_meters("der://meter/BUYER-001", "der://meter/SELLER-001")
+	count(result) == 0
+}
+
+# --- Non-compliant: wrong domain ---
+test_domain_wrong if {
+	result := policy.violations with input as {
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": "some:other:domain:1.0.0", "version": "2.0.0"},
+		"message": {"order": {
+			"beckn:buyer": _buyer,
+			"beckn:orderItems": [{
+				"beckn:acceptedOffer": {"beckn:offerAttributes": {"deliveryWindow": {
+					"schema:startTime": "2026-01-09T08:00:00Z",
+					"schema:endTime": "2026-01-09T09:00:00Z",
+				}}},
+			}],
+		}},
+	}
+	count(result) == 1
+}
+
+# --- Non-compliant: domain missing (also missing version → 2 violations) ---
+test_domain_missing if {
+	result := policy.violations with input as {
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "version": "2.0.0"},
+		"message": {"order": {
+			"beckn:buyer": _buyer,
+			"beckn:orderItems": [{
+				"beckn:acceptedOffer": {"beckn:offerAttributes": {"deliveryWindow": {
+					"schema:startTime": "2026-01-09T08:00:00Z",
+					"schema:endTime": "2026-01-09T09:00:00Z",
+				}}},
+			}],
+		}},
+	}
+	count(result) == 1
+}
+
+# ===== Rule 14: Version validation =====
+
+# --- Compliant: correct version (covered by _order_with_meters tests) ---
+test_version_correct if {
+	result := policy.violations with input as _order_with_meters("der://meter/BUYER-001", "der://meter/SELLER-001")
+	count(result) == 0
+}
+
+# --- Non-compliant: wrong version ---
+test_version_wrong if {
+	result := policy.violations with input as {
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain, "version": "1.0.0"},
+		"message": {"order": {
+			"beckn:buyer": _buyer,
+			"beckn:orderItems": [{
+				"beckn:acceptedOffer": {"beckn:offerAttributes": {"deliveryWindow": {
+					"schema:startTime": "2026-01-09T08:00:00Z",
+					"schema:endTime": "2026-01-09T09:00:00Z",
+				}}},
+			}],
+		}},
+	}
+	count(result) == 1
+}
+
+# --- Non-compliant: version missing ---
+test_version_missing if {
+	result := policy.violations with input as {
+		"context": {"timestamp": "2026-01-09T00:00:00Z", "domain": _domain},
+		"message": {"order": {
+			"beckn:buyer": _buyer,
+			"beckn:orderItems": [{
+				"beckn:acceptedOffer": {"beckn:offerAttributes": {"deliveryWindow": {
+					"schema:startTime": "2026-01-09T08:00:00Z",
+					"schema:endTime": "2026-01-09T09:00:00Z",
+				}}},
 			}],
 		}},
 	}

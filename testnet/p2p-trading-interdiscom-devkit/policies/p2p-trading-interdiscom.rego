@@ -37,9 +37,22 @@ import rego.v1
 # 10. EnergyCustomer @type: beckn:buyerAttributes.@type and
 #     providerAttributes.@type must be "EnergyCustomer".
 #
+# 11. Sandbox enforcement: when networkId is configured and differs from
+#     productionNetworkId, require test identifiers: TEST_BUYER_METER,
+#     TEST_SELLER_METER, TEST_BUYER_DISCOM, TEST_SELLER_DISCOM.
+#
+# 12. Production DISCOM whitelist: when on the production network, utilityId
+#     (buyer and provider) must be one of: TPDDL, PVVNL, BRPL.
+#
+# 13. Domain: context.domain must be "beckn.one:deg:p2p-trading-interdiscom:2.0.0".
+#
+# 14. Version: context.version must be "2.0.0".
+#
 # Config:
 #   data.config.minDeliveryLeadHours  - minimum hours of lead time (default: 4)
 #   data.config.productionNetworkId   - if set, enables Rule 5
+#   data.config.networkId             - current network ID; enables Rules 11 & 12
+#                                       when combined with productionNetworkId
 
 default min_lead_hours := 4
 
@@ -57,6 +70,50 @@ _delivery_window(offer_attrs) := object.get(offer_attrs, "deliveryWindow", objec
 
 # Helper: resolve validity window from either field name convention
 _validity_window(offer_attrs) := object.get(offer_attrs, "validityWindow", object.get(offer_attrs, "beckn:validityWindow", null))
+
+# Rule 13 – Domain must match the P2P inter-DISCOM trading profile
+_required_domain := "beckn.one:deg:p2p-trading-interdiscom:2.0.0"
+
+violations contains msg if {
+	input.context.domain
+	input.context.domain != _required_domain
+
+	msg := sprintf(
+		"context.domain is %q; must be %q",
+		[input.context.domain, _required_domain],
+	)
+}
+
+violations contains msg if {
+	not input.context.domain
+
+	msg := sprintf(
+		"context.domain is missing; must be %q",
+		[_required_domain],
+	)
+}
+
+# Rule 14 – Version must be 2.0.0
+_required_version := "2.0.0"
+
+violations contains msg if {
+	input.context.version
+	input.context.version != _required_version
+
+	msg := sprintf(
+		"context.version is %q; must be %q",
+		[input.context.version, _required_version],
+	)
+}
+
+violations contains msg if {
+	not input.context.version
+
+	msg := sprintf(
+		"context.version is missing; must be %q",
+		[_required_version],
+	)
+}
 
 # Rule 1 – Delivery lead time
 violations contains msg if {
@@ -150,10 +207,11 @@ violations contains msg if {
 }
 
 # Rule 5 – Reject placeholder test meter IDs on the production/pilot network
-# Only active when data.config.productionNetworkId is set.
+# Only active when data.config.productionNetworkId is set and not on a sandbox network.
 
 violations contains msg if {
 	data.config.productionNetworkId
+	not _is_sandbox
 
 	buyer_mid := _buyer_meter_id
 	buyer_mid == "TEST_BUYER_METER"
@@ -166,6 +224,7 @@ violations contains msg if {
 
 violations contains msg if {
 	data.config.productionNetworkId
+	not _is_sandbox
 
 	item := input.message.order["beckn:orderItems"][i]
 	provider_mid := item["beckn:orderItemAttributes"].providerAttributes.meterId
@@ -332,5 +391,105 @@ violations contains msg if {
 	msg := sprintf(
 		"order item [%d]: providerAttributes @type is %q; must be EnergyCustomer",
 		[i, provider["@type"]],
+	)
+}
+
+# ===== Network-aware rules =====
+#
+# Rules 11 and 12 activate only when BOTH data.config.networkId and
+# data.config.productionNetworkId are configured. networkId identifies
+# the current network; productionNetworkId is the reference production ID.
+
+# Approved DISCOMs for production network (extend this list as needed)
+_allowed_utility_ids := {"TPDDL", "PVVNL", "BRPL"}
+
+# Helper: true when running on the production network
+_is_production if {
+	data.config.networkId
+	data.config.productionNetworkId
+	data.config.networkId == data.config.productionNetworkId
+}
+
+# Helper: true when running on a non-production (sandbox/test) network
+_is_sandbox if {
+	data.config.networkId
+	data.config.productionNetworkId
+	data.config.networkId != data.config.productionNetworkId
+}
+
+# Rule 11a — Sandbox: buyer meterId must be TEST_BUYER_METER
+violations contains msg if {
+	_is_sandbox
+	buyer_mid := _buyer_meter_id
+	buyer_mid != "TEST_BUYER_METER"
+
+	msg := sprintf(
+		"sandbox network: buyer meterId is %q; must be TEST_BUYER_METER",
+		[buyer_mid],
+	)
+}
+
+# Rule 11b — Sandbox: provider meterId must be TEST_SELLER_METER per order item
+violations contains msg if {
+	_is_sandbox
+	item := input.message.order["beckn:orderItems"][i]
+	provider_mid := item["beckn:orderItemAttributes"].providerAttributes.meterId
+	provider_mid != "TEST_SELLER_METER"
+
+	msg := sprintf(
+		"order item [%d]: sandbox network: provider meterId is %q; must be TEST_SELLER_METER",
+		[i, provider_mid],
+	)
+}
+
+# Rule 11c — Sandbox: buyer utilityId must be TEST_BUYER_DISCOM
+violations contains msg if {
+	_is_sandbox
+	buyer_uid := _buyer_utility_id
+	buyer_uid != "TEST_BUYER_DISCOM"
+
+	msg := sprintf(
+		"sandbox network: buyer utilityId is %q; must be TEST_BUYER_DISCOM",
+		[buyer_uid],
+	)
+}
+
+# Rule 11d — Sandbox: provider utilityId must be TEST_SELLER_DISCOM per order item
+violations contains msg if {
+	_is_sandbox
+	item := input.message.order["beckn:orderItems"][i]
+	provider := item["beckn:orderItemAttributes"].providerAttributes
+	provider.utilityId != "TEST_SELLER_DISCOM"
+
+	msg := sprintf(
+		"order item [%d]: sandbox network: provider utilityId is %q; must be TEST_SELLER_DISCOM",
+		[i, provider.utilityId],
+	)
+}
+
+# Rule 12a — Production: buyer utilityId must be an approved DISCOM
+violations contains msg if {
+	_is_production
+	buyer_uid := _buyer_utility_id
+	buyer_uid != ""
+	not buyer_uid in _allowed_utility_ids
+
+	msg := sprintf(
+		"production network: buyer utilityId %q is not an approved DISCOM; must be one of %v",
+		[buyer_uid, _allowed_utility_ids],
+	)
+}
+
+# Rule 12b — Production: provider utilityId must be an approved DISCOM per order item
+violations contains msg if {
+	_is_production
+	item := input.message.order["beckn:orderItems"][i]
+	provider := item["beckn:orderItemAttributes"].providerAttributes
+	provider.utilityId != ""
+	not provider.utilityId in _allowed_utility_ids
+
+	msg := sprintf(
+		"order item [%d]: production network: provider utilityId %q is not an approved DISCOM; must be one of %v",
+		[i, provider.utilityId, _allowed_utility_ids],
 	)
 }
