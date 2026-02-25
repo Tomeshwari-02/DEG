@@ -70,11 +70,9 @@ modules:
           - id: policyenforcer
             config:
               policyUrls: "https://raw.githubusercontent.com/beckn/DEG/refs/heads/p2p-trading/testnet/p2p-trading-interdiscom-devkit/policies/p2p-trading-interdiscom.rego"
-              actions: "confirm"
               enabled: "true"
               debugLogging: "true"
               minDeliveryLeadHours: "4"
-              productionNetworkId: "p2p-interdiscom-trading-pilot-network"
       steps:
         - validateSign
         - addRoute

@@ -49,10 +49,10 @@ var knownKeys = map[string]bool{
 }
 
 // DefaultConfig returns a Config with sensible defaults.
+// When Actions is nil/empty, all actions are allowed (rego handles action-gating).
 func DefaultConfig() *Config {
 	return &Config{
 		Query:         "data.deg.policy.violations",
-		Actions:       []string{"confirm"},
 		Enabled:       true,
 		DebugLogging:  false,
 		RuntimeConfig: make(map[string]string),
@@ -116,7 +116,11 @@ func ParseConfig(cfg map[string]string) (*Config, error) {
 }
 
 // IsActionEnabled checks if the given action is in the configured actions list.
+// When the actions list is empty/nil, all actions are enabled (rego handles gating).
 func (c *Config) IsActionEnabled(action string) bool {
+	if len(c.Actions) == 0 {
+		return true
+	}
 	for _, a := range c.Actions {
 		if a == action {
 			return true
