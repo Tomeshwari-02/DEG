@@ -69,7 +69,7 @@ modules:
         steps:
           - id: policyenforcer
             config:
-              policyFile: /app/policies/p2p-trading-interdiscom.rego
+              policyUrls: "https://raw.githubusercontent.com/beckn/DEG/refs/heads/p2p-trading/policies/p2p-trading-interdiscom.rego"
       steps:
         - validateSign
         - addRoute
@@ -145,7 +145,7 @@ modules:
               keyId: 76EU7Mvhh7jaEf7Lcac5R1PPeFL4ddr1ALs2QYzpyTRE8g15Yr1p7C
           - id: policyenforcer
             config:
-              policyFile: /app/policies/p2p-trading-interdiscom.rego
+              policyUrls: "https://raw.githubusercontent.com/beckn/DEG/refs/heads/p2p-trading/policies/p2p-trading-interdiscom.rego"
       steps:
         - addRoute
         - sign
