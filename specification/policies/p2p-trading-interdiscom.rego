@@ -159,24 +159,24 @@ _order_violations contains msg if {
 }
 
 # Rule 3 – Delivery window must be exactly 1 hour
-_order_violations contains msg if {
-	item := input.message.order["beckn:orderItems"][i]
-	offer_attrs := item["beckn:acceptedOffer"]["beckn:offerAttributes"]
-
-	dw := _delivery_window(offer_attrs)
-	dw != null
-
-	start_str := dw["schema:startTime"]
-	end_str := dw["schema:endTime"]
-	duration_hours := (time.parse_rfc3339_ns(end_str) - time.parse_rfc3339_ns(start_str)) / ns_per_hour
-
-	duration_hours != 1
-
-	msg := sprintf(
-		"order item [%d]: delivery window (%s to %s) is %v hours; must be exactly 1 hour",
-		[i, start_str, end_str, duration_hours],
-	)
-}
+#_order_violations contains msg if {
+#	item := input.message.order["beckn:orderItems"][i]
+#	offer_attrs := item["beckn:acceptedOffer"]["beckn:offerAttributes"]
+#
+#	dw := _delivery_window(offer_attrs)
+#	dw != null
+#
+#	start_str := dw["schema:startTime"]
+#	end_str := dw["schema:endTime"]
+#	duration_hours := (time.parse_rfc3339_ns(end_str) - time.parse_rfc3339_ns(start_str)) / ns_per_hour
+#
+#	duration_hours != 1
+#
+#	msg := sprintf(
+#		"order item [%d]: delivery window (%s to %s) is %v hours; must be exactly 1 hour",
+#		[i, start_str, end_str, duration_hours],
+#	)
+#}
 
 # Helper: extract buyer meterId
 _buyer_meter_id := input.message.order["beckn:buyer"]["beckn:buyerAttributes"].meterId
