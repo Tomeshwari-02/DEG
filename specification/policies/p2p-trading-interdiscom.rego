@@ -38,12 +38,24 @@ import rego.v1
 # O12. EnergyTradeOffer @context: when offer @type is "EnergyTradeOffer",
 #      @context must match the same URL.
 #
-# ── catalog_publish action (catalog item validation) ──
+# ── catalog_publish action (catalog item & offer validation) ──
 #
 # P1. Production network items: beckn:providerAttributes must exist, utilityId
 #     must be an approved DISCOM (TPDDL, PVVNL, BRPL).
 # P2. Non-production network items: provider meterId must be TEST_METER_SELLER,
 #     provider utilityId must be TEST_DISCOM_SELLER.
+# P3. Validity-to-delivery gap: on each catalog offer, validity window end must
+#     be at least minDeliveryLeadHours before delivery window start (mirrors O2).
+# P4. Currency: each catalog offer's schema:priceCurrency must be "INR" (mirrors O6).
+# P5. Quantity unit: each catalog offer's applicableQuantity.unitText must be
+#     "kWh" (mirrors O7).
+# P6. Provider utilityCustomerId must be present and non-empty (mirrors O8).
+# P7. Provider utilityId must be present and non-empty (mirrors O8).
+# P8. Provider @type must be "EnergyCustomer" (mirrors O9).
+# P9. Provider EnergyCustomer @context must match the P2P energy trading
+#     JSON-LD context URL (mirrors O10).
+# P10. EnergyTradeOffer @context: when offerAttributes @type is
+#      "EnergyTradeOffer", @context must match the same URL (mirrors O12).
 #
 # ── test ID consistency (when message.order exists) ──
 #
@@ -565,6 +577,173 @@ _publish_violations contains msg if {
 	msg := sprintf(
 		"catalog item [%d]: non-production network %q: provider utilityId is %q; must be TEST_DISCOM_SELLER",
 		[i, net_id, provider.utilityId],
+	)
+}
+
+# Publish Rule 5 — Validity-to-delivery gap (mirrors O2)
+_publish_violations contains msg if {
+	offer := input.message.catalogs[_]["beckn:offers"][j]
+	offer_attrs := offer["beckn:offerAttributes"]
+
+	dw := _delivery_window(offer_attrs)
+	dw != null
+	vw := _validity_window(offer_attrs)
+	vw != null
+
+	delivery_start := time.parse_rfc3339_ns(dw["schema:startTime"])
+	validity_end_str := vw["schema:endTime"]
+	validity_end := time.parse_rfc3339_ns(validity_end_str)
+
+	gap_hours := (delivery_start - validity_end) / ns_per_hour
+	gap_hours < min_lead_hours
+
+	msg := sprintf(
+		"catalog offer [%d]: validity window end (%s) is only %v hours before delivery start; minimum gap is %v hours",
+		[j, validity_end_str, gap_hours, min_lead_hours],
+	)
+}
+
+# Publish Rule 6 — Currency must be INR (mirrors O6)
+_publish_violations contains msg if {
+	offer := input.message.catalogs[_]["beckn:offers"][j]
+	currency := offer["beckn:price"]["schema:priceCurrency"]
+	currency != "INR"
+
+	msg := sprintf(
+		"catalog offer [%d]: schema:priceCurrency is %q; must be INR",
+		[j, currency],
+	)
+}
+
+# Publish Rule 7 — Quantity unit must be kWh (mirrors O7)
+_publish_violations contains msg if {
+	offer := input.message.catalogs[_]["beckn:offers"][j]
+	unit := offer["beckn:price"].applicableQuantity.unitText
+	unit != "kWh"
+
+	msg := sprintf(
+		"catalog offer [%d]: applicableQuantity.unitText is %q; must be kWh",
+		[j, unit],
+	)
+}
+
+# Publish Rule 8a — Provider utilityCustomerId must be present (mirrors O8)
+_publish_violations contains msg if {
+	item := input.message.catalogs[_]["beckn:items"][i]
+	provider := _catalog_provider(item)
+	not provider.utilityCustomerId
+
+	msg := sprintf(
+		"catalog item [%d]: provider utilityCustomerId is missing",
+		[i],
+	)
+}
+
+_publish_violations contains msg if {
+	item := input.message.catalogs[_]["beckn:items"][i]
+	provider := _catalog_provider(item)
+	provider.utilityCustomerId == ""
+
+	msg := sprintf(
+		"catalog item [%d]: provider utilityCustomerId is empty",
+		[i],
+	)
+}
+
+# Publish Rule 8b — Provider utilityId must be present (mirrors O8)
+_publish_violations contains msg if {
+	item := input.message.catalogs[_]["beckn:items"][i]
+	provider := _catalog_provider(item)
+	not provider.utilityId
+
+	msg := sprintf(
+		"catalog item [%d]: provider utilityId is missing",
+		[i],
+	)
+}
+
+_publish_violations contains msg if {
+	item := input.message.catalogs[_]["beckn:items"][i]
+	provider := _catalog_provider(item)
+	provider.utilityId == ""
+
+	msg := sprintf(
+		"catalog item [%d]: provider utilityId is empty",
+		[i],
+	)
+}
+
+# Publish Rule 9 — Provider @type must be "EnergyCustomer" (mirrors O9)
+_publish_violations contains msg if {
+	item := input.message.catalogs[_]["beckn:items"][i]
+	provider := _catalog_provider(item)
+	not provider["@type"]
+
+	msg := sprintf(
+		"catalog item [%d]: providerAttributes @type is missing; must be EnergyCustomer",
+		[i],
+	)
+}
+
+_publish_violations contains msg if {
+	item := input.message.catalogs[_]["beckn:items"][i]
+	provider := _catalog_provider(item)
+	provider["@type"]
+	provider["@type"] != "EnergyCustomer"
+
+	msg := sprintf(
+		"catalog item [%d]: providerAttributes @type is %q; must be EnergyCustomer",
+		[i, provider["@type"]],
+	)
+}
+
+# Publish Rule 10 — Provider EnergyCustomer @context (mirrors O10)
+_publish_violations contains msg if {
+	item := input.message.catalogs[_]["beckn:items"][i]
+	provider := _catalog_provider(item)
+	provider["@type"] == "EnergyCustomer"
+	provider["@context"] != _required_context
+
+	msg := sprintf(
+		"catalog item [%d]: provider EnergyCustomer @context is %q; must be %q",
+		[i, provider["@context"], _required_context],
+	)
+}
+
+_publish_violations contains msg if {
+	item := input.message.catalogs[_]["beckn:items"][i]
+	provider := _catalog_provider(item)
+	provider["@type"] == "EnergyCustomer"
+	not provider["@context"]
+
+	msg := sprintf(
+		"catalog item [%d]: provider EnergyCustomer @context is missing; must be %q",
+		[i, _required_context],
+	)
+}
+
+# Publish Rule 11 — EnergyTradeOffer @context (mirrors O12)
+_publish_violations contains msg if {
+	offer := input.message.catalogs[_]["beckn:offers"][j]
+	offer_attrs := offer["beckn:offerAttributes"]
+	offer_attrs["@type"] == "EnergyTradeOffer"
+	offer_attrs["@context"] != _required_context
+
+	msg := sprintf(
+		"catalog offer [%d]: EnergyTradeOffer @context is %q; must be %q",
+		[j, offer_attrs["@context"], _required_context],
+	)
+}
+
+_publish_violations contains msg if {
+	offer := input.message.catalogs[_]["beckn:offers"][j]
+	offer_attrs := offer["beckn:offerAttributes"]
+	offer_attrs["@type"] == "EnergyTradeOffer"
+	not offer_attrs["@context"]
+
+	msg := sprintf(
+		"catalog offer [%d]: EnergyTradeOffer @context is missing; must be %q",
+		[j, _required_context],
 	)
 }
 
