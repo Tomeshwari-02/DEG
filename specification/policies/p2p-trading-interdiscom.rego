@@ -46,6 +46,8 @@ import rego.v1
 #     provider utilityId must be TEST_DISCOM_SELLER.
 # P3. Validity-to-delivery gap: on each catalog offer, validity window end must
 #     be at least minDeliveryLeadHours before delivery window start (mirrors O2).
+# P3b. [DISABLED] Delivery slot duration: delivery window must be exactly 1 hour
+#      (mirrors O3).
 # P4. Currency: each catalog offer's schema:priceCurrency must be "INR" (mirrors O6).
 # P5. Quantity unit: each catalog offer's applicableQuantity.unitText must be
 #     "kWh" (mirrors O7).
@@ -602,6 +604,26 @@ _publish_violations contains msg if {
 		[j, validity_end_str, gap_hours, min_lead_hours],
 	)
 }
+
+# Publish Rule 5b — Delivery window must be exactly 1 hour (mirrors O3)
+#_publish_violations contains msg if {
+#	offer := input.message.catalogs[_]["beckn:offers"][j]
+#	offer_attrs := offer["beckn:offerAttributes"]
+#
+#	dw := _delivery_window(offer_attrs)
+#	dw != null
+#
+#	start_str := dw["schema:startTime"]
+#	end_str := dw["schema:endTime"]
+#	duration_hours := (time.parse_rfc3339_ns(end_str) - time.parse_rfc3339_ns(start_str)) / ns_per_hour
+#
+#	duration_hours != 1
+#
+#	msg := sprintf(
+#		"catalog offer [%d]: delivery window (%s to %s) is %v hours; must be exactly 1 hour",
+#		[j, start_str, end_str, duration_hours],
+#	)
+#}
 
 # Publish Rule 6 — Currency must be INR (mirrors O6)
 _publish_violations contains msg if {
