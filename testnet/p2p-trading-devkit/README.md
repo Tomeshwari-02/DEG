@@ -4,6 +4,8 @@ Goal of this devkit is to enable a developer to test round trip Beckn v2.0 mock 
 
 It is a *batteries included* sandbox environment that requires minimal setup, and has environment variables pre-configured, connections to Catalog Discovery Service and Dedi test registry service pre-configured.
 
+![P2P Routing Diagram](./assets/p2p-routing-diagram.png)
+
 ## Setup
 
 1. Install [docker desktop](https://www.docker.com/products/docker-desktop) & run it in background.
@@ -75,15 +77,6 @@ cd DEG/testnet/p2p-energy-trading-devkit/install
     | `transaction_id`            | `3769776b-88b4-469d-9ee2-95044fe5dafc`     |                             |
     | `iso_date`                  | `2025-01-01T10:00:00Z`                     |                             |
     | `cds_url`                   | `https://34.93.141.21.sslip.io`            | CDS Upload collection only  |
-
-## Routing
-
-<details>
-<summary>P2P Routing Diagram</summary>
-
-![P2P Routing Diagram](./assets/p2p-routing-diagram.png)
-
-</details>
 
 ## Next steps towards a production network:
 
