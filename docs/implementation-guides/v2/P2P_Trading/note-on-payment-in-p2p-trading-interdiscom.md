@@ -161,12 +161,12 @@ At selection, the seller platform returns the inter-platform settlement quote an
   },
   "message": {
     "order": {
-      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
       "@type": "beckn:Order",
       "beckn:orderStatus": "CREATED",
       "beckn:seller": "provider-solar-farm-001",
       "beckn:buyer": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
         "@type": "beckn:Buyer",
         "beckn:id": "buyer-001",
         "beckn:buyerAttributes": {
@@ -193,7 +193,7 @@ At selection, the seller platform returns the inter-platform settlement quote an
         "description": "Inter-platform settlement at catalog prices (15 kWh × $0.15 + 10 kWh × $0.18). Catalog prices are inclusive of seller platform charges."
       },
       "beckn:payment": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
         "@type": "beckn:Payment",
         "beckn:paymentStatus": "PENDING",
         "beckn:acceptedPaymentMethod": ["UPI", "BANK_TRANSFER", "WALLET"]
@@ -217,7 +217,7 @@ At selection, the seller platform returns the inter-platform settlement quote an
             "unitText": "kWh"
           },
           "beckn:acceptedOffer": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:id": "offer-morning-001",
             "beckn:descriptor": {
@@ -273,7 +273,7 @@ At selection, the seller platform returns the inter-platform settlement quote an
             "unitText": "kWh"
           },
           "beckn:acceptedOffer": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:id": "offer-afternoon-001",
             "beckn:descriptor": {
@@ -343,12 +343,12 @@ The initialization response confirms accepted payment methods and the settlement
   },
   "message": {
     "order": {
-      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
       "@type": "beckn:Order",
       "beckn:orderStatus": "CREATED",
       "beckn:seller": "provider-solar-farm-001",
       "beckn:buyer": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
         "@type": "beckn:Buyer",
         "beckn:id": "buyer-001",
         "beckn:buyerAttributes": {
@@ -388,7 +388,7 @@ The initialization response confirms accepted payment methods and the settlement
             }
           },
           "beckn:acceptedOffer": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:id": "offer-morning-001",
             "beckn:descriptor": {
@@ -444,7 +444,7 @@ The initialization response confirms accepted payment methods and the settlement
             }
           },
           "beckn:acceptedOffer": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:id": "offer-afternoon-001",
             "beckn:descriptor": {
@@ -489,13 +489,13 @@ The initialization response confirms accepted payment methods and the settlement
         "description": "Inter-platform settlement at catalog prices (15 kWh × $0.15 + 10 kWh × $0.18). Catalog prices are inclusive of seller platform charges."
       },
       "beckn:fulfillment": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
         "@type": "beckn:Fulfillment",
         "beckn:id": "fulfillment-energy-001",
         "beckn:mode": "DELIVERY"
       },
       "beckn:payment": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
         "@type": "beckn:Payment",
         "beckn:id": "payment-p2p-energy-001",
         "beckn:amount": {
@@ -537,13 +537,13 @@ The confirmation response returns the full order details with payment status AUT
   },
   "message": {
     "order": {
-      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
       "@type": "beckn:Order",
       "beckn:id": "order-energy-001",
       "beckn:orderStatus": "CREATED",
       "beckn:seller": "provider-solar-farm-001",
       "beckn:buyer": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
         "@type": "beckn:Buyer",
         "beckn:id": "buyer-001",
         "beckn:buyerAttributes": {
@@ -583,7 +583,7 @@ The confirmation response returns the full order details with payment status AUT
             }
           },
           "beckn:acceptedOffer": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:id": "offer-morning-001",
             "beckn:descriptor": {
@@ -639,7 +639,7 @@ The confirmation response returns the full order details with payment status AUT
             }
           },
           "beckn:acceptedOffer": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:id": "offer-afternoon-001",
             "beckn:descriptor": {
@@ -684,13 +684,13 @@ The confirmation response returns the full order details with payment status AUT
         "description": "Inter-platform settlement at catalog prices (15 kWh × $0.15 + 10 kWh × $0.18). Catalog prices are inclusive of seller platform charges."
       },
       "beckn:fulfillment": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
         "@type": "beckn:Fulfillment",
         "beckn:id": "fulfillment-energy-001",
         "beckn:mode": "DELIVERY"
       },
       "beckn:payment": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
         "@type": "beckn:Payment",
         "beckn:id": "payment-p2p-energy-001",
         "beckn:amount": {
@@ -731,13 +731,13 @@ If delivery is curtailed (e.g., grid outage), the seller platform pushes an upda
   },
   "message": {
     "order": {
-      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
       "@type": "beckn:Order",
       "beckn:id": "order-energy-001",
       "beckn:orderStatus": "INPROGRESS",
       "beckn:seller": "provider-solar-farm-001",
       "beckn:buyer": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
         "@type": "beckn:Buyer",
         "beckn:id": "buyer-001",
         "beckn:buyerAttributes": {
@@ -790,7 +790,7 @@ If delivery is curtailed (e.g., grid outage), the seller platform pushes an upda
             }
           },
           "beckn:acceptedOffer": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:id": "offer-morning-001",
             "beckn:descriptor": {
@@ -835,7 +835,7 @@ If delivery is curtailed (e.g., grid outage), the seller platform pushes an upda
         "description": "Adjusted inter-platform settlement for delivered quantity (8.5 kWh × $0.15). Catalog prices are inclusive of seller platform charges."
       },
       "beckn:payment": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
         "@type": "beckn:Payment",
         "beckn:id": "payment-p2p-energy-001",
         "beckn:amount": {
@@ -879,13 +879,13 @@ After energy allocation is complete, the buyer platform queries status. The sell
   },
   "message": {
     "order": {
-      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
       "@type": "beckn:Order",
       "beckn:id": "order-energy-001",
       "beckn:orderStatus": "INPROGRESS",
       "beckn:seller": "provider-solar-farm-001",
       "beckn:buyer": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
         "@type": "beckn:Buyer",
         "beckn:id": "buyer-001",
         "beckn:buyerAttributes": {
@@ -936,7 +936,7 @@ After energy allocation is complete, the buyer platform queries status. The sell
             }
           },
           "beckn:acceptedOffer": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:id": "offer-morning-001",
             "beckn:descriptor": {
@@ -1013,7 +1013,7 @@ After energy allocation is complete, the buyer platform queries status. The sell
             }
           },
           "beckn:acceptedOffer": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:id": "offer-afternoon-001",
             "beckn:descriptor": {
@@ -1058,7 +1058,7 @@ After energy allocation is complete, the buyer platform queries status. The sell
         "description": "Inter-platform settlement at catalog prices (15 kWh × $0.15 + 10 kWh × $0.18). Catalog prices are inclusive of seller platform charges."
       },
       "beckn:payment": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
         "@type": "beckn:Payment",
         "beckn:id": "payment-p2p-energy-001",
         "beckn:amount": {
@@ -1070,7 +1070,7 @@ After energy allocation is complete, the buyer platform queries status. The sell
         "beckn:acceptedPaymentMethod": ["UPI", "BANK_TRANSFER"],
         "beckn:paymentURL": "https://payments.seller-platform.com/track?txn=TXN-ENERGY-001",
         "beckn:paymentAttributes": {
-          "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/PaymentSettlement/v1/context.jsonld",
+          "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/PaymentSettlement/v1/context.jsonld",
           "@type": "PaymentSettlement",
           "settlementAccounts": [
             {
@@ -1115,13 +1115,13 @@ Once money has moved from buyer platform to seller platform (tracked via URL), t
   },
   "message": {
     "order": {
-      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
       "@type": "beckn:Order",
       "beckn:id": "order-energy-001",
       "beckn:orderStatus": "COMPLETED",
       "beckn:seller": "provider-solar-farm-001",
       "beckn:buyer": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
         "@type": "beckn:Buyer",
         "beckn:id": "buyer-001",
         "beckn:buyerAttributes": {
@@ -1140,7 +1140,7 @@ Once money has moved from buyer platform to seller platform (tracked via URL), t
             "unitText": "kWh"
           },
           "beckn:acceptedOffer": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:id": "offer-morning-001",
             "beckn:descriptor": {
@@ -1158,7 +1158,7 @@ Once money has moved from buyer platform to seller platform (tracked via URL), t
             "unitText": "kWh"
           },
           "beckn:acceptedOffer": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:id": "offer-afternoon-001",
             "beckn:descriptor": {
@@ -1176,7 +1176,7 @@ Once money has moved from buyer platform to seller platform (tracked via URL), t
         "description": "Inter-platform settlement at catalog prices (15 kWh × $0.15 + 10 kWh × $0.18). Catalog prices are inclusive of seller platform charges."
       },
       "beckn:payment": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
         "@type": "beckn:Payment",
         "beckn:id": "payment-p2p-energy-001",
         "beckn:amount": {
@@ -1219,13 +1219,13 @@ Final status shows the order and payment as complete.
   },
   "message": {
     "order": {
-      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
       "@type": "beckn:Order",
       "beckn:id": "order-energy-001",
       "beckn:orderStatus": "COMPLETED",
       "beckn:seller": "provider-solar-farm-001",
       "beckn:buyer": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
         "@type": "beckn:Buyer",
         "beckn:id": "buyer-001",
         "beckn:buyerAttributes": {
@@ -1287,7 +1287,7 @@ Final status shows the order and payment as complete.
             }
           },
           "beckn:acceptedOffer": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:id": "offer-morning-001",
             "beckn:descriptor": {
@@ -1375,7 +1375,7 @@ Final status shows the order and payment as complete.
             }
           },
           "beckn:acceptedOffer": {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:id": "offer-afternoon-001",
             "beckn:descriptor": {
@@ -1420,7 +1420,7 @@ Final status shows the order and payment as complete.
         "description": "Inter-platform settlement at catalog prices (15 kWh × $0.15 + 10 kWh × $0.18). Catalog prices are inclusive of seller platform charges."
       },
       "beckn:payment": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
         "@type": "beckn:Payment",
         "beckn:id": "payment-p2p-energy-001",
         "beckn:amount": {

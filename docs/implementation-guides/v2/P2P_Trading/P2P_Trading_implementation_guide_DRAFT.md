@@ -670,7 +670,7 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
   "message": {
     "catalogs": [
       {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
         "@type": "beckn:Catalog",
         "beckn:id": "catalog-energy-001",
         "beckn:bppId": "bpp.energy-provider.com",
@@ -681,7 +681,7 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
         },
         "beckn:items": [
           {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Item",
             "beckn:networkId": ["p2p-trading-pilot-network"],
             "beckn:isActive": true,
@@ -725,7 +725,7 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
         ],
         "beckn:offers": [
           {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:id": "offer-morning-001",
             "beckn:descriptor": {
@@ -772,7 +772,7 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
             }
           },
           {
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:id": "offer-afternoon-001",
             "beckn:descriptor": {
@@ -862,13 +862,13 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
   },
   "message": {
     "order": {
-      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
       "@type": "beckn:Order",
       "beckn:orderStatus": "CREATED",
       "beckn:seller": "provider-solar-farm-001",
       "beckn:buyer": {
         "beckn:id": "buyer-001",
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
         "@type": "beckn:Buyer"
       },
       "beckn:orderAttributes": {
@@ -897,7 +897,7 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
           },
           "beckn:acceptedOffer": {
             "beckn:id": "offer-morning-001",
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:descriptor": {
               "@type": "beckn:Descriptor",
@@ -956,7 +956,7 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
           },
           "beckn:acceptedOffer": {
             "beckn:id": "offer-afternoon-001",
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:descriptor": {
               "@type": "beckn:Descriptor",
@@ -1035,13 +1035,13 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
   },
   "message": {
     "order": {
-      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
       "@type": "beckn:Order",
       "beckn:orderStatus": "CREATED",
       "beckn:seller": "provider-solar-farm-001",
       "beckn:buyer": {
         "beckn:id": "buyer-001",
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
         "@type": "beckn:Buyer"
       },
       "beckn:orderAttributes": {
@@ -1070,7 +1070,7 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
           },
           "beckn:acceptedOffer": {
             "beckn:id": "offer-morning-001",
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:descriptor": {
               "@type": "beckn:Descriptor",
@@ -1129,7 +1129,7 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
           },
           "beckn:acceptedOffer": {
             "beckn:id": "offer-afternoon-001",
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:descriptor": {
               "@type": "beckn:Descriptor",
@@ -1214,13 +1214,13 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
   },
   "message": {
     "order": {
-      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
       "@type": "beckn:Order",
       "beckn:orderStatus": "CREATED",
       "beckn:seller": "provider-solar-farm-001",
       "beckn:buyer": {
         "beckn:id": "buyer-001",
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
                 "@type": "beckn:Buyer"
       },
       "beckn:orderAttributes": {
@@ -1249,7 +1249,7 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
           },
           "beckn:acceptedOffer": {
             "beckn:id": "offer-morning-001",
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:descriptor": {
               "@type": "beckn:Descriptor",
@@ -1308,7 +1308,7 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
           },
           "beckn:acceptedOffer": {
             "beckn:id": "offer-afternoon-001",
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:descriptor": {
               "@type": "beckn:Descriptor",
@@ -1351,7 +1351,7 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
         }
       ],
       "beckn:fulfillment": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
         "@type": "beckn:Fulfillment",
         "beckn:id": "fulfillment-energy-001",
         "beckn:mode": "DELIVERY"
@@ -1393,13 +1393,13 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
   },
   "message": {
     "order": {
-      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
       "@type": "beckn:Order",
       "beckn:orderStatus": "CREATED",
       "beckn:seller": "provider-solar-farm-001",
       "beckn:buyer": {
         "beckn:id": "buyer-001",
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
                 "@type": "beckn:Buyer"
       },
       "beckn:orderAttributes": {
@@ -1428,7 +1428,7 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
           },
           "beckn:acceptedOffer": {
             "beckn:id": "offer-morning-001",
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:descriptor": {
               "@type": "beckn:Descriptor",
@@ -1487,7 +1487,7 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
           },
           "beckn:acceptedOffer": {
             "beckn:id": "offer-afternoon-001",
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:descriptor": {
               "@type": "beckn:Descriptor",
@@ -1530,7 +1530,7 @@ Beckn Protocol v2 provides a composable schema architecture that enables:
         }
       ],
       "beckn:fulfillment": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
         "@type": "beckn:Fulfillment",
         "beckn:id": "fulfillment-energy-001",
         "beckn:mode": "DELIVERY"
@@ -1587,13 +1587,13 @@ This flow demonstrates the cascaded `/init` call from the P2P Trading BPP to the
   },
   "message": {
     "order": {
-      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
       "@type": "beckn:Order",
       "beckn:orderStatus": "CREATED",
       "beckn:seller": "provider-solar-farm-001",
       "beckn:buyer": {
         "beckn:id": "buyer-001",
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
                 "@type": "beckn:Buyer"
       },
       "beckn:orderAttributes": {
@@ -1622,7 +1622,7 @@ This flow demonstrates the cascaded `/init` call from the P2P Trading BPP to the
           },
           "beckn:acceptedOffer": {
             "beckn:id": "offer-morning-001",
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:descriptor": {
               "@type": "beckn:Descriptor",
@@ -1665,7 +1665,7 @@ This flow demonstrates the cascaded `/init` call from the P2P Trading BPP to the
         }
       ],
       "beckn:fulfillment": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
         "@type": "beckn:Fulfillment",
         "beckn:id": "fulfillment-energy-001",
         "beckn:mode": "DELIVERY"
@@ -1707,13 +1707,13 @@ This flow demonstrates the cascaded `/init` call from the P2P Trading BPP to the
   },
   "message": {
     "order": {
-      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
       "@type": "beckn:Order",
       "beckn:orderStatus": "CREATED",
       "beckn:seller": "provider-solar-farm-001",
       "beckn:buyer": {
         "beckn:id": "buyer-001",
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
                 "@type": "beckn:Buyer"
       },
       "beckn:orderAttributes": {
@@ -1742,7 +1742,7 @@ This flow demonstrates the cascaded `/init` call from the P2P Trading BPP to the
           },
           "beckn:acceptedOffer": {
             "beckn:id": "offer-morning-001",
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:descriptor": {
               "@type": "beckn:Descriptor",
@@ -1785,7 +1785,7 @@ This flow demonstrates the cascaded `/init` call from the P2P Trading BPP to the
         }
       ],
       "beckn:fulfillment": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
         "@type": "beckn:Fulfillment",
         "beckn:id": "fulfillment-energy-001",
         "beckn:mode": "DELIVERY"
@@ -1823,13 +1823,13 @@ This flow demonstrates the cascaded `/init` call from the P2P Trading BPP to the
   },
   "message": {
     "order": {
-      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
       "@type": "beckn:Order",
       "beckn:orderStatus": "CREATED",
       "beckn:seller": "provider-solar-farm-001",
       "beckn:buyer": {
         "beckn:id": "buyer-001",
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
                 "@type": "beckn:Buyer"
       },
       "beckn:orderAttributes": {
@@ -1858,7 +1858,7 @@ This flow demonstrates the cascaded `/init` call from the P2P Trading BPP to the
           },
           "beckn:acceptedOffer": {
             "beckn:id": "offer-morning-001",
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:descriptor": {
               "@type": "beckn:Descriptor",
@@ -1917,7 +1917,7 @@ This flow demonstrates the cascaded `/init` call from the P2P Trading BPP to the
           },
           "beckn:acceptedOffer": {
             "beckn:id": "offer-afternoon-001",
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:descriptor": {
               "@type": "beckn:Descriptor",
@@ -1960,7 +1960,7 @@ This flow demonstrates the cascaded `/init` call from the P2P Trading BPP to the
         }
       ],
       "beckn:fulfillment": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
         "@type": "beckn:Fulfillment",
         "beckn:id": "fulfillment-energy-001",
         "beckn:mode": "DELIVERY"
@@ -2002,14 +2002,14 @@ This flow demonstrates the cascaded `/init` call from the P2P Trading BPP to the
   },
   "message": {
     "order": {
-      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
       "@type": "beckn:Order",
       "beckn:id": "order-energy-001",
       "beckn:orderStatus": "CREATED",
       "beckn:seller": "provider-solar-farm-001",
       "beckn:buyer": {
         "beckn:id": "buyer-001",
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
                 "@type": "beckn:Buyer"
       },
       "beckn:orderAttributes": {
@@ -2038,7 +2038,7 @@ This flow demonstrates the cascaded `/init` call from the P2P Trading BPP to the
           },
           "beckn:acceptedOffer": {
             "beckn:id": "offer-morning-001",
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:descriptor": {
               "@type": "beckn:Descriptor",
@@ -2097,7 +2097,7 @@ This flow demonstrates the cascaded `/init` call from the P2P Trading BPP to the
           },
           "beckn:acceptedOffer": {
             "beckn:id": "offer-afternoon-001",
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:descriptor": {
               "@type": "beckn:Descriptor",
@@ -2140,7 +2140,7 @@ This flow demonstrates the cascaded `/init` call from the P2P Trading BPP to the
         }
       ],
       "beckn:fulfillment": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
         "@type": "beckn:Fulfillment",
         "beckn:id": "fulfillment-energy-001",
         "beckn:mode": "DELIVERY"
@@ -2191,13 +2191,13 @@ This flow demonstrates the cascaded `/confirm` call from the P2P Trading BPP to 
   },
   "message": {
     "order": {
-      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
       "@type": "beckn:Order",
       "beckn:orderStatus": "CREATED",
       "beckn:seller": "provider-solar-farm-001",
       "beckn:buyer": {
         "beckn:id": "buyer-001",
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
                 "@type": "beckn:Buyer"
       },
       "beckn:orderAttributes": {
@@ -2226,7 +2226,7 @@ This flow demonstrates the cascaded `/confirm` call from the P2P Trading BPP to 
           },
           "beckn:acceptedOffer": {
             "beckn:id": "offer-morning-001",
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:descriptor": {
               "@type": "beckn:Descriptor",
@@ -2269,7 +2269,7 @@ This flow demonstrates the cascaded `/confirm` call from the P2P Trading BPP to 
         }
       ],
       "beckn:fulfillment": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
         "@type": "beckn:Fulfillment",
         "beckn:id": "fulfillment-energy-001",
         "beckn:mode": "DELIVERY"
@@ -2301,14 +2301,14 @@ This flow demonstrates the cascaded `/confirm` call from the P2P Trading BPP to 
   },
   "message": {
     "order": {
-      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
       "@type": "beckn:Order",
       "beckn:id": "order-cascaded-utility-001",
       "beckn:orderStatus": "CREATED",
       "beckn:seller": "provider-solar-farm-001",
       "beckn:buyer": {
         "beckn:id": "buyer-001",
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
                 "@type": "beckn:Buyer"
       },
       "beckn:orderAttributes": {
@@ -2337,7 +2337,7 @@ This flow demonstrates the cascaded `/confirm` call from the P2P Trading BPP to 
           },
           "beckn:acceptedOffer": {
             "beckn:id": "offer-morning-001",
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:descriptor": {
               "@type": "beckn:Descriptor",
@@ -2380,7 +2380,7 @@ This flow demonstrates the cascaded `/confirm` call from the P2P Trading BPP to 
         }
       ],
       "beckn:fulfillment": {
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
         "@type": "beckn:Fulfillment",
         "beckn:id": "fulfillment-energy-001",
         "beckn:mode": "DELIVERY"
@@ -2455,14 +2455,14 @@ This flow demonstrates the cascaded `/confirm` call from the P2P Trading BPP to 
   },
   "message": {
     "order": {
-      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
       "@type": "beckn:Order",
       "beckn:id": "order-energy-001",
       "beckn:orderStatus": "CREATED",
       "beckn:seller": "provider-solar-farm-001",
       "beckn:buyer": {
         "beckn:id": "buyer-001",
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
         "@type": "beckn:Buyer"
       },
       "beckn:orderItems": [
@@ -2505,7 +2505,7 @@ This flow demonstrates the cascaded `/confirm` call from the P2P Trading BPP to 
           },
           "beckn:acceptedOffer": {
             "beckn:id": "offer-morning-001",
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:descriptor": {
               "@type": "beckn:Descriptor",
@@ -2573,7 +2573,7 @@ This flow demonstrates the cascaded `/confirm` call from the P2P Trading BPP to 
           },
           "beckn:acceptedOffer": {
             "beckn:id": "offer-afternoon-001",
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:descriptor": {
               "@type": "beckn:Descriptor",
@@ -2652,14 +2652,14 @@ When a trade has been curtailed (e.g., due to grid outage), the status response 
   },
   "message": {
     "order": {
-      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
       "@type": "beckn:Order",
       "beckn:id": "order-energy-001",
       "beckn:orderStatus": "PARTIALLYFULFILLED",
       "beckn:seller": "provider-solar-farm-001",
       "beckn:buyer": {
         "beckn:id": "buyer-001",
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
         "@type": "beckn:Buyer"
       },
       "beckn:orderItems": [
@@ -2704,7 +2704,7 @@ When a trade has been curtailed (e.g., due to grid outage), the status response 
           },
           "beckn:acceptedOffer": {
             "beckn:id": "offer-morning-001",
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:descriptor": {
               "@type": "beckn:Descriptor",
@@ -2774,7 +2774,7 @@ When a trade has been curtailed (e.g., due to grid outage), the status response 
           },
           "beckn:acceptedOffer": {
             "beckn:id": "offer-afternoon-001",
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:descriptor": {
               "@type": "beckn:Descriptor",
@@ -2887,14 +2887,14 @@ sequenceDiagram
   },
   "message": {
     "order": {
-      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+      "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
       "@type": "beckn:Order",
       "beckn:id": "order-energy-001",
       "beckn:orderStatus": "INPROGRESS",
       "beckn:seller": "provider-solar-farm-001",
       "beckn:buyer": {
         "beckn:id": "buyer-001",
-        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+        "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
         "@type": "beckn:Buyer"
       },
       "beckn:orderItems": [
@@ -2939,7 +2939,7 @@ sequenceDiagram
           },
           "beckn:acceptedOffer": {
             "beckn:id": "offer-morning-001",
-            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/tags/core-2.0.0-rc-eos-release/schema/core/v2/context.jsonld",
             "@type": "beckn:Offer",
             "beckn:descriptor": {
               "@type": "beckn:Descriptor",
