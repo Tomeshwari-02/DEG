@@ -70,7 +70,7 @@ modules:
         steps:
           - id: policyenforcer
             config:
-              policyUrls: "https://raw.githubusercontent.com/beckn/DEG/tags/deg-0.9.0/specification/policies/p2p-trading-interdiscom.rego"
+              policyUrls: "https://raw.githubusercontent.com/beckn/DEG/tags/deg-1.0.0/specification/policies/p2p-trading-interdiscom.rego"
       steps:
         - validateSign
         - addRoute
@@ -147,7 +147,7 @@ modules:
               keyId: 76EU7Mvhh7jaEf7Lcac5R1PPeFL4ddr1ALs2QYzpyTRE8g15Yr1p7C
           - id: policyenforcer
             config:
-              policyUrls: "https://raw.githubusercontent.com/beckn/DEG/tags/deg-0.9.0/specification/policies/p2p-trading-interdiscom.rego"
+              policyUrls: "https://raw.githubusercontent.com/beckn/DEG/tags/deg-1.0.0/specification/policies/p2p-trading-interdiscom.rego"
       steps:
         - addRoute
         - sign

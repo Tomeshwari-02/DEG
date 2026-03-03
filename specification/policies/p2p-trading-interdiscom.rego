@@ -355,7 +355,7 @@ _order_violations contains msg if {
 #   beckn:items[*].beckn:itemAttributes                             → EnergyResource
 #   beckn:offers[*].beckn:offerAttributes                           → EnergyTradeOffer
 
-_energytrade_context := "https://raw.githubusercontent.com/beckn/DEG/tags/deg-0.9.0/specification/schema/EnergyTrade/v0.3/context.jsonld"
+_energytrade_context := "https://raw.githubusercontent.com/beckn/DEG/tags/deg-1.0.0/specification/schema/EnergyTrade/v0.3/context.jsonld"
 
 # --- Order domain: beckn:buyerAttributes → EnergyCustomer ---
 
