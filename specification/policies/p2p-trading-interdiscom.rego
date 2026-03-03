@@ -387,7 +387,7 @@ _required_context := "https://raw.githubusercontent.com/beckn/DEG/refs/heads/p2p
 # Rule 15a – Buyer EnergyCustomer @context
 _order_violations contains msg if {
 	buyer_attrs := input.message.order["beckn:buyer"]["beckn:buyerAttributes"]
-	buyer_attrs["@type"] == "EnergyCustomer"I
+	buyer_attrs["@type"] == "EnergyCustomer"
 	buyer_attrs["@context"] != _required_context
 
 	msg := sprintf(
