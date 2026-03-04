@@ -9,7 +9,7 @@ log:
     - subscriber_id
     - module_id
 http:
-  port: 8081
+  port: 8082
   timeout:
     read: 30
     write: 30
@@ -17,11 +17,11 @@ http:
 pluginManager:
   root: ./plugins
 modules:
-  - name: bapTxnReceiver
-    path: /bap/receiver/
+  - name: bppTxnReceiver
+    path: /bpp/receiver/
     handler:
       type: std
-      role: bap
+      role: bpp
       httpClientConfig:
         maxIdleConns: 1000
         maxIdleConnsPerHost: 200
@@ -33,16 +33,17 @@ modules:
           config:
             url: https://api.dev.beckn.io/registry/dedi
             registryName: subscribers.beckn.one
+            allowedParentNamespaces: "IES,IES-DISCOMS"
             timeout: 10
         keyManager:
           id: simplekeymanager
           config:
-            networkParticipant: ev-charging.sandbox1.com
-            keyId: 76EU7PktCXdPoNEZBjmg4Eb25A2egsd5MYJ67Qxza7bJQFvBHCYxgk
-            signingPrivateKey: 9NBh67Pk/6v3irrkYZHlQ5E1qw+GivHdDFtKeCylzIM=
-            signingPublicKey: Z3Hnc8FZDo/7dwWApeRVs6OV560gr7uxPsFUDGUMsBg=
-            encrPrivateKey: 9NBh67Pk/6v3irrkYZHlQ5E1qw+GivHdDFtKeCylzIM=
-            encrPublicKey: Z3Hnc8FZDo/7dwWApeRVs6OV560gr7uxPsFUDGUMsBg=
+            networkParticipant: p2p-trading-sandbox2.com
+            keyId: 76EU7Mvhh7jaEf7Lcac5R1PPeFL4ddr1ALs2QYzpyTRE8g15Yr1p7C
+            signingPrivateKey: AC72WfPu5ly3T7rXfRHrLA/l++BxbsNwe0qitgT9u6U=
+            signingPublicKey: E9w4QejjJ6d+VODJlDKJcpI93RY3Bg4RQp4Rs1F9oQ8=
+            encrPrivateKey: AC72WfPu5ly3T7rXfRHrLA/l++BxbsNwe0qitgT9u6U=
+            encrPublicKey: E9w4QejjJ6d+VODJlDKJcpI93RY3Bg4RQp4Rs1F9oQ8=
         schemaValidator:
           id: schemav2validator
           config:
@@ -54,6 +55,8 @@ modules:
             extendedSchema_maxCacheSize: "100"
             extendedSchema_downloadTimeout: "30"
             extendedSchema_allowedDomains: "raw.githubusercontent.com,schemas.beckn.org"
+            # P2P Energy Trading Profile: https://github.com/beckn/protocol-specifications-v2/tree/main/profiles/p2p-energy-trading/v0.3
+            x-profile: "p2p-energy-trading/v0.3"
         cache:
           id: cache
           config:
@@ -63,22 +66,22 @@ modules:
         router:
           id: router
           config:
-            routingConfig: ./config/local-ev-routing-BAPReceiver.yaml
-        middleware:
-          - id: reqpreprocessor
+            routingConfig: ./config/local-p2p-routing-SellerBPPReceiver-from-BuyerBAP.yaml
+        steps:
+          - id: policyenforcer
             config:
-              uuidKeys: transaction_id,message_id
-              role: bap
+              policyUrls: "https://raw.githubusercontent.com/beckn/DEG/tags/deg-1.0.0/specification/policies/p2p-trading-interdiscom.rego"
       steps:
         - validateSign
         - addRoute
         - validateSchema
-  
-  - name: bapTxnCaller
-    path: /bap/caller/
+        - policyenforcer
+
+  - name: bppTxnCaller
+    path: /bpp/caller/
     handler:
       type: std
-      role: bap
+      role: bpp
       httpClientConfig:
         maxIdleConns: 1000
         maxIdleConnsPerHost: 200
@@ -90,16 +93,17 @@ modules:
           config:
             url: https://api.dev.beckn.io/registry/dedi
             registryName: subscribers.beckn.one
+            allowedParentNamespaces: "IES,IES-DISCOMS"
             timeout: 10
         keyManager:
           id: simplekeymanager
           config:
-            networkParticipant: ev-charging.sandbox1.com
-            keyId: 76EU7PktCXdPoNEZBjmg4Eb25A2egsd5MYJ67Qxza7bJQFvBHCYxgk
-            signingPrivateKey: 9NBh67Pk/6v3irrkYZHlQ5E1qw+GivHdDFtKeCylzIM=
-            signingPublicKey: Z3Hnc8FZDo/7dwWApeRVs6OV560gr7uxPsFUDGUMsBg=
-            encrPrivateKey: 9NBh67Pk/6v3irrkYZHlQ5E1qw+GivHdDFtKeCylzIM=
-            encrPublicKey: Z3Hnc8FZDo/7dwWApeRVs6OV560gr7uxPsFUDGUMsBg=
+            networkParticipant: p2p-trading-sandbox2.com
+            keyId: 76EU7Mvhh7jaEf7Lcac5R1PPeFL4ddr1ALs2QYzpyTRE8g15Yr1p7C
+            signingPrivateKey: AC72WfPu5ly3T7rXfRHrLA/l++BxbsNwe0qitgT9u6U=
+            signingPublicKey: E9w4QejjJ6d+VODJlDKJcpI93RY3Bg4RQp4Rs1F9oQ8=
+            encrPrivateKey: AC72WfPu5ly3T7rXfRHrLA/l++BxbsNwe0qitgT9u6U=
+            encrPublicKey: E9w4QejjJ6d+VODJlDKJcpI93RY3Bg4RQp4Rs1F9oQ8=
         schemaValidator:
           id: schemav2validator
           config:
@@ -111,6 +115,8 @@ modules:
             extendedSchema_maxCacheSize: "100"
             extendedSchema_downloadTimeout: "30"
             extendedSchema_allowedDomains: "raw.githubusercontent.com,schemas.beckn.org"
+            # P2P Energy Trading Profile: https://github.com/beckn/protocol-specifications-v2/tree/main/profiles/p2p-energy-trading/v0.3
+            x-profile: "p2p-energy-trading/v0.3"            
         cache:
           id: cache
           config:
@@ -118,16 +124,34 @@ modules:
         router:
           id: router
           config:
-            routingConfig: ./config/local-ev-routing-BAPCaller.yaml
+            routingConfig: ./config/local-p2p-routing-SellerBPPCaller-to-BuyerBAP.yaml
         signer:
           id: signer
         middleware:
           - id: reqpreprocessor
             config:
               uuidKeys: transaction_id,message_id
-              role: bap
+              role: bpp          
+        steps:
+          - id: degledgerrecorder
+            config:
+              # ledgerHost: "https://34.93.166.38.sslip.io" # OLD URL
+              ledgerHost: "https://ies-p2p-energy-ledger.beckn.io"
+              role: "SELLER"
+              actions: "on_confirm,on_status"  # Handle both actions 
+              enabled: "true"
+              asyncTimeout: "30000"
+              # Signing config (same keys as simplekeymanager)
+              signingPrivateKey: AC72WfPu5ly3T7rXfRHrLA/l++BxbsNwe0qitgT9u6U=
+              networkParticipant: p2p-trading-sandbox2.com
+              keyId: 76EU7Mvhh7jaEf7Lcac5R1PPeFL4ddr1ALs2QYzpyTRE8g15Yr1p7C
+          - id: policyenforcer
+            config:
+              policyUrls: "https://raw.githubusercontent.com/beckn/DEG/tags/deg-1.0.0/specification/policies/p2p-trading-interdiscom.rego"
       steps:
         - addRoute
         - sign
         - validateSchema
+        - degledgerrecorder
+        - policyenforcer
   
