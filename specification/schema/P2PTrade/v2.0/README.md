@@ -41,5 +41,4 @@ beckn:Contract
 | [`EnergyContract`](../../EnergyContract/v2.0/) | Parent | Intermediate base class for DEG energy contracts |
 | [`EnergyTrade`](../../EnergyTrade/v2.0/) | Domain attributes (deprecated) | Full P2P trade attributes — deprecated, see P2PTrade subclasses |
 | [`EnergyTradeOffer`](../../EnergyTradeOffer/v2.0/) | Referenced | Pricing and delivery window attributes |
-| [`EnergyTradeOrder`](../../EnergyTradeOrder/v2.0/) | Referenced | BAP/BPP order attributes |
 | [`EnergyTradeDelivery`](../../EnergyTradeDelivery/v2.0/) | Referenced | Meter readings and delivery tracking |

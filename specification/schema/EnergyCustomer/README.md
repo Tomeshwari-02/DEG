@@ -48,5 +48,4 @@ Customer attributes for energy flows — meter ID, sanctioned load, and utility 
 - **P2P Trading:** `orderItemAttributes` for delivery destination (init/confirm/on_status)
 - **Enrollment:** `Buyer.buyerAttributes` with `meterId` and `sanctionedLoad` for customer identification
 
-For inter-utility (inter-DISCOM) P2P trades, `utilityId` identifies the utility serving each party
-and should match `utilityIdBuyer`/`utilityIdSeller` in [`EnergyTradeOrder`](../EnergyTradeOrder/).
+For inter-utility (inter-DISCOM) P2P trades, `utilityId` identifies the utility serving each party.

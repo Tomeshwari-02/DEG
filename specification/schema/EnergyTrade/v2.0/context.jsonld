@@ -17,7 +17,6 @@
     "lastUpdated": "schema:dateModified",
     "unit": "schema:unitText",
     "EnergyTradeOffer": "deg:EnergyTradeOffer",
-    "EnergyTradeOrder": "deg:EnergyTradeOrder",
     "EnergyTradeDelivery": "deg:EnergyTradeDelivery",
     "EnergyResource": "deg:EnergyResource",
     "EnergyCustomer": "deg:EnergyCustomer",
@@ -33,9 +32,6 @@
     "lookupHash": "deg:lookupHash",
     "claimVerifier": "deg:claimVerifier",
     "expiresAt": "deg:expiresAt",
-    "bap_id": "deg:bap_id",
-    "bpp_id": "deg:bpp_id",
-    "total_quantity": "deg:total_quantity",
     "deliveryStatus": {
       "@id": "deg:deliveryStatus",
       "@type": "@id"

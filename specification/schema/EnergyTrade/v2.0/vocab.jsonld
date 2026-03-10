@@ -26,19 +26,6 @@
       "rdfs:comment": "Offer attributes for P2P energy trading, attached to Offer.offerAttributes."
     },
     {
-      "@id": "deg:EnergyTradeOrder",
-      "@type": "rdfs:Class",
-      "rdfs:label": "Energy Trade Order",
-      "rdfs:comment": "Contract attributes for P2P energy trading, attached to Contract.orderAttributes. Previously referenced as Order.orderAttributes (see beckn:Order owl:deprecated)."
-    },
-    {
-      "@id": "deg:EnergyTradeOrderInterUtility",
-      "@type": "rdfs:Class",
-      "rdfs:subClassOf": "deg:EnergyTradeOrder",
-      "rdfs:label": "Energy Trade Order Inter-Utility",
-      "rdfs:comment": "Extended order attributes for inter-utility (inter-discom) P2P trading."
-    },
-    {
       "@id": "deg:EnergyTradeDelivery",
       "@type": "rdfs:Class",
       "rdfs:label": "Energy Trade Delivery",
@@ -123,46 +110,6 @@
       "rdfs:comment": "Gift expiration timestamp in UTC (ISO 8601 with Z suffix).",
       "rdfs:domain": "deg:EnergyGift",
       "rdfs:range": "xsd:dateTime"
-    },
-    {
-      "@id": "deg:bap_id",
-      "@type": "rdf:Property",
-      "rdfs:label": "BAP ID",
-      "rdfs:comment": "Beckn Application Platform (BAP) identifier.",
-      "rdfs:domain": "deg:EnergyTradeOrder",
-      "rdfs:range": "xsd:string"
-    },
-    {
-      "@id": "deg:bpp_id",
-      "@type": "rdf:Property",
-      "rdfs:label": "BPP ID",
-      "rdfs:comment": "Beckn Provider Platform (BPP) identifier.",
-      "rdfs:domain": "deg:EnergyTradeOrder",
-      "rdfs:range": "xsd:string"
-    },
-    {
-      "@id": "deg:total_quantity",
-      "@type": "rdf:Property",
-      "rdfs:label": "Total quantity",
-      "rdfs:comment": "Total quantity of energy in kilowatt-hours (kWh) for this trade order.",
-      "rdfs:domain": "deg:EnergyTradeOrder",
-      "schema:rangeIncludes": "schema:Number"
-    },
-    {
-      "@id": "deg:utilityIdBuyer",
-      "@type": "rdf:Property",
-      "rdfs:label": "Utility ID Buyer",
-      "rdfs:comment": "Identifier of the buyer-side utility/distribution company (discom).",
-      "rdfs:domain": "deg:EnergyTradeOrderInterUtility",
-      "rdfs:range": "xsd:string"
-    },
-    {
-      "@id": "deg:utilityIdSeller",
-      "@type": "rdf:Property",
-      "rdfs:label": "Utility ID Seller",
-      "rdfs:comment": "Identifier of the seller-side utility/distribution company (discom).",
-      "rdfs:domain": "deg:EnergyTradeOrderInterUtility",
-      "rdfs:range": "xsd:string"
     },
     {
       "@id": "deg:deliveryStatus",

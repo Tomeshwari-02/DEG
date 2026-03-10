@@ -1,105 +1,79 @@
-openapi: 3.1.1
-info:
-  title: EnergyTradeOffer — v0.3
-  version: 0.3.0
-  x-profile-id: profiles/energy-trade/energy_trade_offer/v0.3
-  description: >
-    Offer attributes for P2P energy trading. Attached to Offer.offerAttributes
-    to provide pricing models, availability windows, and delivery details.
+$id: "https://schema.beckn.io/EnergyTradeOffer/v0.3"
+$schema: "https://json-schema.org/draft/2020-12/schema"
+title: EnergyTradeOffer
+description: >
+  Offer attributes for P2P energy trading. Attached to Offer.offerAttributes
+  to provide pricing models, availability windows, and delivery details.
+  NOTE: Price (beckn:price) is specified on the parent Offer object, not here.
+  The price.applicableQuantity specifies the max energy quantity for this delivery window.
 
-    This is the v0.3 schema, originally defined as a component in EnergyTrade/v0.3/attributes.yaml.
+  This is the v0.3 schema, originally defined as a component in EnergyTrade/v0.3/attributes.yaml.
+x-tags:
+  - energy-trade
+  - p2p-trading
+  - offer
+type: object
+additionalProperties: false
+required: [pricingModel]
+x-jsonld:
+  "@context": ./context.jsonld
+  "@type": EnergyTradeOffer
+properties:
 
-components:
-  schemas:
-    EnergyTradeOffer:
-      type: object
-      additionalProperties: false
-      required: [pricingModel]
-      x-jsonld:
-        "@context": ./context.jsonld
-        "@type": EnergyTradeOffer
-      description: >
-        Offer attributes for P2P energy trading. Attached to Offer.offerAttributes
-        to provide pricing models, availability windows, and delivery details.
-        NOTE: Price (beckn:price) is specified on the parent Offer object, not here.
-        The price.applicableQuantity specifies the max energy quantity for this delivery window.
-      properties:
+  pricingModel:
+    type: string
+    enum: [PER_KWH, TIME_OF_DAY, SUBSCRIPTION, FIXED]
+    description: Pricing model classification used for the energy trade offer.
+    example: "PER_KWH"
+    x-jsonld:
+      "@id": pricingModel
 
-        pricingModel:
-          type: string
-          enum: [PER_KWH, TIME_OF_DAY, SUBSCRIPTION, FIXED]
-          description: Pricing model classification used for the energy trade offer.
-          example: "PER_KWH"
-          x-jsonld: { "@id": pricingModel }
+  validityWindow:
+    description: >
+      Time window during which this offer can be selected/accepted. Typically set
+      to expire before delivery starts (e.g., 4 hours before delivery start time)
+      to allow for scheduling and grid coordination. After this window closes,
+      the offer is no longer available for selection.
+    x-jsonld:
+      "@id": validityWindow
+    allOf:
+      - $ref: "https://schema.beckn.io/TimePeriod/v2.0"
+      - type: object
+        required: ["schema:startTime", "schema:endTime"]
 
-        validityWindow:
-          allOf:
-            - $ref: 'https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/attributes.yaml#/components/schemas/TimePeriod'
-            - type: object
-              description: >
-                Time window during which this offer can be selected/accepted.
-              required: ["schema:startTime", "schema:endTime"]
-          x-jsonld: { "@id": validityWindow }
+  deliveryWindow:
+    description: >
+      Specific time period (start and end time) when energy delivery occurs.
+      Different from validityWindow which indicates when the offer can be selected.
+      This represents the actual delivery time window. All times MUST be in UTC
+      (ISO 8601 with Z suffix).
+    x-jsonld:
+      "@id": deliveryWindow
+    allOf:
+      - $ref: "https://schema.beckn.io/TimePeriod/v2.0"
+      - type: object
+        required: ["schema:startTime", "schema:endTime"]
+        properties:
+          "schema:startTime":
+            type: string
+            format: date-time
+            pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$'
+            description: Start time in UTC (ISO 8601 format with Z suffix).
+            example: "2025-06-15T09:00:00Z"
+          "schema:endTime":
+            type: string
+            format: date-time
+            pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$'
+            description: End time in UTC (ISO 8601 format with Z suffix).
+            example: "2025-06-15T10:00:00Z"
 
-        deliveryWindow:
-          allOf:
-            - $ref: 'https://raw.githubusercontent.com/beckn/protocol-specifications-new/refs/heads/main/schema/core/v2/attributes.yaml#/components/schemas/TimePeriod'
-            - type: object
-              description: >
-                Specific time period (start and end time) when energy delivery occurs.
-              required: ["schema:startTime", "schema:endTime"]
-              properties:
-                "schema:startTime":
-                  type: string
-                  format: date-time
-                  pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$'
-                  description: Start time in UTC (ISO 8601 format with Z suffix).
-                  example: "2025-06-15T09:00:00Z"
-                "schema:endTime":
-                  type: string
-                  format: date-time
-                  pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$'
-                  description: End time in UTC (ISO 8601 format with Z suffix).
-                  example: "2025-06-15T10:00:00Z"
-          x-jsonld: { "@id": deliveryWindow }
-
-        gift:
-          $ref: '#/components/schemas/EnergyGift'
-          description: >
-            Optional gift parameters for energy gifting.
-          x-jsonld: { "@id": gift }
-
-    EnergyGift:
-      type: object
-      additionalProperties: false
-      required: [lookupHash, claimVerifier, expiresAt]
-      x-jsonld:
-        "@context": ./context.jsonld
-        "@type": EnergyGift
-      description: >
-        Gift parameters for P2P energy gifting. Enables a prosumer (gifter) to make an
-        energy offer available at 0 price on the catalog, discoverable by the SHA-256 hash
-        of the recipient's phone number.
-      properties:
-
-        lookupHash:
-          type: string
-          pattern: '^[A-Fa-f0-9]{64}$'
-          description: SHA-256 hash of the recipient's phone number (E.164 format).
-          example: "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2"
-          x-jsonld: { "@id": lookupHash }
-
-        claimVerifier:
-          type: string
-          pattern: '^[A-Fa-f0-9]{64}$'
-          description: SHA-256 hash of a claim secret shared out-of-band from the gifter to the recipient.
-          example: "f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5d4c3b2a1f6e5"
-          x-jsonld: { "@id": claimVerifier }
-
-        expiresAt:
-          type: string
-          format: date-time
-          pattern: '^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d+)?Z$'
-          description: Gift expiration timestamp in UTC (ISO 8601 with Z suffix).
-          example: "2025-07-01T00:00:00Z"
-          x-jsonld: { "@id": expiresAt }
+  gift:
+    description: >
+      Optional gift parameters for energy gifting. When present, indicates this offer
+      is a gift from a prosumer (gifter) to a specific recipient, discoverable by
+      lookupHash of the recipient's phone and claimable using a shared secret.
+      Gift offers are typically listed at price 0 on the catalog.
+    x-jsonld:
+      "@id": gift
+    allOf:
+      - $ref: "https://schema.beckn.io/EnergyGift/v0.3"

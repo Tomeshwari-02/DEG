@@ -1,6 +1,6 @@
 # EnergyTradeOrder — v0.3
 
-> ⚠️ **Deprecated** — `EnergyTradeOrder` v0.3 is superseded by [`EnergyTradeOrder/v2.0`](../v2.0/). See [EnergyTradeOrder root README](../README.md) for details.
+This is the current version of EnergyTradeOrder. Originally defined as a component inside the combined `EnergyTrade/v0.3/attributes.yaml`.
 
 Order attributes for P2P energy trading — BAP/BPP participant identification and total contracted energy quantity.
 
@@ -10,7 +10,7 @@ Part of the [DEG Schema](../../../README.md) · [EnergyTradeOrder](../README.md)
 
 | File | Description |
 |------|-------------|
-| [attributes.yaml](./attributes.yaml) | OpenAPI 3.1.1 schema definition for `EnergyTradeOrder` (extracted from `EnergyTrade/v0.3/`) |
+| [attributes.yaml](./attributes.yaml) | JSON Schema 2020-12 definition for `EnergyTradeOrder` (extracted from `EnergyTrade/v0.3/`) |
 | [context.jsonld](./context.jsonld) | JSON-LD context (namespace: `beckn:` → `EnergyTrade/v0.3/`) |
 | [vocab.jsonld](./vocab.jsonld) | RDF vocabulary for `EnergyTradeOrder` terms |
 

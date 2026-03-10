@@ -53,7 +53,6 @@ This table maps deprecated `EnergyTrade/v2.0` concepts to their successors in `P
 | Deprecated Term | Old Beckn Attachment | Successor Schema | New Beckn Attachment | OWL Relation |
 |-----------------|---------------------|-----------------|---------------------|-------------|
 | `deg:EnergyTrade` class | `beckn:Order` subclass | `deg:P2PTrade` | `beckn:Contract` subclass | `owl:equivalentClass` |
-| `EnergyTradeOrder.bap_id` / `bpp_id` | `Order.orderAttributes` | [`EnergyTradeOrder/v2.0`](../../EnergyTradeOrder/v2.0/) | `Contract.orderAttributes` | `owl:equivalentProperty` |
 | `EnergyTradeDelivery.*` | `orderItemAttributes.fulfillmentAttributes` | [`EnergyTradeDelivery/v2.0`](../../EnergyTradeDelivery/v2.0/) | `Contract.items[].fulfillment.attributes` | `rdfs:seeAlso` |
 | `EnergyOrderItem.*` | `orderItemAttributes` | [`EnergyOrderItem/v2.0`](../../EnergyOrderItem/v2.0/) | `Contract.items[]` | `rdfs:seeAlso` |
 | `EnergyCustomer.*` | `Buyer.buyerAttributes` | [`EnergyCustomer/v2.0`](../../EnergyCustomer/v2.0/) | `Contract.buyer.buyerAttributes` | `rdfs:seeAlso` |

@@ -15,7 +15,6 @@ description: >
   An EnergyTrade brings together:
   - An energy resource (the item being traded — see EnergyResource)
   - An energy trade offer with pricing model and delivery window (see EnergyTradeOffer)
-  - A trade order identifying the BAP/BPP participants (see EnergyTradeOrder, Contract.orderAttributes)
   - A trade delivery tracking meter readings and status (see EnergyTradeDelivery)
   - Customer identity for buyer and provider sides (see EnergyCustomer)
   - A contract item wrapper linking customer and delivery data (see EnergyOrderItem)
@@ -45,15 +44,6 @@ properties:
       "@id": offer
     allOf:
       - $ref: '#/$defs/EnergyTradeOffer'
-
-  order:
-    description: >
-      Energy trade order attributes — BAP/BPP identifiers and total contracted quantity.
-      Maps to Order.orderAttributes in the beckn message flow.
-    x-jsonld:
-      "@id": order
-    allOf:
-      - $ref: '#/$defs/EnergyTradeOrder'
 
   delivery:
     description: >
@@ -227,56 +217,6 @@ $defs:
         example: "2025-07-01T00:00:00Z"
         x-jsonld:
           "@id": expiresAt
-
-  ########################################################################
-  # ORDER.ATTRIBUTES — EnergyTradeOrder (P2P Energy Trading)
-  ########################################################################
-  EnergyTradeOrder:
-    type: object
-    additionalProperties: false
-    required: [bap_id, bpp_id]
-    x-jsonld:
-      "@context": ./context.jsonld
-      "@type": EnergyTradeOrder
-    description: >
-      Order attributes for P2P energy trading. Attached to Order.orderAttributes
-      to identify BAP and BPP participants involved in a trade.
-      NOTE: Utility IDs for inter-discom trading are captured in EnergyCustomer
-      (buyerAttributes.utilityId and providerAttributes.utilityId).
-    properties:
-
-      bap_id:
-        type: string
-        description: Beckn Application Platform (BAP) identifier. The subscriber ID of the buyer/consumer platform initiating the trade order.
-        example: "bap.energymarket.io"
-        x-jsonld:
-          "@id": bap_id
-
-      bpp_id:
-        type: string
-        description: Beckn Provider Platform (BPP) identifier. The subscriber ID of the seller/provider platform fulfilling the trade order.
-        example: "bpp.solarprovider.io"
-        x-jsonld:
-          "@id": bpp_id
-
-      total_quantity:
-        description: >
-          Total quantity of energy for this trade order. Units should be in kWh.
-        example:
-          unitQuantity: 50.0
-          unitText: "kWh"
-          unitCode: "KWH"
-        x-jsonld:
-          "@id": total_quantity
-        allOf:
-          - $ref: "https://schema.beckn.io/Quantity/v2.0"
-          - type: object
-            description: Total energy quantity in kWh.
-            properties:
-              unitText:
-                default: "kWh"
-              unitCode:
-                default: "KWH"
 
   ########################################################################
   # FULFILLMENT.ATTRIBUTES — EnergyTradeDelivery (P2P Energy Trading)

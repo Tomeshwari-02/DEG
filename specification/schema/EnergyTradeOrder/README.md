@@ -2,9 +2,9 @@
 
 Order attributes for P2P energy trading — identifies BAP/BPP participants and total contracted energy quantity.
 
-**Canonical IRI:** `https://schema.beckn.io/EnergyTradeOrder/v2.0`
+**Canonical IRI:** `https://schema.beckn.io/EnergyTradeOrder/v0.3`
 
-**Namespace prefix:** `deg:` → `https://schema.beckn.io/deg/EnergyTradeOrder/v2.0/`
+**Namespace prefix:** `beckn:` → `https://raw.githubusercontent.com/beckn/protocol-specifications-v2/refs/heads/main/schema/EnergyTrade/v0.3/#`
 
 **Tags:** `energy-trade` · `p2p-trading` · `order`
 
@@ -14,8 +14,7 @@ Order attributes for P2P energy trading — identifies BAP/BPP participants and 
 
 | Version | Status | Notes |
 |---------|--------|-------|
-| [v2.0](./v2.0/) | Current | Initial JSON Schema release, split from combined EnergyTrade schema |
-| [v0.3](./v0.3/) | Deprecated | Original definition as a component in `EnergyTrade/v0.3/attributes.yaml` |
+| [v0.3](./v0.3/) | Current | Original definition as a component in `EnergyTrade/v0.3/attributes.yaml` |
 
 ---
 
@@ -33,10 +32,10 @@ Order attributes for P2P energy trading — identifies BAP/BPP participants and 
 
 | Term | IRI |
 |------|-----|
-| `EnergyTradeOrder` | `deg:EnergyTradeOrder` |
-| `bap_id` | `deg:bap_id` |
-| `bpp_id` | `deg:bpp_id` |
-| `total_quantity` | `deg:total_quantity` |
+| `EnergyTradeOrder` | `beckn:EnergyTradeOrder` |
+| `bap_id` | `beckn:bap_id` |
+| `bpp_id` | `beckn:bpp_id` |
+| `total_quantity` | `beckn:total_quantity` |
 
 ---
 
