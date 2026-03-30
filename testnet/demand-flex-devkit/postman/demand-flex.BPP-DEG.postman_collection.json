@@ -219,6 +219,38 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "subscribe",
+      "item": [
+        {
+          "name": "subscribe-catalog",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"context\": {\n    \"networkId\": \"beckn.one/testnet\",\n    \"version\": \"{{version}}\",\n    \"action\": \"catalog/subscribe\",\n    \"bppId\": \"{{bpp_id}}\",\n    \"bppUri\": \"{{bpp_uri}}\",\n    \"transactionId\": \"{{transaction_id}}\",\n    \"messageId\": \"{{$guid}}\",\n    \"timestamp\": \"{{iso_date}}\",\n    \"schemaContext\": [\n      \"https://raw.githubusercontent.com/beckn/DEG/refs/heads/becknv2-demand-flex/specification/schema/DemandFlexBuyOffer/v2.0/context.jsonld\",\n      \"https://raw.githubusercontent.com/beckn/DEG/refs/heads/becknv2-demand-flex/specification/schema/DemandFlexNeed/v2.0/context.jsonld\",\n      \"https://schema.beckn.io/Quantity/context.jsonld\"\n    ]\n  },\n  \"message\": {\n    \"subscription\": {\n      \"id\": \"sub-flex-{{bpp_id}}-001\",\n      \"callbackUrl\": \"{{bpp_uri}}/catalog/callback\",\n      \"filter\": {\n        \"domain\": \"{{domain}}\",\n        \"resourceAttributes\": {\n          \"capacityType\": \"CURTAILMENT\",\n          \"direction\": \"REDUCE\"\n        }\n      },\n      \"validity\": {\n        \"startDate\": \"2026-03-28T00:00:00Z\",\n        \"endDate\": \"2026-04-30T23:59:59Z\"\n      }\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{bpp_adapter_url}}/subscribe",
+              "host": [
+                "{{bpp_adapter_url}}"
+              ],
+              "path": [
+                "subscribe"
+              ]
+            },
+            "description": "Subscribe request: subscribe-catalog"
+          },
+          "response": []
+        }
+      ]
     }
   ],
   "event": [
