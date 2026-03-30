@@ -353,7 +353,7 @@ def get_schema_store():
     attribute_schemas_map = {}
     return [registry], None, attribute_schemas_map
 
-CORE_BECKN_SCHEMA_URL = "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/refs/heads/draft/api/v2.0.0/beckn.yaml"
+CORE_BECKN_SCHEMA_URL = "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/refs/heads/main/api/v2.0.0/beckn.yaml"
 
 def _load_core_beckn_schema(registry_list):
     """

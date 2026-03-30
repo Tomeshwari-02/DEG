@@ -1,8 +1,8 @@
 {
   "context": {
+    "networkId": "beckn.one/testnet",
     "version": "2.0.0",
     "action": "on_select",
-    "domain": "beckn.one:deg:demand-flex:2.0.0",
     "bapId": "greenflex-agg.example.com",
     "bapUri": "https://greenflex-agg.example.com/beckn",
     "bppId": "tpddl-utility.example.com",

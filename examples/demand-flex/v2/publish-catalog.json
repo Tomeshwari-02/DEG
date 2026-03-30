@@ -1,8 +1,8 @@
 {
   "context": {
+    "networkId": "beckn.one/testnet",
     "version": "2.0.0",
     "action": "catalog/publish",
-    "domain": "beckn.one:deg:demand-flex:2.0.0",
     "bppId": "tpddl-utility.example.com",
     "bppUri": "https://tpddl-utility.example.com/beckn",
     "transactionId": "txn-publish-001",
@@ -69,12 +69,7 @@
               "startDate": "2026-03-28T00:00:00Z",
               "endDate": "2026-04-01T08:30:00Z"
             },
-            "availableTo": [
-              {
-                "type": "NETWORK",
-                "id": "beckn.deg.india"
-              }
-            ],
+            "availableTo": [],
             "offerAttributes": {
               "@context": "https://raw.githubusercontent.com/beckn/DEG/refs/heads/becknv2-demand-flex/specification/schema/DemandFlexBuyOffer/v2.0/context.jsonld",
               "@type": "DemandFlexBuyOffer",
