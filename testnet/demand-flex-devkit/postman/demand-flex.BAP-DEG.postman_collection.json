@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "90c1edcb-b8ac-4600-bd9d-8f2f4c777203",
+    "_postman_id": "65714b76-37ad-40a9-8087-02ab8e29a658",
     "name": "demand-flex.BAP-DEG",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": "Postman collection for Buyer Application Platform implementing demand-flex APIs based on Beckn Protocol v2"
@@ -129,6 +129,38 @@
               ]
             },
             "description": "Select request: select-request"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "subscribe",
+      "item": [
+        {
+          "name": "subscribe-catalog",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"context\": {\n    \"networkId\": \"beckn.one/testnet\",\n    \"version\": \"{{version}}\",\n    \"action\": \"catalog/subscription\",\n    \"bapId\": \"{{bap_id}}\",\n    \"bapUri\": \"{{bap_uri}}\",\n    \"bppId\": \"{{bpp_id}}\",\n    \"bppUri\": \"{{bpp_uri}}\",\n    \"transactionId\": \"{{transaction_id}}\",\n    \"messageId\": \"{{$guid}}\",\n    \"timestamp\": \"{{iso_date}}\",\n    \"schemaContext\": [\n      \"https://raw.githubusercontent.com/beckn/DEG/refs/heads/becknv2-demand-flex/specification/schema/DemandFlexBuyOffer/v2.0/context.jsonld\",\n      \"https://raw.githubusercontent.com/beckn/DEG/refs/heads/becknv2-demand-flex/specification/schema/DemandFlexNeed/v2.0/context.jsonld\",\n      \"https://schema.beckn.io/Quantity/context.jsonld\"\n    ]\n  },\n  \"message\": {\n    \"subscription\": {\n      \"networkIds\": [\n        \"beckn.one/testnet\"\n      ],\n      \"schemaTypes\": [\n        \"https://raw.githubusercontent.com/beckn/DEG/refs/heads/becknv2-demand-flex/specification/schema/DemandFlexBuyOffer/v2.0/context.jsonld\",\n        \"https://raw.githubusercontent.com/beckn/DEG/refs/heads/becknv2-demand-flex/specification/schema/DemandFlexNeed/v2.0/context.jsonld\"\n      ],\n      \"callbackUrl\": \"https://tpddl-utility.example.com/beckn/catalog/callback\"\n    }\n  }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{bap_adapter_url}}/subscribe",
+              "host": [
+                "{{bap_adapter_url}}"
+              ],
+              "path": [
+                "subscribe"
+              ]
+            },
+            "description": "Subscribe request: subscribe-catalog"
           },
           "response": []
         }

@@ -11,3 +11,5 @@ routingRules:
       - on_status
       - on_update
       - on_cancel
+      - on_subscribe
+      - catalog

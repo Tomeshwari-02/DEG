@@ -2,7 +2,9 @@
   "context": {
     "networkId": "beckn.one/testnet",
     "version": "2.0.0",
-    "action": "catalog/subscribe",
+    "action": "catalog/subscription",
+    "bapId": "p2p-trading-sandbox1.com",
+    "bapUri": "http://onix-bap:8081/bap/receiver",
     "bppId": "tpddl-utility.example.com",
     "bppUri": "https://tpddl-utility.example.com/beckn",
     "transactionId": "txn-subscribe-001",
@@ -16,19 +18,12 @@
   },
   "message": {
     "subscription": {
-      "id": "sub-flex-tpddl-001",
-      "callbackUrl": "https://tpddl-utility.example.com/beckn/catalog/callback",
-      "filter": {
-        "domain": "beckn.one:deg:demand-flex:2.0.0",
-        "resourceAttributes": {
-          "capacityType": "CURTAILMENT",
-          "direction": "REDUCE"
-        }
-      },
-      "validity": {
-        "startDate": "2026-03-28T00:00:00Z",
-        "endDate": "2026-04-30T23:59:59Z"
-      }
+      "networkIds": ["beckn.one/testnet"],
+      "schemaTypes": [
+        "https://raw.githubusercontent.com/beckn/DEG/refs/heads/becknv2-demand-flex/specification/schema/DemandFlexBuyOffer/v2.0/context.jsonld",
+        "https://raw.githubusercontent.com/beckn/DEG/refs/heads/becknv2-demand-flex/specification/schema/DemandFlexNeed/v2.0/context.jsonld"
+      ],
+      "callbackUrl": "https://tpddl-utility.example.com/beckn/catalog/callback"
     }
   }
 }
