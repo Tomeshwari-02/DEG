@@ -28,8 +28,22 @@ run_step() {
   http_code=$(echo "$body" | tail -1)
   body=$(echo "$body" | sed '$d')
 
+  # Handle both response formats:
+  #   transactional: {"message":{"ack":{"status":"ACK"}}}
+  #   catalog:       {"status":"ACK"} or full subscription response
   local ack_status
-  ack_status=$(echo "$body" | python3 -c "import sys,json; print(json.load(sys.stdin).get('message',{}).get('ack',{}).get('status','?'))" 2>/dev/null || echo "?")
+  ack_status=$(echo "$body" | python3 -c "
+import sys,json
+d=json.load(sys.stdin)
+# transactional format
+s=d.get('message',{}).get('ack',{}).get('status','')
+if s: print(s)
+# catalog format (publish/discover)
+elif d.get('status'): print(d['status'])
+# subscription format (returns subscription object)
+elif d.get('message',{}).get('subscriptions'): print('ACK')
+else: print('?')
+" 2>/dev/null || echo "?")
 
   if [ "$http_code" = "200" ] && [ "$ack_status" = "ACK" ]; then
     printf "  \033[32m✓\033[0m %-45s %s %s\n" "$label" "$http_code" "$ack_status"
@@ -62,6 +76,17 @@ if [ "$bap_health" != "200" ] || [ "$bpp_health" != "200" ]; then
   exit 1
 fi
 echo "OK"
+echo ""
+
+# --- Catalog operations ---
+echo "Catalog operations:"
+run_step "publish (BPP→catalog service)"  "$BPP_URL" "publish"   "publish-catalog.json"
+run_step "subscribe (BAP→catalog service)" "$BAP_URL" "subscribe" "subscribe-catalog.json"
+echo ""
+
+# --- Discovery ---
+echo "Discovery:"
+run_step "discover (BAP→network)"         "$BAP_URL" "discover"  "discover-request.json"
 echo ""
 
 # --- BAP-initiated actions (select → confirm → status → cancel) ---

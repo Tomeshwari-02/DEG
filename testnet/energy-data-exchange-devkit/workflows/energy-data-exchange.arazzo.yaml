@@ -25,8 +25,8 @@ sourceDescriptions:
     x-serverUrl: http://localhost:8082/bpp/caller
 
 workflows:
-  - workflowId: catalog-setup
-    summary: Publish catalog and subscribe (requires external catalog service)
+  - workflowId: energy-data-exchange-happy-path
+    summary: Full lifecycle - publish, subscribe, discover, select, init, confirm, status (with inline data delivery)
     steps:
       - stepId: publish-catalog
         description: BPP publishes energy dataset catalog with EnergyDataSetItem resources
@@ -36,9 +36,22 @@ workflows:
           payload:
             $ref: "../examples/v2/publish-catalog.json"
 
-  - workflowId: energy-data-exchange-happy-path
-    summary: Transactional lifecycle - select, init, confirm, status (with inline data delivery)
-    steps:
+      - stepId: subscribe-catalog
+        description: BAP subscribes to catalog updates for EnergyDataSetItem schemas
+        operationId: beckn-bap-caller.catalogSubscribe
+        requestBody:
+          contentType: application/json
+          payload:
+            $ref: "../examples/v2/subscribe-catalog.json"
+
+      - stepId: discover
+        description: BAP discovers available energy datasets on the network
+        operationId: beckn-bap-caller.discover
+        requestBody:
+          contentType: application/json
+          payload:
+            $ref: "../examples/v2/discover-request.json"
+
       - stepId: select
         description: BAP selects BESCOM customer credential dataset for inline delivery
         operationId: beckn-bap-caller.select
