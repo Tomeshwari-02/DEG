@@ -11,7 +11,7 @@
     "messageId": "1e2f3a4b-5c6d-7890-4567-890123456789",
     "timestamp": "2026-04-01T09:25:05Z",
     "schemaContext": [
-      "https://raw.githubusercontent.com/beckn/DEG/main/specification/schema/EnergyDataSetItem/v2.0/context.jsonld"
+      "https://raw.githubusercontent.com/beckn/DEG/refs/heads/deg-221-EnergyDataSets-and-Devkit/specification/schema/EnergyDataSetItem/v2.0/context.jsonld"
     ]
   },
   "message": {
@@ -65,7 +65,7 @@
           },
           "commitmentIds": ["commitment-energy-001"],
           "performanceAttributes": {
-            "@context": "https://raw.githubusercontent.com/beckn/DEG/main/specification/schema/EnergyDataSetItem/v2.0/context.jsonld",
+            "@context": "https://raw.githubusercontent.com/beckn/DEG/refs/heads/deg-221-EnergyDataSets-and-Devkit/specification/schema/EnergyDataSetItem/v2.0/context.jsonld",
             "@type": "EnergyDataSetItem",
             "schema:identifier": "ds-bescom-customer-credentials-q1-2026",
             "schema:name": "BESCOM Residential Customer Credentials - Q1 2026",
@@ -73,7 +73,7 @@
             "dataPayload": {
               "@context": [
                 "https://www.w3.org/2018/credentials/v1",
-                "https://raw.githubusercontent.com/beckn/DEG/main/specification/schema/UtilityCustomerCredential/v2.0/context.jsonld"
+                "https://raw.githubusercontent.com/beckn/DEG/refs/heads/deg-221-EnergyDataSets-and-Devkit/specification/schema/UtilityCustomerCredential/v2.0/context.jsonld"
               ],
               "@type": "UtilityCustomerCredential",
               "issuer": {
