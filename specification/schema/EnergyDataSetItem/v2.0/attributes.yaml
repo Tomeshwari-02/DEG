@@ -31,31 +31,9 @@ components:
         "@context": ./context.jsonld
         "@type": EnergyDataSetItem
       properties:
-        "@context":
-          oneOf:
-            - type: string
-              format: uri
-            - type: array
-              items:
-                type: string
-                format: uri
         "@type":
           type: string
           enum: ["EnergyDataSetItem"]
-        "schema:identifier":
-          type: string
-        "schema:name":
-          type: string
-        "schema:description":
-          type: string
-        "schema:temporalCoverage":
-          type: string
-        "dataset:sensitivityLevel":
-          type: string
-        "dataset:refreshType":
-          type: string
-        "dataset:refreshFrequency":
-          type: string
         dataPayload:
           description: >
             Optional inline data payload. When present, carries the actual dataset
