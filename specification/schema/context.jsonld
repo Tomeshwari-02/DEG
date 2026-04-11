@@ -16,6 +16,7 @@
     "./EvChargingOffer/v2.0/context.jsonld",
     "./EvChargingPointOperator/v2.0/context.jsonld",
     "./EvChargingService/v2.0/context.jsonld",
-    "./EvChargingSession/v2.0/context.jsonld"
+    "./EvChargingSession/v2.0/context.jsonld",
+    "./EnergyDataSetItem/v2.0/context.jsonld"
   ]
 }

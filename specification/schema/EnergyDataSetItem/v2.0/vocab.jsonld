@@ -1,0 +1,29 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "beckn": "https://schema.beckn.io/core/v2.0/",
+    "deg": "https://schema.beckn.io/deg/EnergyDataSetItem/v2.0/",
+    "dataset": "https://beckn.org/schema/dataset#",
+    "schema": "https://schema.org/",
+    "rdf": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "xsd": "http://www.w3.org/2001/XMLSchema#"
+  },
+  "@graph": [
+    {
+      "@id": "deg:EnergyDataSetItem",
+      "@type": "rdfs:Class",
+      "rdfs:label": "Energy Data Set Item",
+      "rdfs:comment": "Energy-sector extension of DataSetItem that adds an optional in-message dataPayload for inline data delivery. Subclass of DataSetItem.",
+      "rdfs:subClassOf": { "@id": "dataset:DatasetItem" }
+    },
+    {
+      "@id": "deg:dataPayload",
+      "@type": "rdf:Property",
+      "rdfs:label": "Data payload",
+      "rdfs:comment": "Optional inline data payload carrying actual dataset content within the beckn message. The payload is a self-describing JSON-LD object whose @context resolves to a schema hosted on beckn/ies-specs.",
+      "rdfs:domain": "deg:EnergyDataSetItem",
+      "schema:rangeIncludes": { "@id": "rdfs:Resource" }
+    }
+  ]
+}

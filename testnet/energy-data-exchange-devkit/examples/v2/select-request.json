@@ -1,0 +1,124 @@
+{
+  "context": {
+    "networkId": "nfh.global/testnet-deg",
+    "version": "2.0.0",
+    "action": "select",
+    "bapId": "bap.example.com",
+    "bapUri": "http://onix-bap:8081/bap/receiver",
+    "bppId": "bpp.example.com",
+    "bppUri": "http://onix-bpp:8082/bpp/receiver",
+    "transactionId": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
+    "messageId": "3c4d5e6f-7a8b-9012-cdef-012345678901",
+    "timestamp": "2026-04-01T09:05:00Z",
+    "schemaContext": [
+      "https://raw.githubusercontent.com/beckn/DEG/main/specification/schema/EnergyDataSetItem/v2.0/context.jsonld"
+    ]
+  },
+  "message": {
+    "contract": {
+      "id": "660e9500-f30c-52e5-b827-557766551300",
+      "descriptor": {
+        "name": "Energy Data Exchange Request",
+        "shortDesc": "Request for BESCOM customer credential data"
+      },
+      "status": {
+        "code": "DRAFT"
+      },
+      "commitments": [
+        {
+          "id": "commitment-energy-001",
+          "status": {
+            "descriptor": {
+              "code": "DRAFT"
+            }
+          },
+          "resources": [
+            {
+              "id": "ds-bescom-customer-credentials-q1-2026",
+              "descriptor": {
+                "name": "BESCOM Residential Customer Credentials - Q1 2026"
+              },
+              "quantity": {
+                "unitText": "credential",
+                "unitCode": "EA",
+                "value": "1"
+              }
+            }
+          ],
+          "offer": {
+            "id": "offer-bescom-cust-cred-inline-delivery",
+            "descriptor": {
+              "name": "Inline Credential Delivery - BESCOM Customer Data Q1 2026"
+            },
+            "resourceIds": [
+              "ds-bescom-customer-credentials-q1-2026"
+            ]
+          },
+          "commitmentAttributes": {
+            "@context": "https://raw.githubusercontent.com/beckn/DEG/main/specification/schema/EnergyDataSetItem/v2.0/context.jsonld",
+            "@type": "EnergyDataSetItem",
+            "schema:identifier": "ds-bescom-customer-credentials-q1-2026",
+            "schema:name": "BESCOM Residential Customer Credentials - Q1 2026",
+            "schema:temporalCoverage": "2026-01-01/2026-03-31"
+          }
+        }
+      ],
+      "consideration": [
+        {
+          "id": "consideration-energy-pricing",
+          "status": {
+            "code": "ACTIVE"
+          },
+          "considerationAttributes": {
+            "@context": "https://raw.githubusercontent.com/beckn/schemas/refs/heads/main/schema/PriceSpecification/v2.1/context.jsonld",
+            "@type": "PriceSpecification",
+            "currency": "INR",
+            "value": 1500.00,
+            "components": [
+              {
+                "type": "UNIT",
+                "value": 1271.19,
+                "currency": "INR",
+                "description": "BESCOM Customer Credential Data - Inline delivery"
+              },
+              {
+                "type": "TAX",
+                "value": 228.81,
+                "currency": "INR",
+                "description": "GST 18%"
+              }
+            ]
+          }
+        }
+      ],
+      "participants": [
+        {
+          "id": "bescom-provider-001",
+          "descriptor": {
+            "name": "BESCOM - Bangalore Electricity Supply Company"
+          },
+          "participantAttributes": {
+            "@context": "https://raw.githubusercontent.com/beckn/schemas/refs/heads/main/schema/Organization/v2.0/context.jsonld",
+            "@type": "Organization",
+            "id": "bescom-provider-001",
+            "name": "BESCOM - Bangalore Electricity Supply Company"
+          }
+        },
+        {
+          "id": "gridsync-buyer-001",
+          "descriptor": {
+            "name": "GridSync Analytics"
+          },
+          "participantAttributes": {
+            "@context": "https://raw.githubusercontent.com/beckn/schemas/refs/heads/main/schema/Organization/v2.0/context.jsonld",
+            "@type": "Organization",
+            "id": "gridsync-buyer-001",
+            "name": "GridSync Analytics"
+          }
+        }
+      ],
+      "performance": [],
+      "settlements": []
+    }
+  }
+}

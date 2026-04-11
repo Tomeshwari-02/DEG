@@ -1,0 +1,94 @@
+{
+  "context": {
+    "networkId": "nfh.global/testnet-deg",
+    "version": "2.0.0",
+    "action": "catalog/publish",
+    "bppId": "bpp.example.com",
+    "bppUri": "http://onix-bpp:8082/bpp/receiver",
+    "transactionId": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "messageId": "1a2b3c4d-5e6f-7890-abcd-ef0987654321",
+    "timestamp": "2026-04-01T06:00:00Z",
+    "schemaContext": [
+      "https://raw.githubusercontent.com/beckn/DEG/main/specification/schema/EnergyDataSetItem/v2.0/context.jsonld"
+    ]
+  },
+  "message": {
+    "catalogs": [
+      {
+        "id": "catalog-bescom-energy-data-001",
+        "descriptor": {
+          "name": "BESCOM - Energy Customer Data Catalogue",
+          "shortDesc": "Utility customer credential datasets for demand-response and program enrollment"
+        },
+        "provider": {
+          "id": "bescom-provider-001",
+          "descriptor": {
+            "name": "BESCOM - Bangalore Electricity Supply Company"
+          }
+        },
+        "resources": [
+          {
+            "id": "ds-bescom-customer-credentials-q1-2026",
+            "descriptor": {
+              "name": "BESCOM Residential Customer Credentials - Q1 2026",
+              "shortDesc": "Verified utility customer credentials for Bengaluru residential connections",
+              "longDesc": "Anonymized and verified UtilityCustomerCredential records for residential electricity connections in Bengaluru, suitable for demand-response program enrollment and load aggregation."
+            },
+            "resourceAttributes": {
+              "@context": "https://raw.githubusercontent.com/beckn/DEG/main/specification/schema/EnergyDataSetItem/v2.0/context.jsonld",
+              "@type": "EnergyDataSetItem",
+              "schema:identifier": "ds-bescom-customer-credentials-q1-2026",
+              "schema:name": "BESCOM Residential Customer Credentials - Q1 2026",
+              "schema:temporalCoverage": "2026-01-01/2026-03-31",
+              "dataset:sensitivityLevel": "CONFIDENTIAL",
+              "dataset:refreshType": "RECURRING",
+              "dataset:refreshFrequency": "P1M"
+            }
+          }
+        ],
+        "offers": [
+          {
+            "id": "offer-bescom-cust-cred-inline-delivery",
+            "descriptor": {
+              "name": "Inline Credential Delivery - BESCOM Customer Data Q1 2026",
+              "shortDesc": "In-message delivery of verified customer credentials via beckn dataPayload"
+            },
+            "resourceIds": ["ds-bescom-customer-credentials-q1-2026"],
+            "validity": {
+              "startDate": "2026-01-01T00:00:00Z",
+              "endDate": "2026-06-30T23:59:59Z"
+            },
+            "considerations": [
+              {
+                "id": "consideration-cust-cred-price",
+                "status": {
+                  "code": "ACTIVE"
+                },
+                "considerationAttributes": {
+                  "@context": "https://raw.githubusercontent.com/beckn/schemas/refs/heads/main/schema/PriceSpecification/v2.1/context.jsonld",
+                  "@type": "PriceSpecification",
+                  "currency": "INR",
+                  "value": 1500.00,
+                  "components": [
+                    {
+                      "type": "UNIT",
+                      "value": 1271.19,
+                      "currency": "INR",
+                      "description": "BESCOM Customer Credential Data - Inline delivery"
+                    },
+                    {
+                      "type": "TAX",
+                      "value": 228.81,
+                      "currency": "INR",
+                      "description": "GST 18%"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,158 @@
+arazzo: 1.0.1
+info:
+  title: Energy Data Exchange Workflow
+  version: 1.0.0
+  description: >
+    End-to-end Beckn 2.0 workflow for inline energy data exchange via
+    EnergyDataSetItem with UtilityCustomerCredential dataPayload.
+    Scenario: BESCOM publishes customer credential data, GridSync Analytics
+    discovers and acquires it with in-message delivery.
+
+    Run with Redocly respect:
+      npx @redocly/cli respect workflows/energy-data-exchange.arazzo.yaml \
+        -S beckn-bap-caller=http://localhost:8081/bap/caller \
+        -S beckn-bpp-caller=http://localhost:8082/bpp/caller
+
+sourceDescriptions:
+  - name: beckn-bap-caller
+    type: openapi
+    url: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/refs/heads/main/api/v2.0.0/beckn.yaml
+    x-serverUrl: http://localhost:8081/bap/caller
+
+  - name: beckn-bpp-caller
+    type: openapi
+    url: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/refs/heads/main/api/v2.0.0/beckn.yaml
+    x-serverUrl: http://localhost:8082/bpp/caller
+
+workflows:
+  - workflowId: catalog-setup
+    summary: Publish catalog and subscribe (requires external catalog service)
+    steps:
+      - stepId: publish-catalog
+        description: BPP publishes energy dataset catalog with EnergyDataSetItem resources
+        operationId: beckn-bpp-caller.catalogPublish
+        requestBody:
+          contentType: application/json
+          payload:
+            $ref: "../examples/v2/publish-catalog.json"
+        successCriteria:
+          - condition: $statusCode == 200
+
+  - workflowId: energy-data-exchange-happy-path
+    summary: Transactional lifecycle - select, init, confirm, status (with inline data delivery)
+    steps:
+      - stepId: select
+        description: BAP selects BESCOM customer credential dataset for inline delivery
+        operationId: beckn-bap-caller.select
+        requestBody:
+          contentType: application/json
+          payload:
+            $ref: "../examples/v2/select-request.json"
+        successCriteria:
+          - condition: $statusCode == 200
+
+      - stepId: on-select
+        description: BPP responds with pricing and terms for selected dataset
+        operationId: beckn-bpp-caller.onSelect
+        requestBody:
+          contentType: application/json
+          payload:
+            $ref: "../examples/v2/on-select-response.json"
+        successCriteria:
+          - condition: $statusCode == 200
+
+      - stepId: init
+        description: BAP provides billing details and buyer organization info
+        operationId: beckn-bap-caller.init
+        requestBody:
+          contentType: application/json
+          payload:
+            $ref: "../examples/v2/init-request.json"
+        successCriteria:
+          - condition: $statusCode == 200
+
+      - stepId: on-init
+        description: BPP confirms contract is ready for payment
+        operationId: beckn-bpp-caller.onInit
+        requestBody:
+          contentType: application/json
+          payload:
+            $ref: "../examples/v2/on-init-response.json"
+        successCriteria:
+          - condition: $statusCode == 200
+
+      - stepId: confirm
+        description: BAP confirms contract with payment settlement
+        operationId: beckn-bap-caller.confirm
+        requestBody:
+          contentType: application/json
+          payload:
+            $ref: "../examples/v2/confirm-request.json"
+        successCriteria:
+          - condition: $statusCode == 200
+
+      - stepId: on-confirm
+        description: BPP acknowledges payment and begins credential preparation
+        operationId: beckn-bpp-caller.onConfirm
+        requestBody:
+          contentType: application/json
+          payload:
+            $ref: "../examples/v2/on-confirm-response.json"
+        successCriteria:
+          - condition: $statusCode == 200
+
+      - stepId: status
+        description: BAP checks delivery status
+        operationId: beckn-bap-caller.status
+        requestBody:
+          contentType: application/json
+          payload:
+            $ref: "../examples/v2/status-request.json"
+        successCriteria:
+          - condition: $statusCode == 200
+
+      - stepId: on-status-processing
+        description: BPP reports credential verification in progress
+        operationId: beckn-bpp-caller.onStatus
+        requestBody:
+          contentType: application/json
+          payload:
+            $ref: "../examples/v2/on-status-response-processing.json"
+        successCriteria:
+          - condition: $statusCode == 200
+
+      - stepId: on-status-ready
+        description: >
+          BPP delivers credential data inline via dataPayload.
+          This is the key step demonstrating EnergyDataSetItem's in-message
+          delivery with a UtilityCustomerCredential embedded in dataPayload.
+        operationId: beckn-bpp-caller.onStatus
+        requestBody:
+          contentType: application/json
+          payload:
+            $ref: "../examples/v2/on-status-response-ready.json"
+        successCriteria:
+          - condition: $statusCode == 200
+
+  - workflowId: energy-data-exchange-cancellation
+    summary: Contract cancellation with refund
+    steps:
+      - stepId: cancel
+        description: BAP cancels the data exchange contract
+        operationId: beckn-bap-caller.cancel
+        requestBody:
+          contentType: application/json
+          payload:
+            $ref: "../examples/v2/cancel-request.json"
+        successCriteria:
+          - condition: $statusCode == 200
+
+      - stepId: on-cancel
+        description: BPP confirms cancellation with refund settlement
+        operationId: beckn-bpp-caller.onCancel
+        requestBody:
+          contentType: application/json
+          payload:
+            $ref: "../examples/v2/on-cancel-response.json"
+        successCriteria:
+          - condition: $statusCode == 200

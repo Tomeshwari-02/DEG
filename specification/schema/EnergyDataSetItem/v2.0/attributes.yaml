@@ -1,0 +1,51 @@
+$id: "https://schema.beckn.io/EnergyDataSetItem/v2.0"
+$schema: "https://json-schema.org/draft/2020-12/schema"
+title: EnergyDataSetItem
+description: >
+  Energy-sector extension of DataSetItem that adds an optional in-message
+  dataPayload for inline data delivery. EnergyDataSetItem is a subclass of
+  dataset:DataSetItem.
+
+  When dataPayload is present, the consumer can read the data directly from
+  the beckn message without fetching an external distribution URL. The payload
+  is a self-describing JSON-LD object whose @context resolves to a schema
+  hosted on the ies-specs repository (e.g., MeterData, BillingSummary).
+x-tags:
+  - energy
+  - dataset
+  - inline-data
+type: object
+additionalProperties: true
+allOf:
+  - $ref: "https://schema.beckn.io/DataSetItem/v1.0"
+x-jsonld:
+  "@context": ./context.jsonld
+  "@type": EnergyDataSetItem
+properties:
+
+  dataPayload:
+    description: >
+      Optional inline data payload. When present, carries the actual dataset
+      content within the beckn message. The @context URI must resolve to a
+      valid schema (typically hosted on beckn/ies-specs) that describes the
+      payload structure.
+    x-jsonld:
+      "@id": deg:dataPayload
+    type: object
+    required:
+      - "@context"
+      - "@type"
+    additionalProperties: true
+    properties:
+      "@context":
+        description: JSON-LD context URI resolving to the payload's schema.
+        oneOf:
+          - type: string
+            format: uri
+          - type: array
+            items:
+              type: string
+              format: uri
+      "@type":
+        description: The type of data payload (e.g., MeterData, BillingSummary).
+        type: string

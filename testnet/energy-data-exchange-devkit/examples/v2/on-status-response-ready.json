@@ -1,0 +1,144 @@
+{
+  "context": {
+    "networkId": "nfh.global/testnet-deg",
+    "version": "2.0.0",
+    "action": "on_status",
+    "bapId": "bap.example.com",
+    "bapUri": "http://onix-bap:8081/bap/receiver",
+    "bppId": "bpp.example.com",
+    "bppUri": "http://onix-bpp:8082/bpp/receiver",
+    "transactionId": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
+    "messageId": "1e2f3a4b-5c6d-7890-4567-890123456789",
+    "timestamp": "2026-04-01T09:25:05Z",
+    "schemaContext": [
+      "https://raw.githubusercontent.com/beckn/DEG/main/specification/schema/EnergyDataSetItem/v2.0/context.jsonld"
+    ]
+  },
+  "message": {
+    "contract": {
+      "id": "660e9500-f30c-52e5-b827-557766551300",
+      "descriptor": {
+        "name": "Energy Data Exchange Request",
+        "shortDesc": "Contract for BESCOM customer credential data"
+      },
+      "status": {
+        "code": "ACTIVE"
+      },
+      "commitments": [
+        {
+          "id": "commitment-energy-001",
+          "status": {
+            "descriptor": {
+              "code": "CLOSED"
+            }
+          },
+          "resources": [
+            {
+              "id": "ds-bescom-customer-credentials-q1-2026",
+              "descriptor": {
+                "name": "BESCOM Residential Customer Credentials - Q1 2026"
+              },
+              "quantity": {
+                "unitText": "credential",
+                "unitCode": "EA",
+                "value": "1"
+              }
+            }
+          ],
+          "offer": {
+            "id": "offer-bescom-cust-cred-inline-delivery",
+            "descriptor": {
+              "name": "Inline Credential Delivery - BESCOM Customer Data Q1 2026"
+            },
+            "resourceIds": [
+              "ds-bescom-customer-credentials-q1-2026"
+            ]
+          }
+        }
+      ],
+      "performance": [
+        {
+          "id": "perf-credential-delivery-001",
+          "status": {
+            "code": "DELIVERY_COMPLETE",
+            "name": "Credential data delivered inline via dataPayload"
+          },
+          "commitmentIds": ["commitment-energy-001"],
+          "performanceAttributes": {
+            "@context": "https://raw.githubusercontent.com/beckn/DEG/main/specification/schema/EnergyDataSetItem/v2.0/context.jsonld",
+            "@type": "EnergyDataSetItem",
+            "schema:identifier": "ds-bescom-customer-credentials-q1-2026",
+            "schema:name": "BESCOM Residential Customer Credentials - Q1 2026",
+            "schema:temporalCoverage": "2026-01-01/2026-03-31",
+            "dataPayload": {
+              "@context": [
+                "https://www.w3.org/2018/credentials/v1",
+                "https://raw.githubusercontent.com/beckn/DEG/main/specification/schema/UtilityCustomerCredential/v2.0/context.jsonld"
+              ],
+              "@type": "UtilityCustomerCredential",
+              "issuer": {
+                "id": "did:web:bescom.karnataka.gov.in",
+                "name": "BESCOM - Bangalore Electricity Supply Company",
+                "licenseNumber": "KERC/DL/BESCOM/2024"
+              },
+              "issuanceDate": "2026-03-15T10:00:00Z",
+              "credentialSubject": {
+                "id": "did:example:consumer:ravi456",
+                "consumerNumber": "BESCOM-2025-JPN-123456",
+                "fullName": "Ravi Kumar",
+                "installationAddress": {
+                  "fullAddress": "42 MG Road, Jayanagar",
+                  "city": "Bengaluru",
+                  "stateProvince": "Karnataka",
+                  "postalCode": "560041",
+                  "country": "IN"
+                },
+                "meterNumber": "BESCOM-SM-2025-654321",
+                "serviceConnectionDate": "2020-08-15"
+              },
+              "proof": {
+                "type": "Ed25519Signature2020",
+                "created": "2026-03-15T10:00:00Z",
+                "verificationMethod": "did:web:bescom.karnataka.gov.in#key-1",
+                "proofPurpose": "assertionMethod",
+                "proofValue": "z58DAdFfa9SkqZMVPxAQpic7ndTaXoT..."
+              }
+            }
+          }
+        }
+      ],
+      "participants": [
+        {
+          "id": "bescom-provider-001",
+          "descriptor": {
+            "name": "BESCOM - Bangalore Electricity Supply Company"
+          }
+        },
+        {
+          "id": "gridsync-buyer-001",
+          "descriptor": {
+            "name": "GridSync Analytics"
+          }
+        }
+      ],
+      "settlements": [
+        {
+          "id": "settlement-payment-completed",
+          "considerationId": "consideration-energy-pricing",
+          "status": "COMPLETE",
+          "settlementAttributes": {
+            "@context": "https://raw.githubusercontent.com/beckn/schemas/refs/heads/main/schema/Payment/v2.0/context.jsonld",
+            "@type": "Payment",
+            "beckn:paymentStatus": "COMPLETED",
+            "beckn:amount": {
+              "currency": "INR",
+              "value": 1500.00
+            },
+            "beckn:txnRef": "UPI-TXN-2026-040109150045",
+            "beckn:paidAt": "2026-04-01T09:14:00Z"
+          }
+        }
+      ]
+    }
+  }
+}

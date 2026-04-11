@@ -1,0 +1,93 @@
+{
+  "context": {
+    "networkId": "nfh.global/testnet-deg",
+    "version": "2.0.0",
+    "action": "on_cancel",
+    "bapId": "bap.example.com",
+    "bapUri": "http://onix-bap:8081/bap/receiver",
+    "bppId": "bpp.example.com",
+    "bppUri": "http://onix-bpp:8082/bpp/receiver",
+    "transactionId": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
+    "messageId": "3a4b5c6d-7e8f-9012-6789-012345678901",
+    "timestamp": "2026-04-01T09:25:10Z",
+    "schemaContext": [
+      "https://raw.githubusercontent.com/beckn/DEG/main/specification/schema/EnergyDataSetItem/v2.0/context.jsonld"
+    ]
+  },
+  "message": {
+    "contract": {
+      "id": "660e9500-f30c-52e5-b827-557766551300",
+      "descriptor": {
+        "name": "Energy Data Exchange Request",
+        "shortDesc": "Contract cancelled for BESCOM customer credential data"
+      },
+      "status": {
+        "code": "CANCELLED"
+      },
+      "commitments": [
+        {
+          "id": "commitment-energy-001",
+          "status": {
+            "descriptor": {
+              "code": "CLOSED"
+            }
+          },
+          "resources": [
+            {
+              "id": "ds-bescom-customer-credentials-q1-2026",
+              "descriptor": {
+                "name": "BESCOM Residential Customer Credentials - Q1 2026"
+              },
+              "quantity": {
+                "unitText": "credential",
+                "unitCode": "EA",
+                "value": "1"
+              }
+            }
+          ],
+          "offer": {
+            "id": "offer-bescom-cust-cred-inline-delivery",
+            "descriptor": {
+              "name": "Inline Credential Delivery - BESCOM Customer Data Q1 2026"
+            },
+            "resourceIds": [
+              "ds-bescom-customer-credentials-q1-2026"
+            ]
+          }
+        }
+      ],
+      "participants": [
+        {
+          "id": "bescom-provider-001",
+          "descriptor": {
+            "name": "BESCOM - Bangalore Electricity Supply Company"
+          }
+        },
+        {
+          "id": "gridsync-buyer-001",
+          "descriptor": {
+            "name": "GridSync Analytics"
+          }
+        }
+      ],
+      "settlements": [
+        {
+          "id": "settlement-refund",
+          "considerationId": "consideration-energy-pricing",
+          "status": "COMPLETE",
+          "settlementAttributes": {
+            "@context": "https://raw.githubusercontent.com/beckn/schemas/refs/heads/main/schema/Payment/v2.0/context.jsonld",
+            "@type": "Payment",
+            "beckn:paymentStatus": "REFUNDED",
+            "beckn:amount": {
+              "currency": "INR",
+              "value": 1500.00
+            },
+            "beckn:txnRef": "UPI-REFUND-2026-040109250099",
+            "beckn:paidAt": "2026-04-01T09:25:08Z"
+          }
+        }
+      ]
+    }
+  }
+}
