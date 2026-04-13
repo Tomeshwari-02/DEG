@@ -1,0 +1,26 @@
+{
+  "context": {
+    "networkId": "nfh.global/testnet-deg",
+    "version": "2.0.0",
+    "action": "catalog/subscription",
+    "bapId": "bap.example.com",
+    "bapUri": "http://onix-bap:8081/bap/receiver",
+    "bppId": "bpp.example.com",
+    "bppUri": "http://onix-bpp:8082/bpp/receiver",
+    "transactionId": "c3d4e5f6-a7b8-9012-cdef-234567890123",
+    "messageId": "4b5c6d7e-8f90-1234-7890-123456789012",
+    "timestamp": "2026-04-01T06:00:00Z",
+    "schemaContext": [
+      "https://raw.githubusercontent.com/beckn/DDM/main/specification/schema/DatasetItem/v1/context.jsonld"
+    ]
+  },
+  "message": {
+    "subscription": {
+      "networkIds": ["nfh.global/testnet-deg"],
+      "schemaTypes": [
+        "https://raw.githubusercontent.com/beckn/DDM/main/specification/schema/DatasetItem/v1/context.jsonld"
+      ],
+      "callbackUrl": "https://aperc.example.in/beckn/catalog/callback"
+    }
+  }
+}

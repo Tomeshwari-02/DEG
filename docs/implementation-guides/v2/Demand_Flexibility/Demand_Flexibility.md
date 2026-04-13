@@ -2012,11 +2012,11 @@ The demand-flex devkit provides a complete local testnet:
 
 ```bash
 # Start the devkit
-docker compose -f testnet/demand-flex-devkit/install/docker-compose-demand-flex.yml up -d
+docker compose -f devkits/demand-flex/install/docker-compose-demand-flex.yml up -d
 
 # Import Postman collections
-# BAP: testnet/demand-flex-devkit/postman/demand-flex.BAP-DEG.postman_collection.json
-# BPP: testnet/demand-flex-devkit/postman/demand-flex.BPP-DEG.postman_collection.json
+# BAP: devkits/demand-flex/postman/demand-flex.BAP-DEG.postman_collection.json
+# BPP: devkits/demand-flex/postman/demand-flex.BPP-DEG.postman_collection.json
 ```
 
 | Component | Port | Description |

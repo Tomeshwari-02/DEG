@@ -49,7 +49,7 @@ python3 scripts/validate_schema.py examples/ev-charging/v2/**/*.json
 python3 scripts/validate_schema.py --core-only examples/ev-charging/v2/03_select/time-based-ev-charging-slot-select.json
 
 # Validate Postman collection:
-python3 scripts/validate_schema.py testnet/ev-charging-devkit/postman/ev-charging:BAP-DEG.postman_collection.json
+python3 scripts/validate_schema.py devkits/ev-charging/postman/ev-charging:BAP-DEG.postman_collection.json
 
 EXAMPLE JSON STRUCTURE:
 ----------------------
@@ -353,7 +353,7 @@ def get_schema_store():
     attribute_schemas_map = {}
     return [registry], None, attribute_schemas_map
 
-CORE_BECKN_SCHEMA_URL = "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/refs/heads/main/api/v2.0.0/beckn.yaml"
+CORE_BECKN_SCHEMA_URL = "https://raw.githubusercontent.com/beckn/protocol-specifications-v2/refs/tags/core-v2.0.0-lts/api/v2.0.0/beckn.yaml"
 
 def _load_core_beckn_schema(registry_list):
     """
