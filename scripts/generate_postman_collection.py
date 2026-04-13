@@ -27,7 +27,7 @@ CLI USAGE
 python3 scripts/generate_postman_collection.py \\
   --devkit ev-charging \\
   --role BAP \\
-  --output-dir testnet/ev-charging-devkit/postman \\
+  --output-dir devkits/ev-charging/postman \\
   --examples examples/ev-charging/v2 \\
   --name ev-charging:BAP-DEG \\
   --description \"EV Charging BAP flows\" \\
@@ -87,7 +87,7 @@ DEVKIT_CONFIGS = {
         "bap_adapter_url": "http://localhost:8081/bap/caller",
         "bpp_adapter_url": "http://localhost:8082/bpp/caller",
         "examples_path": "examples/ev-charging/v2",
-        # "output_path": "testnet/ev-charging-devkit/postman",
+        # "output_path": "devkits/ev-charging/postman",
         "structure": "folders"  # Folder-based structure
     },
     "p2p-trading": {
@@ -99,7 +99,7 @@ DEVKIT_CONFIGS = {
         "bap_adapter_url": "http://localhost:8081/bap/caller",
         "bpp_adapter_url": "http://localhost:8082/bpp/caller",
         "examples_path": "examples/p2p-trading/v2",
-        # "output_path": "testnet/p2p-trading-devkit/postman",
+        # "output_path": "devkits/p2p-trading/postman",
         "structure": "flat"  # Flat file structure
     },
     "p2p-enrollment": {
@@ -111,7 +111,7 @@ DEVKIT_CONFIGS = {
         "bap_adapter_url": "http://localhost:8081/bap/caller",
         "bpp_adapter_url": "http://localhost:8082/bpp/caller",
         "examples_path": "examples/enrollment/v2",
-        # "output_path": "testnet/p2p-enrollment-devkit/postman",
+        # "output_path": "devkits/p2p-enrollment/postman",
         "structure": "flat"  # Flat file structure (like p2p-trading)
     },
     "p2p-trading-interdiscom": {
@@ -123,7 +123,7 @@ DEVKIT_CONFIGS = {
         "bap_adapter_url": "http://localhost:8081/bap/caller",
         "bpp_adapter_url": "http://localhost:8082/bpp/caller",
         "examples_path": "examples/p2p-trading-interdiscom/v2",
-        # "output_path": "testnet/p2p-trading-interdiscom-devkit/postman",
+        # "output_path": "devkits/p2p-trading-interdiscom/postman",
         "structure": "flat"  # Flat file structure (like p2p-trading)
     },
     "demand-flex": {
@@ -137,7 +137,7 @@ DEVKIT_CONFIGS = {
         "examples_path": "examples/demand-flex/v2",
         "structure": "flat"
     },
-    "energy-data-exchange": {
+    "energy-data-exchange-usecase1": {
         "domain": "nfh.global/testnet-deg",
         "bap_id": "bap.example.com",
         "bap_uri": "http://onix-bap:8081/bap/receiver",
@@ -145,7 +145,18 @@ DEVKIT_CONFIGS = {
         "bpp_uri": "http://onix-bpp:8082/bpp/receiver",
         "bap_adapter_url": "http://localhost:8081/bap/caller",
         "bpp_adapter_url": "http://localhost:8082/bpp/caller",
-        "examples_path": "testnet/energy-data-exchange-devkit/examples/v2",
+        "examples_path": "devkits/energy-data-exchange/usecase1/examples",
+        "structure": "flat"
+    },
+    "energy-data-exchange-usecase2": {
+        "domain": "nfh.global/testnet-deg",
+        "bap_id": "bap.example.com",
+        "bap_uri": "http://onix-bap:8081/bap/receiver",
+        "bpp_id": "bpp.example.com",
+        "bpp_uri": "http://onix-bpp:8082/bpp/receiver",
+        "bap_adapter_url": "http://localhost:8081/bap/caller",
+        "bpp_adapter_url": "http://localhost:8082/bpp/caller",
+        "examples_path": "devkits/energy-data-exchange/usecase2/examples",
         "structure": "flat"
     }
 }
@@ -709,9 +720,9 @@ def main():
     parser.add_argument(
         "--devkit",
         type=str,
-        choices=["ev-charging", "p2p-trading", "p2p-enrollment", "p2p-trading-interdiscom", "demand-flex", "energy-data-exchange"],
+        choices=["ev-charging", "p2p-trading", "p2p-enrollment", "p2p-trading-interdiscom", "demand-flex", "energy-data-exchange-usecase1", "energy-data-exchange-usecase2"],
         required=True,
-        help="Devkit type: 'ev-charging', 'p2p-trading', 'p2p-enrollment', 'p2p-trading-interdiscom', 'demand-flex', or 'energy-data-exchange'"
+        help="Devkit type"
     )
     parser.add_argument(
         "--role",

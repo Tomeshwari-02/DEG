@@ -1,0 +1,185 @@
+arazzo: 1.0.1
+info:
+  title: Energy Data Exchange Workflow - Use Case 1 (AMI Meter Data)
+  version: 1.0.0
+  description: >
+    End-to-end Beckn 2.0 workflow for inline energy data exchange via
+    DatasetItem with IES_Report dataPayload.
+    Scenario: IntelliGrid AMI Services (AMISP) publishes meter data,
+    BESCOM (discom) discovers and acquires it with in-message delivery.
+
+    Run with Redocly respect (from usecase1/):
+
+      Run all workflows:
+        npx @redocly/cli respect workflows/energy-data-exchange.arazzo.yaml \
+          --severity 'SCHEMA_CHECK=off' -v
+
+      Run a single workflow:
+        npx @redocly/cli respect workflows/energy-data-exchange.arazzo.yaml \
+          -w select-through-status --severity 'SCHEMA_CHECK=off' -v
+
+      Available workflows: publish-catalog, discover,
+        select-through-status, discover-service-catalog-subscription,
+        energy-data-exchange-cancellation
+
+      Override server URLs (optional, defaults in x-serverUrl):
+        -S beckn-bap-caller=http://localhost:8081/bap/caller \
+        -S beckn-bpp-caller=http://localhost:8082/bpp/caller
+
+sourceDescriptions:
+  - name: beckn-bap-caller
+    type: openapi
+    url: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/refs/tags/core-v2.0.0-lts/api/v2.0.0/beckn.yaml
+    x-serverUrl: http://localhost:8081/bap/caller
+
+  - name: beckn-bpp-caller
+    type: openapi
+    url: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/refs/tags/core-v2.0.0-lts/api/v2.0.0/beckn.yaml
+    x-serverUrl: http://localhost:8082/bpp/caller
+
+  - name: beckn-discover-service
+    type: openapi
+    url: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/refs/tags/core-v2.0.0-lts/api/v2.0.0/beckn.yaml
+    x-serverUrl: http://localhost:8083/discover
+
+workflows:
+  - workflowId: publish-catalog
+    summary: AMISP publishes AMI meter data catalog to catalog service
+    steps:
+      - stepId: publish-catalog
+        description: AMISP publishes AMI meter data catalog with DatasetItem resources
+        operationId: beckn-bpp-caller.catalogPublish
+        requestBody:
+          contentType: application/json
+          payload:
+            $ref: "../examples/publish-catalog.json"
+
+  - workflowId: discover
+    summary: Discom discovers available AMI meter datasets via discover service
+    steps:
+      - stepId: discover
+        description: BAP discovers available energy datasets on the network
+        operationId: beckn-bap-caller.discover
+        requestBody:
+          contentType: application/json
+          payload:
+            $ref: "../examples/discover-request.json"
+
+  - workflowId: select-through-status
+    summary: Discom selects, confirms, and receives AMI meter data delivery
+    steps:
+      - stepId: select
+        description: Discom selects AMI meter data dataset for inline delivery
+        operationId: beckn-bap-caller.select
+        requestBody:
+          contentType: application/json
+          payload:
+            $ref: "../examples/select-request.json"
+
+      - stepId: on-select
+        description: AMISP responds with terms for selected dataset (existing contract)
+        operationId: beckn-bpp-caller.onSelect
+        requestBody:
+          contentType: application/json
+          payload:
+            $ref: "../examples/on-select-response.json"
+
+      - stepId: init
+        description: BAP provides billing details and buyer organization info
+        operationId: beckn-bap-caller.init
+        requestBody:
+          contentType: application/json
+          payload:
+            $ref: "../examples/init-request.json"
+
+      - stepId: on-init
+        description: BPP confirms contract is ready for payment
+        operationId: beckn-bpp-caller.onInit
+        requestBody:
+          contentType: application/json
+          payload:
+            $ref: "../examples/on-init-response.json"
+
+      - stepId: confirm
+        description: BAP confirms contract with payment settlement
+        operationId: beckn-bap-caller.confirm
+        requestBody:
+          contentType: application/json
+          payload:
+            $ref: "../examples/confirm-request.json"
+
+      - stepId: on-confirm
+        description: BPP acknowledges payment and begins credential preparation
+        operationId: beckn-bpp-caller.onConfirm
+        requestBody:
+          contentType: application/json
+          payload:
+            $ref: "../examples/on-confirm-response.json"
+
+      - stepId: status
+        description: BAP checks delivery status
+        operationId: beckn-bap-caller.status
+        requestBody:
+          contentType: application/json
+          payload:
+            $ref: "../examples/status-request.json"
+
+      - stepId: on-status-processing
+        description: BPP reports credential verification in progress
+        operationId: beckn-bpp-caller.onStatus
+        requestBody:
+          contentType: application/json
+          payload:
+            $ref: "../examples/on-status-response-processing.json"
+
+      - stepId: on-status-ready-url
+        description: >
+          BPP delivers data via URL download link. The performanceAttributes
+          contain dataset:downloadUrl, dataset:checksum, and dataset:fileSizeBytes
+          for the consumer to fetch the data off-beckn.
+        operationId: beckn-bpp-caller.onStatus
+        requestBody:
+          contentType: application/json
+          payload:
+            $ref: "../examples/on-status-response-ready-url.json"
+
+      - stepId: on-status-ready-inline
+        description: >
+          AMISP delivers AMI meter data inline via dataPayload.
+          This is the key step demonstrating DatasetItem's in-message
+          delivery with an IES_Report (OpenADR telemetry) embedded in dataPayload.
+        operationId: beckn-bpp-caller.onStatus
+        requestBody:
+          contentType: application/json
+          payload:
+            $ref: "../examples/on-status-response-ready-inline.json"
+
+  - workflowId: discover-service-catalog-subscription
+    summary: Discover service subscribes to catalog service for real-time catalog updates
+    steps:
+      - stepId: subscribe-catalog
+        description: Discover service subscribes to catalog service for DatasetItem catalog updates
+        operationId: beckn-discover-service.catalogSubscribe
+        requestBody:
+          contentType: application/json
+          payload:
+            $ref: "../examples/subscribe-catalog.json"
+
+  - workflowId: energy-data-exchange-cancellation
+    summary: Contract cancellation with refund
+    steps:
+      - stepId: cancel
+        description: BAP cancels the data exchange contract
+        operationId: beckn-bap-caller.cancel
+        requestBody:
+          contentType: application/json
+          payload:
+            $ref: "../examples/cancel-request.json"
+
+      - stepId: on-cancel
+        description: BPP confirms cancellation with refund settlement
+        operationId: beckn-bpp-caller.onCancel
+        requestBody:
+          contentType: application/json
+          payload:
+            $ref: "../examples/on-cancel-response.json"
