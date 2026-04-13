@@ -137,7 +137,7 @@ DEVKIT_CONFIGS = {
         "examples_path": "examples/demand-flex/v2",
         "structure": "flat"
     },
-    "energy-data-exchange-usecase1": {
+    "data-exchange-usecase1": {
         "domain": "nfh.global/testnet-deg",
         "bap_id": "bap.example.com",
         "bap_uri": "http://onix-bap:8081/bap/receiver",
@@ -145,10 +145,10 @@ DEVKIT_CONFIGS = {
         "bpp_uri": "http://onix-bpp:8082/bpp/receiver",
         "bap_adapter_url": "http://localhost:8081/bap/caller",
         "bpp_adapter_url": "http://localhost:8082/bpp/caller",
-        "examples_path": "devkits/energy-data-exchange/usecase1/examples",
+        "examples_path": "devkits/data-exchange/usecase1/examples",
         "structure": "flat"
     },
-    "energy-data-exchange-usecase2": {
+    "data-exchange-usecase2": {
         "domain": "nfh.global/testnet-deg",
         "bap_id": "bap.example.com",
         "bap_uri": "http://onix-bap:8081/bap/receiver",
@@ -156,7 +156,7 @@ DEVKIT_CONFIGS = {
         "bpp_uri": "http://onix-bpp:8082/bpp/receiver",
         "bap_adapter_url": "http://localhost:8081/bap/caller",
         "bpp_adapter_url": "http://localhost:8082/bpp/caller",
-        "examples_path": "devkits/energy-data-exchange/usecase2/examples",
+        "examples_path": "devkits/data-exchange/usecase2/examples",
         "structure": "flat"
     }
 }
@@ -720,7 +720,7 @@ def main():
     parser.add_argument(
         "--devkit",
         type=str,
-        choices=["ev-charging", "p2p-trading", "p2p-enrollment", "p2p-trading-interdiscom", "demand-flex", "energy-data-exchange-usecase1", "energy-data-exchange-usecase2"],
+        choices=["ev-charging", "p2p-trading", "p2p-enrollment", "p2p-trading-interdiscom", "demand-flex", "data-exchange-usecase1", "data-exchange-usecase2"],
         required=True,
         help="Devkit type"
     )

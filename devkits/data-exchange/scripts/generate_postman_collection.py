@@ -31,14 +31,14 @@ if ROLE is None:
 usecases = [USECASE] if USECASE else ["usecase1", "usecase2"]
 
 for uc in usecases:
-    devkit = f"energy-data-exchange-{uc}"
+    devkit = f"data-exchange-{uc}"
     output_dir = str(DEVKIT_ROOT / uc / "postman")
     cmd = [
         sys.executable, str(TOP_LEVEL_SCRIPT),
         "--devkit", devkit,
         "--role", ROLE,
         "--output-dir", output_dir,
-        "--name", f"energy-data-exchange-{uc}.{ROLE}-DEG",
+        "--name", f"data-exchange-{uc}.{ROLE}-DEG",
         "--no-validate",
     ]
     ret = subprocess.call(cmd)
