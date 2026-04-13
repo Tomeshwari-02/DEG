@@ -9,7 +9,7 @@
     "messageId": "1a2b3c4d-5e6f-7890-abcd-ef0987654321",
     "timestamp": "2026-04-01T06:00:00Z",
     "schemaContext": [
-      "https://raw.githubusercontent.com/beckn/DEG/deg-221-EnergyDataSets-and-Devkit/specification/schema/EnergyDataSetItem/v2.0/context.jsonld"
+      "https://raw.githubusercontent.com/beckn/DDM/main/specification/schema/DatasetItem/v1/context.jsonld"
     ]
   },
   "message": {
@@ -35,8 +35,8 @@
               "longDesc": "Anonymized and verified UtilityCustomerCredential records for residential electricity connections in Bengaluru, suitable for demand-response program enrollment and load aggregation."
             },
             "resourceAttributes": {
-              "@context": "https://raw.githubusercontent.com/beckn/DEG/deg-221-EnergyDataSets-and-Devkit/specification/schema/EnergyDataSetItem/v2.0/context.jsonld",
-              "@type": "EnergyDataSetItem",
+              "@context": "https://raw.githubusercontent.com/beckn/DDM/main/specification/schema/DatasetItem/v1/context.jsonld",
+              "@type": "DatasetItem",
               "schema:identifier": "ds-bescom-customer-credentials-q1-2026",
               "schema:name": "BESCOM Residential Customer Credentials - Q1 2026",
               "schema:temporalCoverage": "2026-01-01/2026-03-31",

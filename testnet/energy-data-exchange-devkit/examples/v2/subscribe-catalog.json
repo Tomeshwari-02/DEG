@@ -11,14 +11,14 @@
     "messageId": "4b5c6d7e-8f90-1234-7890-123456789012",
     "timestamp": "2026-04-01T06:00:00Z",
     "schemaContext": [
-      "https://raw.githubusercontent.com/beckn/DEG/deg-221-EnergyDataSets-and-Devkit/specification/schema/EnergyDataSetItem/v2.0/context.jsonld"
+      "https://raw.githubusercontent.com/beckn/DDM/main/specification/schema/DatasetItem/v1/context.jsonld"
     ]
   },
   "message": {
     "subscription": {
       "networkIds": ["nfh.global/testnet-deg"],
       "schemaTypes": [
-        "https://raw.githubusercontent.com/beckn/DEG/deg-221-EnergyDataSets-and-Devkit/specification/schema/EnergyDataSetItem/v2.0/context.jsonld"
+        "https://raw.githubusercontent.com/beckn/DDM/main/specification/schema/DatasetItem/v1/context.jsonld"
       ],
       "callbackUrl": "https://gridsync.example.in/beckn/catalog/callback"
     }

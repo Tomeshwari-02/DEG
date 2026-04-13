@@ -17,7 +17,7 @@
     "messageId": "2b3c4d5e-6f7a-8901-bcde-f09876543210",
     "timestamp": "2026-04-01T09:00:00Z",
     "schemaContext": [
-      "https://raw.githubusercontent.com/beckn/DEG/deg-221-EnergyDataSets-and-Devkit/specification/schema/EnergyDataSetItem/v2.0/context.jsonld"
+      "https://raw.githubusercontent.com/beckn/DDM/main/specification/schema/DatasetItem/v1/context.jsonld"
     ]
   },
   "message": {

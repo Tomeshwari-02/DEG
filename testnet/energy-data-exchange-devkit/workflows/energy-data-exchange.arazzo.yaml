@@ -4,7 +4,7 @@ info:
   version: 1.0.0
   description: >
     End-to-end Beckn 2.0 workflow for inline energy data exchange via
-    EnergyDataSetItem with UtilityCustomerCredential dataPayload.
+    DatasetItem with UtilityCustomerCredential dataPayload.
     Scenario: BESCOM publishes customer credential data, GridSync Analytics
     discovers and acquires it with in-message delivery.
 
@@ -47,7 +47,7 @@ workflows:
     summary: BPP publishes energy dataset catalog to catalog service
     steps:
       - stepId: publish-catalog
-        description: BPP publishes energy dataset catalog with EnergyDataSetItem resources
+        description: BPP publishes energy dataset catalog with DatasetItem resources
         operationId: beckn-bpp-caller.catalogPublish
         requestBody:
           contentType: application/json
@@ -146,7 +146,7 @@ workflows:
       - stepId: on-status-ready-inline
         description: >
           BPP delivers credential data inline via dataPayload.
-          This is the key step demonstrating EnergyDataSetItem's in-message
+          This is the key step demonstrating DatasetItem's in-message
           delivery with a UtilityCustomerCredential embedded in dataPayload.
         operationId: beckn-bpp-caller.onStatus
         requestBody:
@@ -158,7 +158,7 @@ workflows:
     summary: Discover service subscribes to catalog service for real-time catalog updates
     steps:
       - stepId: subscribe-catalog
-        description: Discover service subscribes to catalog service for EnergyDataSetItem catalog updates
+        description: Discover service subscribes to catalog service for DatasetItem catalog updates
         operationId: beckn-discover-service.catalogSubscribe
         requestBody:
           contentType: application/json

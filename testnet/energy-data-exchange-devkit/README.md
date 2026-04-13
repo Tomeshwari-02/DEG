@@ -1,19 +1,19 @@
 # Energy Data Exchange Devkit
 
-Beckn Protocol v2.0 devkit demonstrating **inline energy data delivery** via the `EnergyDataSetItem` schema. Instead of downloading datasets from external URLs, data (e.g., Verifiable Credentials) is embedded directly in beckn messages using the `dataPayload` attribute.
+Beckn Protocol v2.0 devkit demonstrating **inline energy data delivery** via DDM's `DatasetItem` schema. Instead of downloading datasets from external URLs, data (e.g., Verifiable Credentials) is embedded directly in beckn messages using the `dataPayload` attribute.
 
 ## Use Case
 
 **BESCOM** (Bangalore Electricity Supply Company) publishes a catalog of utility customer credential datasets. **GridSync Analytics** (a demand-response aggregator) discovers, negotiates, pays for, and receives the data — all within the beckn protocol message flow. The `on_status` response delivers a `UtilityCustomerCredential` inline via `dataPayload`.
 
-## Key Schema: EnergyDataSetItem
+## Key Schema: DatasetItem (DDM)
 
-`EnergyDataSetItem` extends DDM's `DataSetItem` with an optional `dataPayload` — a self-describing JSON-LD container. The `@context` URL in `dataPayload` resolves to the schema describing the payload structure (e.g., `UtilityCustomerCredential` from DEG).
+`DatasetItem` from the [DDM](https://github.com/beckn/DDM) repository includes `dataPayload` for optional inline data delivery and `accessMethod` to declare how the dataset is delivered (`INLINE`, `DOWNLOAD`, `DATA_ENCLAVE`, `OFF_CHANNEL`). The `@context` URL in `dataPayload` resolves to the schema describing the payload structure (e.g., `UtilityCustomerCredential` from DEG).
 
 ```
-DataSetItem (DDM)
-  └── EnergyDataSetItem (DEG)
-        └── dataPayload: { @context, @type, ...credential data }
+DatasetItem (DDM)
+  ├── dataPayload: { @context, @type, ...credential data }
+  └── accessMethod: INLINE | DOWNLOAD | DATA_ENCLAVE | OFF_CHANNEL
 ```
 
 ## Transaction Flow
@@ -22,7 +22,7 @@ DataSetItem (DDM)
 BPP (BESCOM)        Catalog Service     Discovery Service       BAP (GridSync)
     │                     │                    │                      │
     │── publish ─────────►│                    │                      │
-    │   (EnergyDataSetItem│                    │                      │
+    │   (DatasetItem      │                    │                      │
     │    catalog)         │                    │                      │
     │                     │◄── subscribe ──────│                      │
     │                     │   (catalog updates)│                      │
@@ -91,7 +91,7 @@ energy-data-exchange-devkit/
 │   ├── local-simple-bpp.yaml        # BPP adapter (port 8082)
 │   └── local-simple-routing-*.yaml  # Routing rules (domain: nfh.global/testnet-deg)
 ├── examples/v2/                     # Beckn 2.0 example payloads
-│   ├── publish-catalog.json         # BPP publishes EnergyDataSetItem catalog
+│   ├── publish-catalog.json         # BPP publishes DatasetItem catalog
 │   ├── subscribe-catalog.json       # BAP subscribes to catalog updates
 │   ├── discover-request.json        # BAP discovers datasets
 │   ├── select-request.json          # BAP selects dataset
@@ -136,7 +136,6 @@ python3 scripts/generate_postman_collection.py --role BPP
 
 ## Related
 
-- [EnergyDataSetItem Schema](../../specification/schema/EnergyDataSetItem/v2.0/) — The schema extending DataSetItem with `dataPayload`
+- [DDM DatasetItem Schema](https://github.com/beckn/DDM/tree/main/specification/schema/DatasetItem/v1) — The DatasetItem schema with `dataPayload` and `accessMethod`
 - [UtilityCustomerCredential](../../specification/schema/UtilityCustomerCredential/v2.0/) — The credential type used in the dataPayload example
-- [DDM DataSetItem](https://github.com/beckn/DDM/tree/main/specification/schema/DatasetItem/v1) — Parent schema
 - [DDM rain-probability-devkit](https://github.com/beckn/DDM/tree/feat/v2-migration-ameet/testnet/rain-probability-devkit) — Reference devkit pattern
