@@ -98,11 +98,16 @@
               "resources": [
                 {
                   "resourceName": "METER-BESCOM-SM-2025-654321",
+                  "intervalPeriod": {
+                    "start": "2026-04-01T00:00:00+05:30",
+                    "duration": "PT15M"
+                  },
                   "intervals": [
                     {
                       "id": 0,
                       "intervalPeriod": {
-                        "start": "2026-04-01T00:00:00+05:30"
+                        "start": "2026-04-01T00:00:00+05:30",
+                        "duration": "PT15M"
                       },
                       "payloads": [
                         { "type": "USAGE", "values": [0.42] }
@@ -111,7 +116,8 @@
                     {
                       "id": 1,
                       "intervalPeriod": {
-                        "start": "2026-04-01T00:15:00+05:30"
+                        "start": "2026-04-01T00:15:00+05:30",
+                        "duration": "PT15M"
                       },
                       "payloads": [
                         { "type": "USAGE", "values": [0.38] }
@@ -120,7 +126,8 @@
                     {
                       "id": 2,
                       "intervalPeriod": {
-                        "start": "2026-04-01T00:30:00+05:30"
+                        "start": "2026-04-01T00:30:00+05:30",
+                        "duration": "PT15M"
                       },
                       "payloads": [
                         { "type": "USAGE", "values": [0.35] }
@@ -129,7 +136,8 @@
                     {
                       "id": 3,
                       "intervalPeriod": {
-                        "start": "2026-04-01T00:45:00+05:30"
+                        "start": "2026-04-01T00:45:00+05:30",
+                        "duration": "PT15M"
                       },
                       "payloads": [
                         { "type": "USAGE", "values": [0.31] }
