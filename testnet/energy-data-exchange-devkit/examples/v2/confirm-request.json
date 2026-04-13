@@ -114,7 +114,7 @@
           "settlementAttributes": {
             "@context": "https://raw.githubusercontent.com/beckn/schemas/refs/heads/main/schema/Payment/v2.0/context.jsonld",
             "@type": "Payment",
-            "beckn:paymentStatus": "NOT_APPLICABLE",
+            "beckn:paymentStatus": "COMPLETED",
             "beckn:amount": {
               "currency": "INR",
               "value": 0
