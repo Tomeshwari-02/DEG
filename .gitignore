@@ -1,2 +1,18 @@
 validator.sh
 api/l2.yaml
+
+# OS artifacts
+.DS_Store
+
+# IDE / Claude Code
+.claude/
+CLAUDE.md
+
+# Environment files
+.env
+*.env
+!example.env
+
+# Python
+__pycache__/
+*.pyc
