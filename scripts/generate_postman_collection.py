@@ -29,7 +29,7 @@ python3 scripts/generate_postman_collection.py \\
   --role BAP \\
   --output-dir devkits/ev-charging/postman \\
   --examples examples/ev-charging/v2 \\
-  --name ev-charging:BAP-DEG \\
+  --name ev-charging.BAP-DEG \\
   --description \"EV Charging BAP flows\" \\
   --validate
 
@@ -38,7 +38,7 @@ Arguments:
 - --role          Role in the flows (BAP or BPP)
 - --output-dir    Where to write the Postman collection
 - --examples      Root path to example JSONs (defaults from devkit config)
-- --name          Collection name (default: <devkit>:<role>-DEG)
+- --name          Collection name (default: <devkit>.<role>-DEG)
 - --description   Collection description (optional)
 - --validate      Run schema validation on the generated collection using validate_schema.py
 
@@ -620,7 +620,7 @@ def generate_collection(
     
     # Auto-generate collection name and description if not provided
     if collection_name is None:
-        collection_name = f"{devkit}:{role}-DEG"
+        collection_name = f"{devkit}.{role}-DEG"
     
     if collection_description is None:
         role_desc = {
