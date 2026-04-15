@@ -24,11 +24,12 @@ Both use cases share the same Docker infrastructure, adapter configs, and test s
 ```
 BPP (Provider)      Catalog Service     Discovery Service       BAP (Consumer)
     |                     |                    |                      |
+    |                     |<-- subscribe ------|                      |
+    |                     |   (catalog updates)|                      |
+    |                     |                    |                      |
     |-- publish --------->|                    |                      |
     |   (DatasetItem      |                    |                      |
     |    catalog)         |                    |                      |
-    |                     |<-- subscribe ------|                      |
-    |                     |   (catalog updates)|                      |
     |                     |                    |                      |
     |                     |                    |<---- discover -------|
     |                     |                    |     (search datasets)|

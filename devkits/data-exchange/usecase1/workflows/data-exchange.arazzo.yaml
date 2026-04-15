@@ -18,8 +18,8 @@ info:
         npx @redocly/cli respect workflows/data-exchange.arazzo.yaml \
           -w select-through-status --severity 'SCHEMA_CHECK=off' -v
 
-      Available workflows: publish-catalog, discover,
-        select-through-status, discover-service-catalog-subscription,
+      Available workflows: discover-service-catalog-subscription,
+        publish-catalog, discover, select-through-status,
         data-exchange-cancellation
 
       Override server URLs (optional, defaults in x-serverUrl):
@@ -43,6 +43,17 @@ sourceDescriptions:
     x-serverUrl: http://localhost:8083/discover
 
 workflows:
+  - workflowId: discover-service-catalog-subscription
+    summary: Discover service subscribes to catalog service for real-time catalog updates
+    steps:
+      - stepId: subscribe-catalog
+        description: Discover service subscribes to catalog service for DatasetItem catalog updates
+        operationId: beckn-discover-service.catalogSubscribe
+        requestBody:
+          contentType: application/json
+          payload:
+            $ref: "../examples/subscribe-catalog.json"
+
   - workflowId: publish-catalog
     summary: AMISP publishes AMI meter data catalog to catalog service
     steps:
@@ -153,17 +164,6 @@ workflows:
           contentType: application/json
           payload:
             $ref: "../examples/on-status-response-ready-inline.json"
-
-  - workflowId: discover-service-catalog-subscription
-    summary: Discover service subscribes to catalog service for real-time catalog updates
-    steps:
-      - stepId: subscribe-catalog
-        description: Discover service subscribes to catalog service for DatasetItem catalog updates
-        operationId: beckn-discover-service.catalogSubscribe
-        requestBody:
-          contentType: application/json
-          payload:
-            $ref: "../examples/subscribe-catalog.json"
 
   - workflowId: data-exchange-cancellation
     summary: Contract cancellation with refund

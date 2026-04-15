@@ -18,8 +18,8 @@ info:
         npx @redocly/cli respect workflows/data-exchange.arazzo.yaml \
           -w select-through-status --severity 'SCHEMA_CHECK=off' -v
 
-      Available workflows: publish-catalog, discover,
-        select-through-status, cancellation
+      Available workflows: discover-service-catalog-subscription,
+        publish-catalog, discover, select-through-status, cancellation
 
       Override server URLs (optional, defaults in x-serverUrl):
         -S beckn-bap-caller=http://localhost:8081/bap/caller \
@@ -36,7 +36,23 @@ sourceDescriptions:
     url: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/refs/tags/core-v2.0.0-lts/api/v2.0.0/beckn.yaml
     x-serverUrl: http://localhost:8082/bpp/caller
 
+  - name: beckn-discover-service
+    type: openapi
+    url: https://raw.githubusercontent.com/beckn/protocol-specifications-v2/refs/tags/core-v2.0.0-lts/api/v2.0.0/beckn.yaml
+    x-serverUrl: http://localhost:8083/discover
+
 workflows:
+  - workflowId: discover-service-catalog-subscription
+    summary: Discover service subscribes to catalog service for real-time catalog updates
+    steps:
+      - stepId: subscribe-catalog
+        description: Discover service subscribes to catalog service for DatasetItem catalog updates
+        operationId: beckn-discover-service.catalogSubscribe
+        requestBody:
+          contentType: application/json
+          payload:
+            $ref: "../examples/subscribe-catalog.json"
+
   - workflowId: publish-catalog
     summary: Discom publishes ARR filing catalog to catalog service
     steps:

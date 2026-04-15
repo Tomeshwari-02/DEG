@@ -96,8 +96,8 @@ echo ""
 
 # --- Catalog operations ---
 echo "Catalog operations:"
-run_step "publish (BPP→catalog service)"  "$BPP_URL" "publish"   "publish-catalog.json"
 run_step "subscribe (BAP→catalog service)" "$BAP_URL" "subscribe" "subscribe-catalog.json"
+run_step "publish (BPP→catalog service)"  "$BPP_URL" "publish"   "publish-catalog.json"
 echo ""
 
 # --- Discovery ---
