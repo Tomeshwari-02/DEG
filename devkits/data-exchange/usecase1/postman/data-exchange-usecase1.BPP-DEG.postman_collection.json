@@ -1,9 +1,9 @@
 {
   "info": {
-    "_postman_id": "028a12d2-c9bd-486d-bad7-2ded0ddd44a4",
-    "name": "energy-data-exchange-usecase1.BPP-DEG",
+    "_postman_id": "6c78ceae-c7b3-4873-a4be-520c2db7a6bc",
+    "name": "data-exchange-usecase1.BPP-DEG",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": "Postman collection for Buyer Provider Platform implementing energy-data-exchange-usecase1 APIs based on Beckn Protocol v2"
+    "description": "Postman collection for Buyer Provider Platform implementing data-exchange-usecase1 APIs based on Beckn Protocol v2"
   },
   "item": [
     {
