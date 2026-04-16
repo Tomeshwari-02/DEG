@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "f2ed697d-c87b-47b7-ac4e-31980516430a",
+    "_postman_id": "8b1bb7ec-ec94-471e-8507-4671639b8d26",
     "name": "data-exchange-usecase1.BAP-DEG",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": "Postman collection for Buyer Application Platform implementing data-exchange-usecase1 APIs based on Beckn Protocol v2"
@@ -80,7 +80,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"context\": {\n    \"networkId\": \"nfh.global/testnet-deg\",\n    \"version\": \"{{version}}\",\n    \"action\": \"discover\",\n    \"location\": {\n      \"country\": {\n        \"code\": \"IND\"\n      },\n      \"city\": {\n        \"code\": \"std:080\"\n      }\n    },\n    \"bapId\": \"{{bap_id}}\",\n    \"bapUri\": \"{{bap_uri}}\",\n    \"transactionId\": \"{{transaction_id}}\",\n    \"messageId\": \"{{$guid}}\",\n    \"timestamp\": \"{{iso_date}}\",\n    \"schemaContext\": [\n      \"https://raw.githubusercontent.com/beckn/DDM/main/specification/schema/DatasetItem/v1/context.jsonld\"\n    ]\n  },\n  \"message\": {\n    \"intent\": {\n      \"filters\": [\n        {\n          \"type\": \"jsonpath\",\n          \"expression\": \"$.catalogs[?(@.bppId=='bpp.example.com')]\"\n        },\n        {\n          \"type\": \"jsonpath\",\n          \"expression\": \"$.catalogs[*].resources[?(@.id=='ds-ami-meter-data-blr-zone-a-q1-2026')]\"\n        },\n        {\n          \"type\": \"jsonpath\",\n          \"expression\": \"$.catalogs[*].resources[?(@.resourceAttributes['dataset:sensitivityLevel']=='REGULATORY')]\"\n        },\n        {\n          \"type\": \"jsonpath\",\n          \"expression\": \"$.catalogs[*].offers[?(@.considerations[0].considerationAttributes.value==0)]\"\n        }\n      ]\n    }\n  }\n}",
+              "raw": "{\n  \"context\": {\n    \"networkId\": \"nfh.global/testnet-deg\",\n    \"version\": \"{{version}}\",\n    \"action\": \"discover\",\n    \"location\": {\n      \"country\": {\n        \"code\": \"IND\"\n      },\n      \"city\": {\n        \"code\": \"std:080\"\n      }\n    },\n    \"bapId\": \"{{bap_id}}\",\n    \"bapUri\": \"{{bap_uri}}\",\n    \"transactionId\": \"{{transaction_id}}\",\n    \"messageId\": \"{{$guid}}\",\n    \"timestamp\": \"{{iso_date}}\",\n    \"schemaContext\": [\n      \"https://raw.githubusercontent.com/beckn/DDM/main/specification/schema/DatasetItem/v1/context.jsonld\"\n    ]\n  },\n  \"message\": {\n    \"intent\": {\n      \"filters\": {\n        \"type\": \"jsonpath\",\n        \"expression\": \"$.catalogs[?(@.bppId=='bpp.example.com')]\"\n      }\n    }\n  }\n}",
               "options": {
                 "raw": {
                   "language": "json"
