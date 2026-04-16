@@ -24,7 +24,7 @@
     "intent": {
       "filters": {
         "type": "jsonpath",
-        "expression": "$.catalogs[?(@.bppId=='bpp.example.com')]"
+        "expression": "$.catalogs[*].resources[*]"
       }
     }
   }
