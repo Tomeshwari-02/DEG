@@ -467,8 +467,7 @@ def create_postman_request(
     # Format JSON with proper indentation
     body_raw = json.dumps(request_body, indent=2)
 
-    # Use GET for discover, POST for everything else
-    method = "GET" if action == "discover" else "POST"
+    method = "POST"
 
     return {
         "name": request_name,
