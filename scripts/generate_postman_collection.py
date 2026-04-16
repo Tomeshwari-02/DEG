@@ -463,17 +463,14 @@ def create_postman_request(
     """
     # Replace macros in the JSON
     request_body = replace_context_macros(json_data)
-
+    
     # Format JSON with proper indentation
     body_raw = json.dumps(request_body, indent=2)
-
-    # Use GET for discover, POST for everything else
-    method = "GET" if action == "discover" else "POST"
-
+    
     return {
         "name": request_name,
         "request": {
-            "method": method,
+            "method": "POST",
             "header": [],
             "body": {
                 "mode": "raw",

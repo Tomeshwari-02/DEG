@@ -1,5 +1,6 @@
 routingRules:
-  - version: "2.0.0"
+  - domain: "nfh.global/testnet-deg"
+    version: "2.0.0"
     targetType: "bap"
     endpoints:
       - on_status
@@ -13,7 +14,8 @@ routingRules:
       - on_support
       - on_discover
 
-  - version: "2.0.0"
+  - domain: "nfh.global/testnet-deg"
+    version: "2.0.0"
     targetType: "url"
     target:
       url: "https://fabric.nfh.global/beckn/catalog"
