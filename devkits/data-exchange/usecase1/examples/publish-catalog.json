@@ -20,6 +20,8 @@
           "name": "IntelliGrid AMI - Energy Meter Data Catalogue",
           "shortDesc": "Advanced metering infrastructure datasets for distribution companies"
         },
+        "bppId": "bpp.example.com",
+        "bppUri": "http://onix-bpp:8082/bpp/receiver",
         "provider": {
           "id": "intelligrid-amisp-001",
           "descriptor": {

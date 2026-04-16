@@ -22,6 +22,8 @@
           "name": "TPDDL Demand Flex - April 2026",
           "shortDesc": "Peak demand reduction opportunities for North Delhi"
         },
+        "bppId": "tpddl-utility.example.com",
+        "bppUri": "https://tpddl-utility.example.com/beckn",
         "provider": {
           "id": "tpddl-north-delhi",
           "descriptor": {
