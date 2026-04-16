@@ -76,7 +76,7 @@
         {
           "name": "discover-request",
           "request": {
-            "method": "POST",
+            "method": "GET",
             "header": [],
             "body": {
               "mode": "raw",
