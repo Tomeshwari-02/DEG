@@ -37,8 +37,10 @@ total=0
 run_step() {
   local label="$1" url="$2" action="$3" file="$4"
   total=$((total + 1))
-  local http_code body
-  body=$(curl -s -w "\n%{http_code}" -X POST "$url/$action" \
+  local http_code body method
+  method="POST"
+  [ "$action" = "discover" ] && method="GET"
+  body=$(curl -s -w "\n%{http_code}" -X "$method" "$url/$action" \
     -H "Content-Type: application/json" \
     -d @"$EXAMPLES/$file" 2>&1)
   http_code=$(echo "$body" | tail -1)
