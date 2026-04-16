@@ -2,7 +2,7 @@ services:
   # ============================================
   # Core Infrastructure Services
   # ============================================
-  
+
   # Redis - Caching Service
   redis:
     image: redis:alpine
@@ -12,13 +12,13 @@ services:
     networks:
       - beckn_network
     healthcheck:
-      test: ["CMD", "redis-cli", "ping"]
+      test: [ "CMD", "redis-cli", "ping" ]
       interval: 5s
       timeout: 3s
       retries: 5
-  
+
   onix-bap:
-    image: fidedocker/onix-adapter
+    image: fidedocker/onix-adapter:latest
     container_name: onix-bap
     platform: linux/amd64
     networks:
@@ -26,7 +26,7 @@ services:
     ports:
       - "8081:8081"
     environment:
-      CONFIG_FILE: "/app/config/local-simple.yaml"
+      CONFIG_FILE: "/app/config/local-ev-bap.yaml"
       VAULT_ADDR: http://vault:8200
       VAULT_TOKEN: root
       REDIS_ADDR: redis:6379
@@ -36,10 +36,10 @@ services:
     volumes:
       - ../config:/app/config
       - ../schemas:/app/schemas
-    command: ["./server", "--config=/app/config/local-ev-bap.yaml"]
+    command: [ "./server", "--config=/app/config/local-ev-bap.yaml" ]
 
   onix-bpp:
-    image: fidedocker/onix-adapter
+    image: fidedocker/onix-adapter:latest
     container_name: onix-bpp
     platform: linux/amd64
     networks:
@@ -47,7 +47,7 @@ services:
     ports:
       - "8082:8082"
     environment:
-      CONFIG_FILE: "/app/config/local-simple.yaml"
+      CONFIG_FILE: "/app/config/local-ev-bpp.yaml"
       VAULT_ADDR: http://vault:8200
       VAULT_TOKEN: root
       REDIS_ADDR: redis:6379
@@ -57,12 +57,12 @@ services:
     volumes:
       - ../config:/app/config
       - ../schemas:/app/schemas
-    command: ["./server", "--config=/app/config/local-ev-bpp.yaml"]
+    command: [ "./server", "--config=/app/config/local-ev-bpp.yaml" ]
 
   sandbox-bap:
     container_name: sandbox-bap
     image: fidedocker/sandbox-2.0:latest
-    # platform: linux/amd64
+    platform: linux/amd64
     environment:
       - NODE_ENV=production
       - PORT=3001
@@ -76,11 +76,11 @@ services:
       start_period: 10s
     networks:
       - beckn_network
-    
+
   sandbox-bpp:
     container_name: sandbox-bpp
     image: fidedocker/sandbox-2.0:latest
-    # platform: linux/amd64
+    platform: linux/amd64
     environment:
       - NODE_ENV=production
       - PORT=3002
