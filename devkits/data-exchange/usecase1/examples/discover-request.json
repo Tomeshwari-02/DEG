@@ -22,10 +22,24 @@
   },
   "message": {
     "intent": {
-      "filters": {
-        "type": "jsonpath",
-        "expression": "$.catalogs[*].resources[*]"
-      }
+      "filters": [
+        {
+          "type": "jsonpath",
+          "expression": "$.catalogs[?(@.bppId=='bpp.example.com')]"
+        },
+        {
+          "type": "jsonpath",
+          "expression": "$.catalogs[*].resources[?(@.id=='ds-ami-meter-data-blr-zone-a-q1-2026')]"
+        },
+        {
+          "type": "jsonpath",
+          "expression": "$.catalogs[*].resources[?(@.resourceAttributes['dataset:sensitivityLevel']=='REGULATORY')]"
+        },
+        {
+          "type": "jsonpath",
+          "expression": "$.catalogs[*].offers[?(@.considerations[0].considerationAttributes.value==0)]"
+        }
+      ]
     }
   }
 }
