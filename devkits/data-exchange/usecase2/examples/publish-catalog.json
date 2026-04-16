@@ -21,7 +21,7 @@
           "shortDesc": "Aggregate Revenue Requirement filings for regulatory review"
         },
         "bppId": "bpp.example.com",
-        "bppUri": "http://onix-bpp:8082/bpp/receiver",
+        "bppUri": "http://bpp.example.com/bpp/receiver",
         "provider": {
           "id": "bescom-discom-001",
           "descriptor": {

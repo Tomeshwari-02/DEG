@@ -21,7 +21,7 @@
           "shortDesc": "Advanced metering infrastructure datasets for distribution companies"
         },
         "bppId": "bpp.example.com",
-        "bppUri": "http://onix-bpp:8082/bpp/receiver",
+        "bppUri": "http://bpp.example.com/bpp/receiver",
         "provider": {
           "id": "intelligrid-amisp-001",
           "descriptor": {

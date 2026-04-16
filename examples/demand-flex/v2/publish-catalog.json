@@ -23,7 +23,7 @@
           "shortDesc": "Peak demand reduction opportunities for North Delhi"
         },
         "bppId": "tpddl-utility.example.com",
-        "bppUri": "https://tpddl-utility.example.com/beckn",
+        "bppUri": "http://tpddl-utility.example.com/bpp/receiver",
         "provider": {
           "id": "tpddl-north-delhi",
           "descriptor": {
