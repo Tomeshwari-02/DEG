@@ -1,9 +1,9 @@
 {
   "info": {
     "_postman_id": "f22706ff-b815-4bb3-a9d1-da501b06e6ee",
-    "name": "energy-data-exchange-usecase1.BAP-DEG",
+    "name": "data-exchange-usecase1.BAP-DEG",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "description": "Postman collection for Buyer Application Platform implementing energy-data-exchange-usecase1 APIs based on Beckn Protocol v2"
+    "description": "Postman collection for Buyer Application Platform implementing data-exchange-usecase1 APIs based on Beckn Protocol v2"
   },
   "item": [
     {
@@ -76,7 +76,7 @@
         {
           "name": "discover-request",
           "request": {
-            "method": "GET",
+            "method": "POST",
             "header": [],
             "body": {
               "mode": "raw",
