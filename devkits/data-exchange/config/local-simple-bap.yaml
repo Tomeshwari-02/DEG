@@ -33,7 +33,7 @@ modules:
           config:
             url: https://fabric.nfh.global/registry/dedi
             registryName: subscribers.beckn.one
-            allowedNetworkIDs: "" #"nfh.global/testnet-deg,ies_fsrglobal/winroom-ies-data-exchange"
+            allowedNetworkIDs: "nfh.global/testnet-deg,indiaenergystack.in/winroom-ies-data-exchange"
             timeout: 10
             retry_max: 3
             retry_wait_min: 100ms
@@ -94,7 +94,7 @@ modules:
           config:
             url: https://fabric.nfh.global/registry/dedi
             registryName: subscribers.beckn.one
-            allowedNetworkIDs: "" #"nfh.global/testnet-deg,ies_fsrglobal/winroom-ies-data-exchange"
+            allowedNetworkIDs: "nfh.global/testnet-deg,indiaenergystack.in/winroom-ies-data-exchange"
             timeout: 10
             retry_max: 3
             retry_wait_min: 100ms
