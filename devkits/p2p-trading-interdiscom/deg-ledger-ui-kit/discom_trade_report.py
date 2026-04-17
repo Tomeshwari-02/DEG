@@ -2,9 +2,10 @@
 """
 DISCOM Trade Report — WhatsApp-friendly summary of trades per DISCOM.
 
-Queries the DEG Ledger for trades involving configured DISCOMs over the
-last 30 to last 2 days (midnight IST boundaries) and reports trade counts,
-allocation status, and pending trades by delivery day.
+Queries the DEG Ledger for trades involving configured DISCOMs whose
+delivery start time falls within the last 30 to last 2 days (midnight IST
+boundaries) and reports trade counts, allocation status, and pending
+trades by delivery day.
 
 Usage:
     python3 discom_trade_report.py
@@ -83,9 +84,9 @@ def _fetch_all_trades(api_url, private_key, from_iso, to_iso):
     offset = 0
     while True:
         payload = {
-            "tradeTimeFrom": from_iso,
-            "tradeTimeTo": to_iso,
-            "sort": "tradeTime",
+            "deliveryStartFrom": from_iso,
+            "deliveryStartTo": to_iso,
+            "sort": "deliveryStartTime",
             "sortOrder": "asc",
             "limit": PAGE_SIZE,
             "offset": offset,
@@ -181,7 +182,8 @@ def generate_report():
     lines = [
         f"*DEG P2P Trade Report*",
         f"Date: {today_str}",
-        f"Trade window: {window_str}",
+        f"Delivery window: {window_str}",
+        f"Trades delivered in this window:",
         "",
     ]
 
@@ -199,7 +201,7 @@ def generate_report():
     has_pending = any(s["unallocated"] > 0 for s in stats.values())
     if has_pending:
         lines.append("")
-        lines.append("*Pending by day:*")
+        lines.append("*Pending allocation by delivery day:*")
         for d in VALID_DISCOMS:
             s = stats[d]
             if s["unallocated"] == 0:
