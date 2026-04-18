@@ -1,0 +1,15 @@
+{
+    auto_https off
+}
+
+:9000 {
+    handle /bap/* {
+        reverse_proxy onix-bap:8081
+    }
+    handle /bpp/* {
+        reverse_proxy onix-bpp:8082
+    }
+    handle {
+        respond "beckn-router ok" 200
+    }
+}

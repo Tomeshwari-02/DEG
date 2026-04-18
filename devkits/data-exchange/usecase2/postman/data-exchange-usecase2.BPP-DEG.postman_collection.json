@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "4d46c582-0270-477f-bb7a-4ab71ec9c025",
+    "_postman_id": "8856cd89-b083-4621-8695-83145a6dc7dd",
     "name": "data-exchange-usecase2.BPP-DEG",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": "Postman collection for Buyer Provider Platform implementing data-exchange-usecase2 APIs based on Beckn Protocol v2"

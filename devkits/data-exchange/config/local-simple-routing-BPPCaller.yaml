@@ -19,4 +19,3 @@ routingRules:
       url: "https://fabric.nfh.global/beckn/catalog"
     endpoints:
       - publish
-      - subscribe

@@ -167,7 +167,6 @@ ROLE_FILTERS = {
         r".*-request.*\.json$",  # P2P trading/enrollment: *-request*.json (includes suffixes like -otp, -oauth2)
         r"^\d+_(discover|select|init|confirm|status|update|track|rating|support|cancel)\.json$",  # EV charging: numbered folders
         r"^(discover|select|init|confirm|status|update|track|rating|support|cancel).*\.json$",  # General pattern
-        r"^subscribe-.*\.json$"  # BAP-initiated subscribe action (e.g., catalog subscribe)
     ],
     "BPP": [
         r"^(?!cascaded-).*-response.*\.json$",  # P2P trading/enrollment: *-response*.json (excludes cascaded-)
@@ -192,7 +191,6 @@ BAP_ACTIONS = {
     "rating": "rating",
     "support": "support",
     "cancel": "cancel",
-    "subscribe": "subscribe",
 }
 
 # BPP-initiated actions (not callbacks, but BPP initiating requests to CDS, etc.)
@@ -258,14 +256,6 @@ def extract_action_from_filename(filename: str, role: str) -> Optional[str]:
     
     # Handle P2P trading/enrollment flat structure - strict role-based matching
     if role == "BAP":
-        # First check for BAP-initiated actions (like subscribe-catalog.json)
-        if name.startswith('subscribe-'):
-            match = re.match(r'^(subscribe)-', name, re.IGNORECASE)
-            if match:
-                action = match.group(1).lower()
-                if action in BAP_ACTIONS:
-                    return action
-
         # BAP only matches *-request*.json (not *-response*.json)
         # Pattern: action-request or action-request-suffix
         if '-request' in name and '-response' not in name:
