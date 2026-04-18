@@ -153,6 +153,8 @@ def generate_report():
     for trade in all_trades:
         buyer_discom = trade.get("discomIdBuyer", "")
         seller_discom = trade.get("discomIdSeller", "")
+        if buyer_discom.startswith("TEST") or seller_discom.startswith("TEST"):
+            continue
         sort_key, display_day = _delivery_date_key(trade)
 
         # Buyer side
