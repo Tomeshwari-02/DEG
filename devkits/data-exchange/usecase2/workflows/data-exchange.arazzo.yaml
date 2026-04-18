@@ -8,15 +8,15 @@ info:
     Scenario: BESCOM (discom) submits ARR filing data to
     APERC (state regulator) with in-message delivery.
 
-    Run via the devkit wrapper (from data-exchange/):
+    Run via the usecase wrapper (from usecase2/):
 
-      Local mode (default):
-        ./scripts/run-arazzo.sh usecase2
-        ./scripts/run-arazzo.sh usecase2 -w select-through-status -v
+      Local mode (default, against docker-compose-adapter.yml on localhost):
+        ./run-arazzo.sh
+        ./run-arazzo.sh -w select-through-status -v
 
-      Over-internet mode (against the public ngrok URL fronting the
-      over-internet docker stack — matches scripts/test-workflow.sh):
-        PUBLIC_URL=https://<host>.ngrok-free.dev ./scripts/run-arazzo.sh usecase2
+      Over-internet mode (against the public ngrok URL fronting
+      docker-compose-over-internet.yml):
+        PUBLIC_URL=https://<host>.ngrok-free.dev ./run-arazzo.sh
 
       Direct respect invocation (advanced; no on-the-fly URI rewrites):
         npx @redocly/cli respect workflows/data-exchange.arazzo.yaml \

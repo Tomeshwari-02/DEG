@@ -3,7 +3,7 @@
 # network. This is a one-time, network-level setup call against the hosted
 # catalog at fabric.nfh.global; it does not flow through the local BAP/BPP
 # adapters and is not part of the transactional workflow exercised by
-# scripts/test-workflow.sh. Re-running is idempotent.
+# usecase1/run-arazzo.sh. Re-running is idempotent.
 
 curl --location 'https://fabric.nfh.global/beckn/catalog/subscription' \
   --header 'Content-Type: application/json' \

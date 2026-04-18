@@ -14,7 +14,7 @@
 #   cd install
 #   docker compose -f docker-compose-over-internet.yml up -d
 #
-# Then start ngrok and run scripts/test-workflow.sh with PUBLIC_URL set,
+# Then start ngrok and run usecase{1,2}/run-arazzo.sh with PUBLIC_URL set,
 # as documented in the README's "Run end-to-end over the public internet"
 # section.
 

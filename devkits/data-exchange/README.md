@@ -83,11 +83,12 @@ curl http://localhost:8082/health   # BPP adapter
 curl http://localhost:3001/api/health  # BAP sandbox
 curl http://localhost:3002/api/health  # BPP sandbox
 
-# 3. Run tests
-cd ..
-./scripts/test-workflow.sh all        # both use cases (30 steps)
-./scripts/test-workflow.sh usecase1   # AMI meter data only (15 steps)
-./scripts/test-workflow.sh usecase2   # ARR filing only (15 steps)
+# 3. Run the Arazzo workflows (one runner per usecase)
+cd ../usecase1 && ./run-arazzo.sh       # AMI meter data
+cd ../usecase2 && ./run-arazzo.sh       # ARR filing
+
+# Single workflow, verbose:
+./run-arazzo.sh -w select-through-status -v
 ```
 
 ## Repository Structure
@@ -99,18 +100,24 @@ data-exchange/
 │   ├── local-simple-bpp.yaml            #   BPP adapter (port 8082)
 │   └── local-simple-routing-*.yaml      #   Routing rules
 ├── install/
-│   └── docker-compose-adapter.yml       # Shared Docker services
+│   ├── docker-compose-adapter.yml       # Default stack (shared docker bridge)
+│   ├── docker-compose-over-internet.yml # Isolated-network stack + path router
+│   ├── Caddyfile                        #   path router config (:9000)
+│   └── ngrok.yml.example                #   template for ngrok agent
 ├── scripts/
-│   ├── test-workflow.sh                 # Curl-based test runner
 │   └── generate_postman_collection.py   # Postman collection generator
 ├── usecase1/                            # AMISP → Discom (AMI meter data)
-│   ├── examples/                        #   15 beckn 2.0 JSON payloads
+│   ├── run-arazzo.sh                    #   Arazzo runner (local or PUBLIC_URL)
+│   ├── examples/                        #   beckn 2.0 JSON payloads
 │   ├── postman/                         #   data-exchange-usecase1.{BAP,BPP}-DEG
+│   │   └── subscribe-catalog.sh         #     one-time catalog subscribe curl
 │   └── workflows/                       #   Arazzo 1.0.1 workflow spec
 └── usecase2/                            # Discom → Regulator (ARR filing)
-    ├── examples/                        #   15 beckn 2.0 JSON payloads
-    ├── postman/                         #   data-exchange-usecase2.{BAP,BPP}-DEG
-    └── workflows/                       #   Arazzo 1.0.1 workflow spec
+    ├── run-arazzo.sh
+    ├── examples/
+    ├── postman/
+    │   └── subscribe-catalog.sh
+    └── workflows/
 ```
 
 ## Network Configuration
@@ -196,23 +203,19 @@ ngrok start --all
 # Note the public URL printed by ngrok; export it:
 export PUBLIC_URL=https://<your-subdomain>.ngrok-free.dev
 
-# 5. Run the workflows over the public URL.
-#    Both runners honour PUBLIC_URL: docker-DNS bapUri/bppUri get rewritten
-#    to the public URL on the fly, so the example files on disk stay
-#    untouched.
-cd ..
+# 5. Run the Arazzo workflows over the public URL. Each usecase has its own
+#    runner. When PUBLIC_URL is set the runner materialises a tmpdir with a
+#    copy of the arazzo file and patched example payloads (docker-DNS
+#    bapUri/bppUri rewritten to the public URL) before invoking Respect —
+#    example files on disk stay untouched.
+cd ../usecase1
+PUBLIC_URL=$PUBLIC_URL ./run-arazzo.sh
 
-# curl-driven step-by-step suite
-PUBLIC_URL=$PUBLIC_URL ./scripts/test-workflow.sh usecase1
-PUBLIC_URL=$PUBLIC_URL ./scripts/test-workflow.sh usecase2
+cd ../usecase2
+PUBLIC_URL=$PUBLIC_URL ./run-arazzo.sh
 
-# Arazzo workflows via Redocly Respect (materialises a tmpdir with patched
-# example copies and a copy of the arazzo file before invoking respect).
-PUBLIC_URL=$PUBLIC_URL ./scripts/run-arazzo.sh usecase1
-PUBLIC_URL=$PUBLIC_URL ./scripts/run-arazzo.sh usecase2
-# Run a single workflow:
-PUBLIC_URL=$PUBLIC_URL ./scripts/run-arazzo.sh usecase1 -w select-through-status -v
-PUBLIC_URL=$PUBLIC_URL ./scripts/test-workflow.sh all
+# Single workflow, verbose:
+PUBLIC_URL=$PUBLIC_URL ./run-arazzo.sh -w select-through-status -v
 ```
 
 A passing run proves end-to-end internet traversal: there is no docker-bridge
