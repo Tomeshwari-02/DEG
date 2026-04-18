@@ -3,7 +3,7 @@
 # local docker stack (default) or against the public URL exposed by the
 # over-internet docker compose + ngrok tunnel.
 #
-# Usage (from usecase1/):
+# Usage (from usecase1/workflows/):
 #   ./run-arazzo.sh                                    # run all workflows
 #   ./run-arazzo.sh -w select-through-status -v        # single workflow, verbose
 #
@@ -17,7 +17,7 @@
 
 set -euo pipefail
 
-USECASE_ROOT="$(cd "$(dirname "$0")" && pwd)"
+USECASE_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 RESPECT_ARGS=(--severity 'SCHEMA_CHECK=off' "$@")
 
 if [ -z "${PUBLIC_URL:-}" ]; then

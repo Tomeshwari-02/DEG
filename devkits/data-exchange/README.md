@@ -83,9 +83,9 @@ curl http://localhost:8082/health   # BPP adapter
 curl http://localhost:3001/api/health  # BAP sandbox
 curl http://localhost:3002/api/health  # BPP sandbox
 
-# 3. Run the Arazzo workflows (one runner per usecase)
-cd ../usecase1 && ./run-arazzo.sh       # AMI meter data
-cd ../usecase2 && ./run-arazzo.sh       # ARR filing
+# 3. Run the Arazzo workflows (one runner per usecase, lives next to its arazzo file)
+cd ../usecase1/workflows && ./run-arazzo.sh    # AMI meter data
+cd ../../usecase2/workflows && ./run-arazzo.sh # ARR filing
 
 # Single workflow, verbose:
 ./run-arazzo.sh -w select-through-status -v
@@ -108,15 +108,17 @@ data-exchange/
 │   ├── generate_postman_collection.py   # Postman collection generator
 │   └── subscribe-catalog.sh             # one-time catalog-service subscribe (network setup)
 ├── usecase1/                            # AMISP → Discom (AMI meter data)
-│   ├── run-arazzo.sh                    #   Arazzo runner (local or PUBLIC_URL)
 │   ├── examples/                        #   beckn 2.0 JSON payloads
 │   ├── postman/                         #   data-exchange-usecase1.{BAP,BPP}-DEG
-│   └── workflows/                       #   Arazzo 1.0.1 workflow spec
+│   └── workflows/
+│       ├── data-exchange.arazzo.yaml    #   Arazzo 1.0.1 workflow spec
+│       └── run-arazzo.sh                #   Arazzo runner (local or PUBLIC_URL)
 └── usecase2/                            # Discom → Regulator (ARR filing)
-    ├── run-arazzo.sh
     ├── examples/
     ├── postman/
     └── workflows/
+        ├── data-exchange.arazzo.yaml
+        └── run-arazzo.sh
 ```
 
 ## Network Configuration
@@ -202,15 +204,15 @@ ngrok start --all
 # Note the public URL printed by ngrok; export it:
 export PUBLIC_URL=https://<your-subdomain>.ngrok-free.dev
 
-# 5. Run the Arazzo workflows over the public URL. Each usecase has its own
-#    runner. When PUBLIC_URL is set the runner materialises a tmpdir with a
-#    copy of the arazzo file and patched example payloads (docker-DNS
-#    bapUri/bppUri rewritten to the public URL) before invoking Respect —
-#    example files on disk stay untouched.
-cd ../usecase1
+# 5. Run the Arazzo workflows over the public URL. Each usecase's runner sits
+#    next to its arazzo file under workflows/. When PUBLIC_URL is set the
+#    runner materialises a tmpdir with a copy of the arazzo file and patched
+#    example payloads (docker-DNS bapUri/bppUri rewritten to the public URL)
+#    before invoking Respect — example files on disk stay untouched.
+cd ../usecase1/workflows
 PUBLIC_URL=$PUBLIC_URL ./run-arazzo.sh
 
-cd ../usecase2
+cd ../../usecase2/workflows
 PUBLIC_URL=$PUBLIC_URL ./run-arazzo.sh
 
 # Single workflow, verbose:

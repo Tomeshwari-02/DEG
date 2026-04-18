@@ -13,6 +13,13 @@ CLAUDE.md
 *.env
 !example.env
 
+# Local ngrok agent configs (contain authtokens). The committed templates
+# (*.example) stay tracked.
+ngrok.yml
+ngrok.yaml
+!ngrok.yml.example
+!ngrok.yaml.example
+
 # Python
 __pycache__/
 *.pyc

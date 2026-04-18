@@ -8,7 +8,7 @@ info:
     Scenario: IntelliGrid AMI Services (AMISP) publishes meter data,
     BESCOM (discom) discovers and acquires it with in-message delivery.
 
-    Run via the usecase wrapper (from usecase1/):
+    Run via the workflow runner (from usecase1/workflows/):
 
       Local mode (default, against docker-compose-adapter.yml on localhost):
         ./run-arazzo.sh
@@ -19,7 +19,7 @@ info:
         PUBLIC_URL=https://<host>.ngrok-free.dev ./run-arazzo.sh
 
       Direct respect invocation (advanced; no on-the-fly URI rewrites):
-        npx @redocly/cli respect workflows/data-exchange.arazzo.yaml \
+        npx @redocly/cli respect data-exchange.arazzo.yaml \
           --severity 'SCHEMA_CHECK=off' -v
 
       Available workflows: publish-catalog, discover, select-through-status,
