@@ -125,17 +125,29 @@ data-exchange/
 
 ## Run end-to-end over the public internet
 
-By default BAP and BPP talk to each other on the docker bridge using container
-DNS names (`onix-bap`, `onix-bpp`). To prove the protocol works exactly the
-same when the two adapters reach each other over the public internet, the
-devkit ships an opt-in mode that exposes both adapters through a single ngrok
-tunnel and a path-routing reverse proxy (Caddy).
-
-Path layout under one public URL:
+By default (`docker-compose-adapter.yml`) BAP and BPP share a docker bridge
+and reach each other by container DNS names (`onix-bap`, `onix-bpp`). To
+exercise the protocol with both sides talking strictly over the public
+internet, the devkit ships an alternative compose file that puts the two
+sides on **separate, mutually unreachable** docker networks and exposes them
+through a single ngrok tunnel.
 
 ```
-https://<public-host>/bap/*   →  beckn-router  →  onix-bap:8081
-https://<public-host>/bpp/*   →  beckn-router  →  onix-bpp:8082
+                       internet
+                          │
+              https://<public-host>/  (ngrok)
+                          │
+                     :9000 (host)
+                          │
+                    ┌──beckn-router──┐  (only container on both nets)
+                    │                │
+              /bap/* │                │ /bpp/*
+                    │                │
+   ┌── bap_side ────┘                └──── bpp_side ──┐
+   │  onix-bap:8081     ✕  no link  ✕    onix-bpp:8082│
+   │  sandbox-bap:3001                   sandbox-bpp:3002
+   │  redis                              redis        │
+   └─────────────────────────────────────────────────-┘
 ```
 
 Beckn URIs become:
@@ -165,20 +177,26 @@ Body-digest signing is unaffected by the URL change, so registry entries for
 ### Per-session steps
 
 ```bash
-# 1. Start the standard testnet
+# 1. Stop the default stack if it's running (the airtight stack uses the
+#    same host ports 8081/8082/3001/3002; only one stack at a time).
 cd install
-docker compose -f docker-compose-adapter.yml up -d
+docker compose -f docker-compose-adapter.yml down 2>/dev/null
 
-# 2. Start the path-routing proxy (opt-in profile, listens on :9000)
-docker compose -f docker-compose-adapter.yml --profile internet up -d beckn-router
+# 2. Bring up the airtight stack (separate networks per side + router on :9000)
+docker compose -f docker-compose-over-internet.yml up -d
 curl -s http://localhost:9000   # → "beckn-router ok"
 
-# 3. Open the tunnel (foreground in its own terminal, or backgrounded)
+# 3. (Optional) Verify isolation: from inside bap_side, onix-bpp must be NXDOMAIN
+docker run --rm --network install_bap_side busybox \
+  sh -c 'nslookup onix-bpp; nc -zv -w 3 onix-bpp 8082'
+# Expected: "can't find onix-bpp: NXDOMAIN" and "nc: bad address 'onix-bpp'"
+
+# 4. Open the tunnel (foreground in its own terminal, or backgrounded)
 ngrok start --all
 # Note the public URL printed by ngrok; export it:
 export PUBLIC_URL=https://<your-subdomain>.ngrok-free.dev
 
-# 4. Run the workflows over the public URL.
+# 5. Run the workflows over the public URL.
 #    The script rewrites docker-DNS bapUri/bppUri in each payload on the fly,
 #    so example files on disk stay untouched.
 cd ..
@@ -186,6 +204,10 @@ PUBLIC_URL=$PUBLIC_URL ./scripts/test-workflow.sh usecase1
 PUBLIC_URL=$PUBLIC_URL ./scripts/test-workflow.sh usecase2
 PUBLIC_URL=$PUBLIC_URL ./scripts/test-workflow.sh all
 ```
+
+A passing run proves end-to-end internet traversal: there is no docker-bridge
+fallback between the two halves, so every BAP↔BPP hop must have travelled
+through the public URL fronting the router.
 
 ### Verify the traffic really left the box
 
@@ -198,12 +220,10 @@ step you should see three rows recorded by the public tunnel:
 | **BAP → BPP (over internet)** | `POST /bpp/receiver/<action>` |
 | **BPP → BAP callback (over internet)** | `POST /bap/receiver/on_<action>` |
 
-If the second and third rows appear, the BAP↔BPP hop is genuinely traversing
-the public internet rather than the docker bridge.
-
 ### Notes and limitations
 
-- The two URIs share a hostname and differ only by path prefix. From the beckn
+- The two URIs share a hostname and differ only by path prefix because
+  ngrok's free plan reserves a single domain per account. From the beckn
   protocol's point of view they are still two distinct URIs and the test is
   valid. For two truly distinct hostnames, switch the tunnel to Cloudflare
   Tunnel (`cloudflared tunnel --url http://localhost:8081` and `:8082`, two
@@ -211,47 +231,13 @@ the public internet rather than the docker bridge.
 - The `subscribe` and `discover` steps call out to external catalog/discovery
   services (`fabric.nfh.global`, `34.14.221.66.sslip.io`); their outcome is
   independent of the over-internet wiring tested here.
-- With `docker-compose-adapter.yml` the BAP and BPP adapters still share the
-  `beckn_network` docker bridge — the over-internet behaviour is enforced only
-  by the routing rule (`targetType: bpp`, dereferencing the context's
-  `bppUri`). To remove the bridge as a possible escape hatch, use the
-  airtight compose described next.
 
-### Stricter test: airtight network isolation
-
-`install/docker-compose-airtight.yml` is a drop-in replacement that puts the
-BAP-side and BPP-side services on **separate, mutually unreachable** docker
-networks (`bap_side`, `bpp_side`), each with its own `redis`. The
-`beckn-router` is the only container with a foot in both networks; it accepts
-public traffic on `:9000` and routes `/bap/*` and `/bpp/*` to the right side.
-Result: `onix-bap` cannot resolve or reach `onix-bpp` on the docker bridge at
-all, so any successful workflow run can only have travelled through the
-public URL.
+### Cleanup
 
 ```bash
-# Stop the standard stack first (don't run both — they share host ports)
 cd install
-docker compose -f docker-compose-adapter.yml --profile internet down
-
-# Bring up the airtight stack
-docker compose -f docker-compose-airtight.yml up -d
-
-# Verify isolation: from inside bap_side, onix-bpp must be NXDOMAIN
-docker run --rm --network install_bap_side busybox \
-  sh -c 'nslookup onix-bpp; nc -zv -w 3 onix-bpp 8082'
-# Expected: "can't find onix-bpp: NXDOMAIN" and "nc: bad address 'onix-bpp'"
-
-# Same setup from here on: ngrok start --all, then
-PUBLIC_URL=https://<your-subdomain>.ngrok-free.dev ./scripts/test-workflow.sh usecase1
-```
-
-A passing run on the airtight stack proves end-to-end internet traversal,
-because no docker-bridge fallback exists between the two halves.
-
-Cleanup:
-
-```bash
-docker compose -f docker-compose-airtight.yml down
+docker compose -f docker-compose-over-internet.yml down
+# kill the ngrok agent in its terminal (Ctrl-C) or:  pkill -f 'ngrok start'
 ```
 
 ### Cleanup

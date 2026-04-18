@@ -93,20 +93,6 @@ services:
     networks:
       - beckn_network
 
-  # Path-routing reverse proxy used only when exposing BAP and BPP over a
-  # single public URL (ngrok free tier shares one domain across all tunnels).
-  # Enable with: docker compose --profile internet up -d
-  beckn-router:
-    image: caddy:alpine
-    container_name: beckn-router
-    profiles: ["internet"]
-    ports:
-      - "9000:9000"
-    networks:
-      - beckn_network
-    volumes:
-      - ./Caddyfile:/etc/caddy/Caddyfile
-
 networks:
   beckn_network:
     name: beckn_network

@@ -1,4 +1,4 @@
-# Airtight network-isolation variant of docker-compose-adapter.yml.
+# Over-internet variant of docker-compose-adapter.yml.
 #
 # BAP-side and BPP-side services live on separate, mutually unreachable
 # docker networks (bap_side, bpp_side). Each side has its own redis. The
@@ -12,10 +12,11 @@
 #
 # Usage (do not run alongside docker-compose-adapter.yml; pick one):
 #   cd install
-#   docker compose -f docker-compose-airtight.yml up -d
+#   docker compose -f docker-compose-over-internet.yml up -d
 #
 # Then start ngrok and run scripts/test-workflow.sh with PUBLIC_URL set,
-# exactly as documented for the over-internet mode.
+# as documented in the README's "Run end-to-end over the public internet"
+# section.
 
 services:
   # ---------- BAP side ----------
