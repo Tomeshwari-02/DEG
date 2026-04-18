@@ -131,8 +131,10 @@ echo "OK"
 echo ""
 
 # --- Catalog operations ---
+# Catalog subscription is a one-time, network-level setup call against the
+# hosted catalog service and does not flow through the local adapters; see
+# usecase{1,2}/postman/subscribe-catalog.sh.
 echo "Catalog operations:"
-run_step "subscribe (BAP→catalog service)" "$BAP_URL" "subscribe" "subscribe-catalog.json"
 run_step "publish (BPP→catalog service)"  "$BPP_URL" "publish"   "publish-catalog.json"
 echo ""
 

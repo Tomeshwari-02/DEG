@@ -1,6 +1,6 @@
 {
   "info": {
-    "_postman_id": "f22706ff-b815-4bb3-a9d1-da501b06e6ee",
+    "_postman_id": "ddec813b-3183-45e5-aa2a-560719a2b87b",
     "name": "data-exchange-usecase1.BAP-DEG",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "description": "Postman collection for Buyer Application Platform implementing data-exchange-usecase1 APIs based on Beckn Protocol v2"
@@ -193,38 +193,6 @@
               ]
             },
             "description": "Status request: status-request"
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "subscribe",
-      "item": [
-        {
-          "name": "subscribe-catalog",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"context\": {\n    \"networkId\": \"nfh.global/testnet-deg\",\n    \"version\": \"{{version}}\",\n    \"action\": \"catalog/subscription\",\n    \"bapId\": \"{{bap_id}}\",\n    \"bapUri\": \"{{bap_uri}}\",\n    \"bppId\": \"{{bpp_id}}\",\n    \"bppUri\": \"{{bpp_uri}}\",\n    \"transactionId\": \"{{transaction_id}}\",\n    \"messageId\": \"{{$guid}}\",\n    \"timestamp\": \"{{iso_date}}\",\n    \"schemaContext\": [\n      \"https://raw.githubusercontent.com/beckn/DDM/main/specification/schema/DatasetItem/v1/context.jsonld\"\n    ]\n  },\n  \"message\": {\n    \"subscription\": {\n      \"networkIds\": [\n        \"nfh.global/testnet-deg\"\n      ],\n      \"schemaTypes\": [\n        \"https://raw.githubusercontent.com/beckn/DDM/main/specification/schema/DatasetItem/v1/context.jsonld\"\n      ]\n    }\n  }\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{bap_adapter_url}}/subscribe",
-              "host": [
-                "{{bap_adapter_url}}"
-              ],
-              "path": [
-                "subscribe"
-              ]
-            },
-            "description": "Subscribe request: subscribe-catalog"
           },
           "response": []
         }

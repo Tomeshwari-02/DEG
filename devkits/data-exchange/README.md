@@ -228,9 +228,11 @@ step you should see three rows recorded by the public tunnel:
   valid. For two truly distinct hostnames, switch the tunnel to Cloudflare
   Tunnel (`cloudflared tunnel --url http://localhost:8081` and `:8082`, two
   free random `*.trycloudflare.com` URLs) or move ngrok to a paid plan.
-- The `subscribe` and `discover` steps call out to external catalog/discovery
-  services (`fabric.nfh.global`, `34.14.221.66.sslip.io`); their outcome is
-  independent of the over-internet wiring tested here.
+- The `discover` step calls out to an external discovery service
+  (`34.14.221.66.sslip.io`); its outcome is independent of the over-internet
+  wiring tested here. (The catalog-service subscription, also external, is
+  not part of the transactional suite — see
+  `usecase{1,2}/postman/subscribe-catalog.sh`.)
 
 ### Cleanup
 
