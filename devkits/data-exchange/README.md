@@ -211,11 +211,48 @@ the public internet rather than the docker bridge.
 - The `subscribe` and `discover` steps call out to external catalog/discovery
   services (`fabric.nfh.global`, `34.14.221.66.sslip.io`); their outcome is
   independent of the over-internet wiring tested here.
-- The docker bridge between `onix-bap` and `onix-bpp` is still in place — it is
-  the routing rule (`targetType: bpp`, which dereferences the context's
-  `bppUri`) that keeps traffic on the public path. To make isolation airtight
-  for a stricter test, split the compose into two projects on separate
-  networks.
+- With `docker-compose-adapter.yml` the BAP and BPP adapters still share the
+  `beckn_network` docker bridge — the over-internet behaviour is enforced only
+  by the routing rule (`targetType: bpp`, dereferencing the context's
+  `bppUri`). To remove the bridge as a possible escape hatch, use the
+  airtight compose described next.
+
+### Stricter test: airtight network isolation
+
+`install/docker-compose-airtight.yml` is a drop-in replacement that puts the
+BAP-side and BPP-side services on **separate, mutually unreachable** docker
+networks (`bap_side`, `bpp_side`), each with its own `redis`. The
+`beckn-router` is the only container with a foot in both networks; it accepts
+public traffic on `:9000` and routes `/bap/*` and `/bpp/*` to the right side.
+Result: `onix-bap` cannot resolve or reach `onix-bpp` on the docker bridge at
+all, so any successful workflow run can only have travelled through the
+public URL.
+
+```bash
+# Stop the standard stack first (don't run both — they share host ports)
+cd install
+docker compose -f docker-compose-adapter.yml --profile internet down
+
+# Bring up the airtight stack
+docker compose -f docker-compose-airtight.yml up -d
+
+# Verify isolation: from inside bap_side, onix-bpp must be NXDOMAIN
+docker run --rm --network install_bap_side busybox \
+  sh -c 'nslookup onix-bpp; nc -zv -w 3 onix-bpp 8082'
+# Expected: "can't find onix-bpp: NXDOMAIN" and "nc: bad address 'onix-bpp'"
+
+# Same setup from here on: ngrok start --all, then
+PUBLIC_URL=https://<your-subdomain>.ngrok-free.dev ./scripts/test-workflow.sh usecase1
+```
+
+A passing run on the airtight stack proves end-to-end internet traversal,
+because no docker-bridge fallback exists between the two halves.
+
+Cleanup:
+
+```bash
+docker compose -f docker-compose-airtight.yml down
+```
 
 ### Cleanup
 
