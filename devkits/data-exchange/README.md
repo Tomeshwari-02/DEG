@@ -197,11 +197,21 @@ ngrok start --all
 export PUBLIC_URL=https://<your-subdomain>.ngrok-free.dev
 
 # 5. Run the workflows over the public URL.
-#    The script rewrites docker-DNS bapUri/bppUri in each payload on the fly,
-#    so example files on disk stay untouched.
+#    Both runners honour PUBLIC_URL: docker-DNS bapUri/bppUri get rewritten
+#    to the public URL on the fly, so the example files on disk stay
+#    untouched.
 cd ..
+
+# curl-driven step-by-step suite
 PUBLIC_URL=$PUBLIC_URL ./scripts/test-workflow.sh usecase1
 PUBLIC_URL=$PUBLIC_URL ./scripts/test-workflow.sh usecase2
+
+# Arazzo workflows via Redocly Respect (materialises a tmpdir with patched
+# example copies and a copy of the arazzo file before invoking respect).
+PUBLIC_URL=$PUBLIC_URL ./scripts/run-arazzo.sh usecase1
+PUBLIC_URL=$PUBLIC_URL ./scripts/run-arazzo.sh usecase2
+# Run a single workflow:
+PUBLIC_URL=$PUBLIC_URL ./scripts/run-arazzo.sh usecase1 -w select-through-status -v
 PUBLIC_URL=$PUBLIC_URL ./scripts/test-workflow.sh all
 ```
 
