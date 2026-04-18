@@ -27,7 +27,7 @@ info:
 
       The catalog-service subscription is a one-time network-level setup
       call (not part of the transactional flow); see
-      ../postman/subscribe-catalog.sh.
+      ../../scripts/subscribe-catalog.sh.
 
       Override server URLs (optional, defaults in x-serverUrl):
         -S beckn-bap-caller=http://localhost:8081/bap/caller \

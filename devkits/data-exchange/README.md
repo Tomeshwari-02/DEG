@@ -105,18 +105,17 @@ data-exchange/
 │   ├── Caddyfile                        #   path router config (:9000)
 │   └── ngrok.yml.example                #   template for ngrok agent
 ├── scripts/
-│   └── generate_postman_collection.py   # Postman collection generator
+│   ├── generate_postman_collection.py   # Postman collection generator
+│   └── subscribe-catalog.sh             # one-time catalog-service subscribe (network setup)
 ├── usecase1/                            # AMISP → Discom (AMI meter data)
 │   ├── run-arazzo.sh                    #   Arazzo runner (local or PUBLIC_URL)
 │   ├── examples/                        #   beckn 2.0 JSON payloads
 │   ├── postman/                         #   data-exchange-usecase1.{BAP,BPP}-DEG
-│   │   └── subscribe-catalog.sh         #     one-time catalog subscribe curl
 │   └── workflows/                       #   Arazzo 1.0.1 workflow spec
 └── usecase2/                            # Discom → Regulator (ARR filing)
     ├── run-arazzo.sh
     ├── examples/
     ├── postman/
-    │   └── subscribe-catalog.sh
     └── workflows/
 ```
 
@@ -245,7 +244,7 @@ step you should see three rows recorded by the public tunnel:
   (`34.14.221.66.sslip.io`); its outcome is independent of the over-internet
   wiring tested here. (The catalog-service subscription, also external, is
   not part of the transactional suite — see
-  `usecase{1,2}/postman/subscribe-catalog.sh`.)
+  `scripts/subscribe-catalog.sh`.)
 
 ### Cleanup
 
