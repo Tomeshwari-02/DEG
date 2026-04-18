@@ -9,19 +9,31 @@
 #   ./scripts/test-workflow.sh usecase2              # runs usecase2
 #   ./scripts/test-workflow.sh all                   # runs both
 #   BAP_URL=http://host:8081/bap/caller ./scripts/test-workflow.sh
+#
+# Over-the-internet mode (BAP and BPP exposed via the beckn-router profile + ngrok):
+#   PUBLIC_URL=https://your-domain.ngrok-free.dev ./scripts/test-workflow.sh
+# When PUBLIC_URL is set, the script rewrites docker-DNS bapUri/bppUri in each
+# payload to the public URL on the fly so example files stay unchanged.
 
 set -euo pipefail
 
-BAP_URL="${BAP_URL:-http://localhost:8081/bap/caller}"
-BPP_URL="${BPP_URL:-http://localhost:8082/bpp/caller}"
+PUBLIC_URL="${PUBLIC_URL:-}"
+if [ -n "$PUBLIC_URL" ]; then
+  BAP_URL="${BAP_URL:-$PUBLIC_URL/bap/caller}"
+  BPP_URL="${BPP_URL:-$PUBLIC_URL/bpp/caller}"
+else
+  BAP_URL="${BAP_URL:-http://localhost:8081/bap/caller}"
+  BPP_URL="${BPP_URL:-http://localhost:8082/bpp/caller}"
+fi
 USECASE="${1:-usecase1}"
 DEVKIT_ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 
 if [ "$USECASE" = "all" ]; then
-  "$0" usecase1
+  rc1=0; rc2=0
+  "$0" usecase1 || rc1=$?
   echo ""
-  "$0" usecase2
-  exit $?
+  "$0" usecase2 || rc2=$?
+  [ "$rc1" -eq 0 ] && [ "$rc2" -eq 0 ] && exit 0 || exit 1
 fi
 
 EXAMPLES="$DEVKIT_ROOT/$USECASE/examples"
@@ -37,12 +49,33 @@ total=0
 run_step() {
   local label="$1" url="$2" action="$3" file="$4"
   total=$((total + 1))
-  local http_code body method
+  local http_code body method payload
   method="POST"
   [ "$action" = "discover" ] && method="GET"
-  body=$(curl -s -w "\n%{http_code}" -X "$method" "$url/$action" \
-    -H "Content-Type: application/json" \
-    -d @"$EXAMPLES/$file" 2>&1)
+
+  if [ -n "$PUBLIC_URL" ]; then
+    # Rewrite docker-DNS BAP/BPP URIs to the public URL on the fly so the
+    # example files on disk stay untouched. Only swap the docker-internal
+    # forms; leave any other URIs (e.g. external catalog endpoints) alone.
+    payload=$(PUBLIC_URL="$PUBLIC_URL" python3 -c "
+import json, os, sys
+pub = os.environ['PUBLIC_URL'].rstrip('/')
+d = json.load(open(sys.argv[1]))
+ctx = d.get('context', {})
+if ctx.get('bapUri') == 'http://onix-bap:8081/bap/receiver':
+    ctx['bapUri'] = pub + '/bap/receiver'
+if ctx.get('bppUri') == 'http://onix-bpp:8082/bpp/receiver':
+    ctx['bppUri'] = pub + '/bpp/receiver'
+print(json.dumps(d))
+" "$EXAMPLES/$file")
+    body=$(curl -s -w "\n%{http_code}" -X "$method" "$url/$action" \
+      -H "Content-Type: application/json" \
+      --data-binary "$payload" 2>&1)
+  else
+    body=$(curl -s -w "\n%{http_code}" -X "$method" "$url/$action" \
+      -H "Content-Type: application/json" \
+      -d @"$EXAMPLES/$file" 2>&1)
+  fi
   http_code=$(echo "$body" | tail -1)
   body=$(echo "$body" | sed '$d')
 
@@ -80,6 +113,7 @@ echo "Energy Data Exchange Devkit - Workflow Test ($USECASE)"
 echo "======================================================="
 echo "BAP: $BAP_URL"
 echo "BPP: $BPP_URL"
+[ -n "$PUBLIC_URL" ] && echo "Mode: over-internet via $PUBLIC_URL (payloads rewritten on the fly)"
 echo ""
 
 # Health checks
